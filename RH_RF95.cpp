@@ -1,7 +1,7 @@
 // RH_RF95.cpp
 //
 // Copyright (C) 2011 Mike McCauley
-// $Id: RH_RF95.cpp,v 1.14 2017/03/04 00:59:41 mikem Exp $
+// $Id: RH_RF95.cpp,v 1.11 2016/04/04 01:40:12 mikem Exp $
 
 #include <RH_RF95.h>
 
@@ -137,24 +137,11 @@ void RH_RF95::handleInterrupt()
 	_bufLen = len;
 	spiWrite(RH_RF95_REG_12_IRQ_FLAGS, 0xff); // Clear all IRQ flags
 
-	// Remember the last signal to noise ratio, LORA mode
-	// Per page 111, SX1276/77/78/79 datasheet
-	_lastSNR = (int8_t)spiRead(RH_RF95_REG_19_PKT_SNR_VALUE) / 4;
-
-	// Remember the RSSI of this packet, LORA mode
+	// Remember the RSSI of this packet
 	// this is according to the doc, but is it really correct?
 	// weakest receiveable signals are reported RSSI at about -66
-	_lastRssi = spiRead(RH_RF95_REG_1A_PKT_RSSI_VALUE);
-	// Adjust the RSSI, datasheet page 87
-	if (_lastSNR < 0)
-	    _lastRssi = _lastRssi + _lastSNR;
-	else
-	    _lastRssi = (int)_lastRssi * 16 / 15;
-	if (_usingHFport)
-	    _lastRssi -= 157;
-	else
-	    _lastRssi -= 164;
-	    
+	_lastRssi = spiRead(RH_RF95_REG_1A_PKT_RSSI_VALUE) - 137;
+
 	// We have received a message.
 	validateRxBuf(); 
 	if (_rxBufValid)
@@ -164,11 +151,6 @@ void RH_RF95::handleInterrupt()
     {
 	_txGood++;
 	setModeIdle();
-    }
-    else if (_mode == RHModeCad && irq_flags & RH_RF95_CAD_DONE)
-    {
-        _cad = irq_flags & RH_RF95_CAD_DETECTED;
-        setModeIdle();
     }
     
     spiWrite(RH_RF95_REG_12_IRQ_FLAGS, 0xff); // Clear all IRQ flags
@@ -253,9 +235,6 @@ bool RH_RF95::send(const uint8_t* data, uint8_t len)
     waitPacketSent(); // Make sure we dont interrupt an outgoing message
     setModeIdle();
 
-    if (!waitCAD()) 
-	return false;  // Check channel activity
-
     // Position at the beginning of the FIFO
     spiWrite(RH_RF95_REG_0D_FIFO_ADDR_PTR, 0);
     // The headers
@@ -300,7 +279,6 @@ bool RH_RF95::setFrequency(float centre)
     spiWrite(RH_RF95_REG_06_FRF_MSB, (frf >> 16) & 0xff);
     spiWrite(RH_RF95_REG_07_FRF_MID, (frf >> 8) & 0xff);
     spiWrite(RH_RF95_REG_08_FRF_LSB, frf & 0xff);
-    _usingHFport = (centre >= 779.0);
 
     return true;
 }
@@ -386,6 +364,67 @@ void RH_RF95::setTxPower(int8_t power, bool useRFO)
     }
 }
 
+void RH_RF95::setSpreadingFactor(int8_t sf)
+{
+  if (sf < 6) {
+    sf = 6;
+  } else if (sf > 12) {
+    sf = 12;
+  }
+
+  if (sf == 6) {
+    spiWrite(RH_RF95_REG_31_DETECTION_OPTIMIZE, 0xc5);
+    spiWrite(RH_RF95_REG_37_DETECTION_THRESHOLD, 0x0c);
+  } else {
+    spiWrite(RH_RF95_REG_31_DETECTION_OPTIMIZE, 0xc3);
+    spiWrite(RH_RF95_REG_37_DETECTION_THRESHOLD, 0x0a);
+  }
+
+  spiWrite(RH_RF95_REG_1E_MODEM_CONFIG2, (spiRead(RH_RF95_REG_1E_MODEM_CONFIG2) & 0x0f) | ((sf << 4) & 0xf0));
+}
+
+void RH_RF95::setSignalBandwidth(long sbw)
+{
+  int bw;
+
+  if (sbw <= 7.8E3) {
+    bw = 0;
+  } else if (sbw <= 10.4E3) {
+    bw = 1;
+  } else if (sbw <= 15.6E3) {
+    bw = 2;
+  } else if (sbw <= 20.8E3) {
+    bw = 3;
+  } else if (sbw <= 31.25E3) {
+    bw = 4;
+  } else if (sbw <= 41.7E3) {
+    bw = 5;
+  } else if (sbw <= 62.5E3) {
+    bw = 6;
+  } else if (sbw <= 125E3) {
+    bw = 7;
+  } else if (sbw <= 250E3) {
+    bw = 8;
+  } else /*if (sbw <= 250E3)*/ {
+    bw = 9;
+  }
+
+  spiWrite(RH_RF95_REG_1D_MODEM_CONFIG1, (spiRead(RH_RF95_REG_1D_MODEM_CONFIG1) & 0x0f) | (bw << 4));
+}
+
+void RH_RF95::setCodingRate4(int8_t denominator)
+{
+  if (denominator < 5) {
+    denominator = 5;
+  } else if (denominator > 8) {
+    denominator = 8;
+  }
+
+  int cr = denominator - 4;
+
+  spiWrite(RH_RF95_REG_1D_MODEM_CONFIG1, (spiRead(RH_RF95_REG_1D_MODEM_CONFIG1) & 0xf1) | (cr << 1));
+}
+
 // Sets registers from a canned modem configuration structure
 void RH_RF95::setModemRegisters(const ModemConfig* config)
 {
@@ -414,56 +453,3 @@ void RH_RF95::setPreambleLength(uint16_t bytes)
     spiWrite(RH_RF95_REG_21_PREAMBLE_LSB, bytes & 0xff);
 }
 
-bool RH_RF95::isChannelActive()
-{
-    // Set mode RHModeCad
-    if (_mode != RHModeCad)
-    {
-        spiWrite(RH_RF95_REG_01_OP_MODE, RH_RF95_MODE_CAD);
-        spiWrite(RH_RF95_REG_40_DIO_MAPPING1, 0x80); // Interrupt on CadDone
-        _mode = RHModeCad;
-    }
-
-    while (_mode == RHModeCad)
-        YIELD;
-
-    return _cad;
-}
-
-void RH_RF95::enableTCXO()
-{
-    while ((spiRead(RH_RF95_REG_4B_TCXO) & RH_RF95_TCXO_TCXO_INPUT_ON) != RH_RF95_TCXO_TCXO_INPUT_ON)
-    {
-	sleep();
-	spiWrite(RH_RF95_REG_4B_TCXO, (spiRead(RH_RF95_REG_4B_TCXO) | RH_RF95_TCXO_TCXO_INPUT_ON));
-    } 
-}
-
-// From section 4.1.5 of SX1276/77/78/79
-// Ferror = FreqError * 2**24 * BW / Fxtal / 500
-int RH_RF95::frequencyError()
-{
-    int32_t freqerror = 0;
-
-    // Convert 2.5 bytes (5 nibbles, 20 bits) to 32 bit signed int
-    freqerror = spiRead(RH_RF95_REG_28_FEI_MSB) << 16;
-    freqerror |= spiRead(RH_RF95_REG_29_FEI_MID) << 8;
-    freqerror |= spiRead(RH_RF95_REG_2A_FEI_LSB);
-    // Sign extension into top 3 nibbles
-    if (freqerror & 0x80000)
-	freqerror |= 0xfff00000;
-
-    int error = 0; // In hertz
-    float bw_tab[] = {7.8, 10.4, 15.6, 20.8, 31.25, 41.7, 62.5, 125, 250, 500};
-    uint8_t bwindex = spiRead(RH_RF95_REG_1D_MODEM_CONFIG1) >> 4;
-    if (bwindex < (sizeof(bw_tab) / sizeof(float)))
-	error = (float)freqerror * bw_tab[bwindex] * ((float)(1L << 24) / (float)RH_RF95_FXOSC / 500.0);
-    // else not defined
-
-    return error;
-}
-
-int RH_RF95::lastSNR()
-{
-    return _lastSNR;
-}

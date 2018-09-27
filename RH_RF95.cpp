@@ -424,6 +424,10 @@ void RH_RF95::setCodingRate4(int8_t denominator)
 
   spiWrite(RH_RF95_REG_1D_MODEM_CONFIG1, (spiRead(RH_RF95_REG_1D_MODEM_CONFIG1) & 0xf1) | (cr << 1));
 }
+void RH_RF95::setSyncWord(int sw)
+{
+    spiWrite(RH_RF95_REG_39_SYNC_WORD,sw);
+}
 
 // Sets registers from a canned modem configuration structure
 void RH_RF95::setModemRegisters(const ModemConfig* config)

@@ -86,6 +86,7 @@
 
 #define RH_RF95_REG_31_DETECTION_OPTIMIZE   0x31
 #define RH_RF95_REG_37_DETECTION_THRESHOLD  0x37
+#define RH_RF95_REG_39_SYNC_WORD            0x39
 
 #define RH_RF95_REG_40_DIO_MAPPING1                        0x40
 #define RH_RF95_REG_41_DIO_MAPPING2                        0x41
@@ -669,9 +670,10 @@ public:
     /// \param[in] useRFO If true, enables the use of the RFO transmitter pins instead of
     /// the PA_BOOST pin (false). Choose the correct setting for your module.
     void           setTxPower(int8_t power, bool useRFO = false);
-void setSpreadingFactor(int8_t sf);
-void setSignalBandwidth(long sbw);
-void setCodingRate4(int8_t denominator);
+    void           setSpreadingFactor(int8_t sf);
+    void           setSignalBandwidth(long sbw);
+    void           setCodingRate4(int8_t denominator);
+    void           setSyncWord(int sw);
     /// Sets the radio into low-power sleep mode.
     /// If successful, the transport will stay in sleep mode until woken by 
     /// changing mode it idle, transmit or receive (eg by calling send(), recv(), available() etc)

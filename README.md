@@ -40,7 +40,7 @@ source community in accordance with the GPL Version 2 when your application is d
 See https://www.gnu.org/licenses/gpl-2.0.html
 
 
-###Commercial Licensing
+### Commercial Licensing
 
 
 This is the appropriate option if you are creating proprietary applications and you are not prepared to distribute and 

@@ -31,6 +31,7 @@ void RHGenericSPI::setFrequency(Frequency frequency)
 
 void RHGenericSPI::transfer (void *buf, size_t count) 
 {
+    uint8_t * p = (uint8_t *) buf;
     while (count--) 
-        (void) transfer(*(uint8_t *)buf++);
+        (void) transfer(*p++);
 }

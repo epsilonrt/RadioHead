@@ -631,6 +631,12 @@ public:
     /// \return true on success
     bool printRegisters();
 
+    /// Prints the value of all chip registers
+    /// to the printable p
+    /// For debugging purposes only.
+    /// \return true on success
+    bool printRegisters (Print & p);
+
     /// Sets all the registered required to configure the data modem in the RF95/96/97/98, including the bandwidth, 
     /// spreading factor etc. You can use this to configure the modem with custom configurations if none of the 
     /// canned configurations in ModemConfigChoice suit you.

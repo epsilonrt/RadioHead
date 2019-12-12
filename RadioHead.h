@@ -1201,6 +1201,7 @@ these examples and explanations and extend them to suit your needs.
 #define RH_PLATFORM_CHIPKIT_CORE     13
 #define RH_PLATFORM_ESP32            14						   
 #define RH_PLATFORM_NRF52            15
+#define RH_PLATFORM_PIDUINO          16
 
 ////////////////////////////////////////////////////
 // Select platform automatically, if possible
@@ -1374,6 +1375,13 @@ these examples and explanations and extend them to suit your needs.
  #include <RHutil/simulator.h>
  #define RH_HAVE_SERIAL
 #include <netinet/in.h> // For htons and friends
+
+#elif (RH_PLATFORM == RH_PLATFORM_PIDUINO)
+#include <Arduino.h>
+#include <SPI.h>
+#define RH_HAVE_HARDWARE_SPI
+#define RH_HAVE_SERIAL
+#define SS 10  /* /dev/spidev0.0 */
 
 #else
  #error Platform unknown!

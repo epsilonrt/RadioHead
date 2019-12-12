@@ -88,6 +88,12 @@ public:
     /// \param[in] data The octet to send
     /// \return The octet read from SPI while the data octet was sent
     virtual uint8_t transfer(uint8_t data) = 0;
+    
+    
+    /// Transfer bytes to and from the SPI interface
+    /// \param[in] buf the array of data to be transferred 
+    /// \param[in] count number of bytes to transmit
+    virtual void transfer (void *buf, size_t count);
 
     /// SPI Configuration methods
     /// Enable SPI interrupts (if supported)

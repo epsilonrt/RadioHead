@@ -27,60 +27,92 @@ bool RHSPIDriver::init()
     return true;
 }
 
-uint8_t RHSPIDriver::spiRead(uint8_t reg)
+uint8_t RHSPIDriver::spiRead (uint8_t reg)
 {
-    uint8_t val;
+    uint8_t buf[2];
+    buf[0] = reg & ~RH_SPI_WRITE_MASK;
+    buf[1] = 0;
     ATOMIC_BLOCK_START;
-    digitalWrite(_slaveSelectPin, LOW);
-    _spi.transfer(reg & ~RH_SPI_WRITE_MASK); // Send the address with the write mask off
-    val = _spi.transfer(0); // The written value is ignored, reg value is read
-    digitalWrite(_slaveSelectPin, HIGH);
+    digitalWrite (_slaveSelectPin, LOW);
+    _spi.transfer (buf, 2); // Send the address with the write mask on read the value
+    digitalWrite (_slaveSelectPin, HIGH);
+
     ATOMIC_BLOCK_END;
-    return val;
+    return buf[1];
 }
 
-uint8_t RHSPIDriver::spiWrite(uint8_t reg, uint8_t val)
+uint8_t RHSPIDriver::spiWrite (uint8_t reg, uint8_t val)
 {
-    uint8_t status = 0;
+    uint8_t buf[2];
+    buf[0] = reg | RH_SPI_WRITE_MASK;
+    buf[1] = val;
     ATOMIC_BLOCK_START;
     _spi.beginTransaction();
-    digitalWrite(_slaveSelectPin, LOW);
-    status = _spi.transfer(reg | RH_SPI_WRITE_MASK); // Send the address with the write mask on
-    _spi.transfer(val); // New value follows
-    digitalWrite(_slaveSelectPin, HIGH);
+    digitalWrite (_slaveSelectPin, LOW);
+    _spi.transfer (buf, 2); // Send the address with the write mask on and value
+    digitalWrite (_slaveSelectPin, HIGH);
+
     _spi.endTransaction();
     ATOMIC_BLOCK_END;
-    return status;
+    return buf[0];
 }
 
-uint8_t RHSPIDriver::spiBurstRead(uint8_t reg, uint8_t* dest, uint8_t len)
+uint8_t RHSPIDriver::spiBurstRead (uint8_t reg, uint8_t* dest, uint8_t len)
 {
+#if (RH_PLATFORM != RH_PLATFORM_PIDUINO)
     uint8_t status = 0;
     ATOMIC_BLOCK_START;
     _spi.beginTransaction();
-    digitalWrite(_slaveSelectPin, LOW);
-    status = _spi.transfer(reg & ~RH_SPI_WRITE_MASK); // Send the start address with the write mask off
+    digitalWrite (_slaveSelectPin, LOW);
+    status = _spi.transfer (reg & ~RH_SPI_WRITE_MASK); // Send the start address with the write mask off
     while (len--)
-	*dest++ = _spi.transfer(0);
-    digitalWrite(_slaveSelectPin, HIGH);
+        *dest++ = _spi.transfer (0);
+    digitalWrite (_slaveSelectPin, HIGH);
     _spi.endTransaction();
     ATOMIC_BLOCK_END;
     return status;
+#else
+    uint8_t * buf = new uint8_t[len + 1];
+    buf[0] = reg & ~RH_SPI_WRITE_MASK;
+    _spi.beginTransaction();
+    digitalWrite (_slaveSelectPin, LOW);
+    _spi.transfer (buf, len + 1);
+    digitalWrite (_slaveSelectPin, HIGH);
+    _spi.endTransaction();
+    memcpy (dest, &buf[1], len);
+    reg = buf[0];
+    delete[] buf;
+    return reg;
+#endif
 }
 
-uint8_t RHSPIDriver::spiBurstWrite(uint8_t reg, const uint8_t* src, uint8_t len)
+uint8_t RHSPIDriver::spiBurstWrite (uint8_t reg, const uint8_t* src, uint8_t len)
 {
+#if (RH_PLATFORM != RH_PLATFORM_PIDUINO)
     uint8_t status = 0;
     ATOMIC_BLOCK_START;
     _spi.beginTransaction();
-    digitalWrite(_slaveSelectPin, LOW);
-    status = _spi.transfer(reg | RH_SPI_WRITE_MASK); // Send the start address with the write mask on
+    digitalWrite (_slaveSelectPin, LOW);
+    status = _spi.transfer (reg | RH_SPI_WRITE_MASK); // Send the start address with the write mask on
     while (len--)
-	_spi.transfer(*src++);
-    digitalWrite(_slaveSelectPin, HIGH);
+        _spi.transfer (*src++);
+    digitalWrite (_slaveSelectPin, HIGH);
     _spi.endTransaction();
     ATOMIC_BLOCK_END;
     return status;
+#else
+    uint8_t * buf = new uint8_t[len + 1];
+    buf[0] = reg | RH_SPI_WRITE_MASK;
+    memcpy (&buf[1], src, len);
+    _spi.beginTransaction();
+    digitalWrite (_slaveSelectPin, LOW);
+    _spi.transfer (buf, len + 1);
+    digitalWrite (_slaveSelectPin, HIGH);
+    _spi.endTransaction();
+    reg = buf[0];
+    delete[] buf;
+    return reg;
+#endif
 }
 
 void RHSPIDriver::setSlaveSelectPin(uint8_t slaveSelectPin)

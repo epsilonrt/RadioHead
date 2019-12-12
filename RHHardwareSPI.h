@@ -36,6 +36,11 @@ public:
     /// \return The octet read from SPI while the data octet was sent
     uint8_t transfer(uint8_t data);
 
+    /// Transfer bytes to and from the SPI interface
+    /// \param[in] buf the array of data to be transferred 
+    /// \param[in] count number of bytes to transmit
+    void transfer (void *buf, size_t count);
+
     // SPI Configuration methods
     /// Enable SPI interrupts
     /// This can be used in an SPI slave to indicate when an SPI message has been received

@@ -44,6 +44,11 @@ uint8_t RHHardwareSPI::transfer(uint8_t data)
     return SPI.transfer(data);
 }
 
+void RHHardwareSPI::transfer (void *buf, size_t count)
+{
+    SPI.transfer (buf, count);
+}
+
 void RHHardwareSPI::attachInterrupt() 
 {
 #if (RH_PLATFORM == RH_PLATFORM_ARDUINO || RH_PLATFORM == RH_PLATFORM_NRF52)

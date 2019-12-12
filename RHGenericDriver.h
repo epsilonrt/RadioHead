@@ -247,6 +247,59 @@ public:
     /// \return The number of packets successfully transmitted
     virtual uint16_t       txGood();
 
+
+    inline void setRxLed (Led & led)
+    {
+        _rxLed = &led;
+        if (_rxLed)
+            _rxLed->begin();
+    }
+
+    inline void setTxLed (Led & led)
+    {
+        _txLed = &led;
+        if (_txLed)
+            _txLed->begin();
+    }
+
+    inline void setTxLedState (bool on = true)
+    {
+        if (_txLed)
+            _txLed->setState (on);
+    }
+
+    inline void setRxLedState (bool on = true)
+    {
+        if (_rxLed)
+            _rxLed->setState (on);
+    }
+
+    inline bool rxLedState() const
+    {
+        if (_rxLed)
+            return _rxLed->state();
+        return false;
+    }
+
+    inline bool txLedState() const
+    {
+        if (_txLed)
+            return _txLed->state();
+        return false;
+    }
+
+    inline void toggleRxLedState ()
+    {
+        if (_rxLed)
+            return _rxLed->toggleState();
+    }
+
+    inline void toggleTxLedState ()
+    {
+        if (_txLed)
+            return _txLed->toggleState();
+    }
+
 protected:
 
     /// The current transport operating mode
@@ -299,6 +352,9 @@ protected:
 
     /// Channel activity timeout in ms
     unsigned int        _cad_timeout;
+
+    Led * _txLed;
+    Led * _rxLed;
 
 private:
 

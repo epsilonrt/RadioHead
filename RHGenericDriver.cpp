@@ -16,7 +16,9 @@ RHGenericDriver::RHGenericDriver()
     _rxBad(0),
     _rxGood(0),
     _txGood(0),
-    _cad_timeout(0)
+    _cad_timeout(0),
+    _txLed (0),
+    _rxLed (0)
 {
 }
 

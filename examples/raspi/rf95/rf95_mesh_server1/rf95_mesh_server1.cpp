@@ -3,18 +3,18 @@
 // Example sketch showing how to create a simple addressed, routed reliable messaging server
 // with the RHMesh class.
 // It is designed to work with the other examples rf95_mesh_*
-// Hint: you can simulate other network topologies by setting the 
+// Hint: you can simulate other network topologies by setting the
 // RH_TEST_NETWORK define in RHRouter.h
 
 // Mesh has much greater memory requirements, and you may need to limit the
 // max message length to prevent wierd crashes
 //
 // Requires Pigpio GPIO library. Install by downloading and compiling from
-// http://abyz.me.uk/rpi/pigpio/, or install via command line with 
-// "sudo apt install pigpio". To use, run "make" at the command line in 
+// http://abyz.me.uk/rpi/pigpio/, or install via command line with
+// "sudo apt install pigpio". To use, run "make" at the command line in
 // the folder where this source code resides. Then execute application with
 // sudo ./rf95_mesh_server1.
-// Tested on Raspberry Pi Zero and Zero W with LoRaWan/TTN RPI Zero Shield 
+// Tested on Raspberry Pi Zero and Zero W with LoRaWan/TTN RPI Zero Shield
 // by ElectronicTricks. Although this application builds and executes on
 // Raspberry Pi 3, there seems to be missed messages and hangs.
 // Strategically adding delays does seem to help in some cases.
@@ -63,76 +63,76 @@ int flag = 0;
 //Main Function
 int main (int argc, const char* argv[] )
 {
-  if (gpioInitialise()<0)
-  {
-    printf( "\n\nRPI rf95_mesh_server1 startup Failed.\n" );
-    return 1;
-  }
+	if (gpioInitialise()<0)
+	{
+		printf( "\n\nRPI rf95_mesh_server1 startup Failed.\n" );
+		return 1;
+	}
 
-  gpioSetSignalFunc(2, sig_handler); //2 is SIGINT. Ctrl+C will cause signal.
+	gpioSetSignalFunc(2, sig_handler); //2 is SIGINT. Ctrl+C will cause signal.
 
-  printf( "\nRPI rf95_mesh_server1 startup OK.\n" );
+	printf( "\nRPI rf95_mesh_server1 startup OK.\n" );
 
 #ifdef RFM95_LED
-  gpioSetMode(RFM95_LED, PI_OUTPUT);
-  printf("\nINFO: LED on GPIO %d\n", (uint8_t) RFM95_LED);
-  gpioWrite(RFM95_LED, PI_ON);
-  gpioDelay(500000);
-  gpioWrite(RFM95_LED, PI_OFF);
+	gpioSetMode(RFM95_LED, PI_OUTPUT);
+	printf("\nINFO: LED on GPIO %d\n", (uint8_t) RFM95_LED);
+	gpioWrite(RFM95_LED, PI_ON);
+	gpioDelay(500000);
+	gpioWrite(RFM95_LED, PI_OFF);
 #endif
 
-  if (!manager.init())
-  {
-    printf( "\n\nMesh Manager Failed to initialize.\n\n" );
-    return 1;
-  }
+	if (!manager.init())
+	{
+		printf( "\n\nMesh Manager Failed to initialize.\n\n" );
+		return 1;
+	}
 
-  /* Begin Manager/Driver settings code */
-  printf("\nRFM 95 Settings:\n");
-  printf("Frequency= %d MHz\n", (uint16_t) RFM95_FREQUENCY);
-  printf("Power= %d\n", (uint8_t) RFM95_TXPOWER);
-  printf("Client Address= %d\n", CLIENT_ADDRESS);
-  printf("Server(This) Address 1= %d\n", SERVER1_ADDRESS);
-  printf("Server Address 2= %d\n", SERVER2_ADDRESS);
-  printf("Server Address 3= %d\n", SERVER3_ADDRESS);
-  printf("Route: Client->Server 3 is automatic in MESH.\n");
-  rf95.setTxPower(RFM95_TXPOWER, false);
-  rf95.setFrequency(RFM95_FREQUENCY);
-  /* End Manager/Driver settings code */
+	/* Begin Manager/Driver settings code */
+	printf("\nRFM 95 Settings:\n");
+	printf("Frequency= %d MHz\n", (uint16_t) RFM95_FREQUENCY);
+	printf("Power= %d\n", (uint8_t) RFM95_TXPOWER);
+	printf("Client Address= %d\n", CLIENT_ADDRESS);
+	printf("Server(This) Address 1= %d\n", SERVER1_ADDRESS);
+	printf("Server Address 2= %d\n", SERVER2_ADDRESS);
+	printf("Server Address 3= %d\n", SERVER3_ADDRESS);
+	printf("Route: Client->Server 3 is automatic in MESH.\n");
+	rf95.setTxPower(RFM95_TXPOWER, false);
+	rf95.setFrequency(RFM95_FREQUENCY);
+	/* End Manager/Driver settings code */
 
-  uint8_t data[] = "And hello back to you from server1";
-  // Dont put this on the stack:
-  uint8_t buf[RH_MESH_MAX_MESSAGE_LEN];
+	uint8_t data[] = "And hello back to you from server1";
+	// Dont put this on the stack:
+	uint8_t buf[RH_MESH_MAX_MESSAGE_LEN];
 
-  while(!flag)
-  {
-    uint8_t len = sizeof(buf);
-    uint8_t from;
-    if (manager.recvfromAck(buf, &len, &from))
-    {
+	while(!flag)
+	{
+		uint8_t len = sizeof(buf);
+		uint8_t from;
+		if (manager.recvfromAck(buf, &len, &from))
+		{
 #ifdef RFM95_LED
-      gpioWrite(RFM95_LED, PI_ON);
+			gpioWrite(RFM95_LED, PI_ON);
 #endif
-      Serial.print("got request from : 0x");
-      Serial.print(from, HEX);
-      Serial.print(": ");
-      Serial.println((char*)buf);
+			Serial.print("got request from : 0x");
+			Serial.print(from, HEX);
+			Serial.print(": ");
+			Serial.println((char*)buf);
 
-      // Send a reply back to the originator client
-      if (manager.sendtoWait(data, sizeof(data), from) != RH_ROUTER_ERROR_NONE)
-        Serial.println("sendtoWait failed");
+			// Send a reply back to the originator client
+			if (manager.sendtoWait(data, sizeof(data), from) != RH_ROUTER_ERROR_NONE)
+				Serial.println("sendtoWait failed");
 #ifdef RFM95_LED
-      gpioWrite(RFM95_LED, PI_OFF);
+			gpioWrite(RFM95_LED, PI_OFF);
 #endif
-    }
-  }
+		}
+	}
 
-  printf( "\nrf95_mesh_server1 Tester Ending\n" );
-  gpioTerminate();
-  return 0;
+	printf( "\nrf95_mesh_server1 Tester Ending\n" );
+	gpioTerminate();
+	return 0;
 }
 
 void sig_handler(int sig)
 {
-  flag=1;
+	flag=1;
 }

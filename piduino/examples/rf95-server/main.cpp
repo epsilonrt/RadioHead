@@ -30,13 +30,13 @@ const float frequency = 868.0;
 // DIO0: GPIOA1, Ino pin 6,  CON1 pin 22
 // CS  : GPIOA13, Ino pin 27,  CON1 pin 24
 // RST : GPIOA3, Ino pin 3,  CON1 pin 15
-RH_RF95 rf95 (27, 6); 
+RH_RF95 rf95 (27, 6);
 
 // Raspberry Pi, /dev/spidev0.0
 // DIO0: GPIO25, Ino pin 6,  J8 pin 22
 // CS  : GPIO8,  Ino pin 10, J8 pin 24
 // RST : GPIO22, Ino pin 3,  J8 pin 15
-//RH_RF95 rf95 (10, 6); 
+//RH_RF95 rf95 (10, 6);
 
 // LoRasPi breakout leds (https://github.com/hallard/LoRasPI)
 GpioLed txLed (4); // TX/RX D3
@@ -56,13 +56,12 @@ void setup()
 	rf95.setTxLed (txLed);
 	rf95.setRxLed (rxLed);
 
+	// Defaults after init are 434.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on
 	if (!rf95.init())
 	{
 		Console.println ("init failed");
 		exit (EXIT_FAILURE);
 	}
-
-	// Defaults after init are 434.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on
 
 	// Setup ISM frequency
 	rf95.setFrequency (frequency);
@@ -102,7 +101,7 @@ void loop()
 			Console.print (buf);
 			Console.print ("> RSSI: ");
 			Console.print (rf95.lastRssi(), DEC);
-			
+
 			Console.print ("dBm, send reply > S[");
 			Console.print (len);
 			Console.print ("]<");

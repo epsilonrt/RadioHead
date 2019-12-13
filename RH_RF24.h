@@ -35,7 +35,7 @@
 // The headers are inside the RF24's payload
 #define RH_RF24_HEADER_LEN 4
 
-// This is the maximum message length that can be supported by this driver. 
+// This is the maximum message length that can be supported by this driver.
 // Can be pre-defined to a smaller size (to save SRAM) prior to including this header
 // Here we allow for message length 4 bytes of address and header and payload to be included in payload size limit.
 #ifndef RH_RF24_MAX_MESSAGE_LEN
@@ -501,20 +501,20 @@
 /// \class RH_RF24 RH_RF24.h <RH_RF24.h>
 /// \brief Driver to send and receive unaddressed, unreliable datagrams via an RF24 and compatible radio transceiver.
 ///
-/// Works with 
+/// Works with
 /// - Silicon Labs Si4460/1/2/3/4 transceiver chips
 /// - The equivalent HopeRF RF24/25/26/27 transceiver chips
 /// - HopeRF Complete modules: RFM24W/26W/27W
 ///
 /// \par Overview
 ///
-/// This class provides basic functions for sending and receiving unaddressed, 
+/// This class provides basic functions for sending and receiving unaddressed,
 /// unreliable datagrams of arbitrary length to 250 octets per packet.
 ///
-/// Manager classes may use this class to implement reliable, addressed datagrams and streams, 
+/// Manager classes may use this class to implement reliable, addressed datagrams and streams,
 /// mesh routers, repeaters, translators etc.
 ///
-/// Naturally, for any 2 radios to communicate that must be configured to use the same frequency and 
+/// Naturally, for any 2 radios to communicate that must be configured to use the same frequency and
 /// modulation scheme.
 ///
 /// This Driver provides an object-oriented interface for sending and receiving data messages with Hope-RF
@@ -534,17 +534,17 @@
 /// Up to 2 RFM24 modules can be connected to an Arduino (3 on a Mega),
 /// permitting the construction of translators and frequency changers, etc.
 ///
-/// The following modulation types are suppported with a range of modem configurations for 
+/// The following modulation types are suppported with a range of modem configurations for
 /// common data rates and frequency deviations:
 /// - OOK On-Off Keying
 /// - GFSK Gaussian Frequency Shift Keying
 /// - FSK Frequency Shift Keying
 ///
-/// Support for other RF24 features such as on-chip temperature measurement, 
+/// Support for other RF24 features such as on-chip temperature measurement,
 /// transmitter power control etc is also provided.
 ///
 /// RH_RF24 uses interrupts to detect and handle events in the radio chip. The RF24 family has
-/// TX and RX FIFOs of 64 bytes, but through the use of interrupt, the RH_RF24 driver can send longer 
+/// TX and RX FIFOs of 64 bytes, but through the use of interrupt, the RH_RF24 driver can send longer
 /// messages by filling or emptying the FIFOs on-the-fly.
 ///
 /// Tested on Anarduino Mini http://www.anarduino.com/mini/ with arduino-1.0.5
@@ -559,7 +559,7 @@
 /// - Field containing 1 octet of message length and 2 octet CRC protecting this field
 /// - Field 2 containing at least 4 octets, and 2 octet CRC protecting this field:
 ///  + 4 octets HEADER: (TO, FROM, ID, FLAGS)
-///  + 0 to 250 octets DATA 
+///  + 0 to 250 octets DATA
 ///  + 2 octets CRC, computed on HEADER and DATA
 ///
 /// \par Connecting RFM-24 to Arduino
@@ -580,12 +580,12 @@
 ///                           /--GPIO1 (GPIO1 out to control receiver antenna RX_ANT)
 ///                           \--RX_ANT (RX antenna control in) RFM22B only
 /// \endcode
-/// Caution: tying the radio SDN pin to ground (though it might appear from the data sheets to make sense) 
+/// Caution: tying the radio SDN pin to ground (though it might appear from the data sheets to make sense)
 /// does not always produce a reliable radio startup. So this driver controls the SDN pin directly.
-/// Note: the GPIO0-TX_ANT and GPIO1-RX_ANT connections are not required for the 11dBm RFM24W, 
+/// Note: the GPIO0-TX_ANT and GPIO1-RX_ANT connections are not required for the 11dBm RFM24W,
 /// which has no antenna switch.
 ///
-/// If you have an Arduino Zero, you should note that you cannot use Pin 2 for the interrupt line 
+/// If you have an Arduino Zero, you should note that you cannot use Pin 2 for the interrupt line
 /// (Pin 2 is for the NMI only), instead you can use any other pin (we use Pin 3) and initialise RH_RF69 like this:
 /// \code
 /// // Slave Select is pin 10, interrupt is Pin 3
@@ -597,7 +597,7 @@
 /// The RH_RF24 module uses a radio configuration header file to configure the basic radio operation
 /// frequency and modulation scheme. The radio configuration header file must be generated with the
 /// Silicon Labs Wireless Development Suite (WDS) program and \#included by RH_RF24.cpp
-/// 
+///
 /// The library will work out of the box and without further configuring with these parameters:
 /// - Si4464 or equvalent
 /// - 30MHz Crytstal
@@ -608,7 +608,7 @@
 /// using the radio configuration header file
 /// RF24configs/radio_config_Si4464_30_434_2GFSK_5_10.h
 ///      which is included in RadioHead.
-///      
+///
 /// In order to use different frequency bands or modulation schemes, you must generate a new
 /// radio configuration header file
 /// with WDS, or select one of a small set of prebuilt headers from the RF24configs folder (see README in that
@@ -616,26 +616,26 @@
 ///
 /// To generate a new header file:
 ///
-/// - Install Silicon Labs Wireless Development Suite (WDS) 3.2.11.0 or later 
+/// - Install Silicon Labs Wireless Development Suite (WDS) 3.2.11.0 or later
 ///   (Windows only, we were not able to get it to run under Wine on Linux)
 /// - Run WDS
 /// - Menu->Start Simulation
 /// - Select radio chip type Si4464, press Select Radio
 /// - Select Radio Configuration Application, press Select Application
 /// - Click on Standard Packet Tx
-/// - On the Frequency and Power tab, Select the Frequency, crystal frequency etc. The PA power level is irrelevant, 
-///   since power is set programatically 
+/// - On the Frequency and Power tab, Select the Frequency, crystal frequency etc. The PA power level is irrelevant,
+///   since power is set programatically
 /// - On the RF parameters tab, select the modulation type and rates
 /// - Press Generate Source, Save custom radio configuration header file
 /// - Enter a new unique file name in the RF24configs folder in RadioHead
 /// - Edit RH_RF24.cpp to use this new header file
 /// - Recompile RH_RF24
-/// 
+///
 /// \par RSSI
 ///
 /// The RSSI (Received Signal Strength Indicator) is measured and latched after the message sync bytes are received.
-/// The latched RSSI is available from the lastRssi() member functionafter the complete message is received. 
-/// Although lastRssi() 
+/// The latched RSSI is available from the lastRssi() member functionafter the complete message is received.
+/// Although lastRssi()
 /// supposedly returns a signed integer, in the case of this radio it actually returns an unsigned 8 bit integer (uint8_t)
 /// and you will have to cast the return value to use it:
 /// \code
@@ -685,473 +685,476 @@
 class RH_RF24 : public RHSPIDriver
 {
 public:
-    /// \brief Defines property values for a set of modem configuration registers
-    ///
-    /// Defines property values for a set of modem configuration registers
-    /// that can be passed to setModemRegisters() if none of the choices in
-    /// ModemConfigChoice suit your need setModemRegisters() writes the
-    /// property values from this structure to the appropriate RF24 properties
-    /// to set the desired modulation type, data rate and deviation/bandwidth.
-    /// OBSOLETE: no need ever to use this now
-    typedef struct
-    {
-	uint8_t   prop_2000;   ///< Value for property RH_RF24_PROPERTY_MODEM_MOD_TYPE
-	uint8_t   prop_2003;   ///< Value for property RH_RF24_PROPERTY_MODEM_DATA_RATE_2
-	uint8_t   prop_2004;   ///< Value for property RH_RF24_PROPERTY_MODEM_DATA_RATE_1
-	uint8_t   prop_2005;   ///< Value for property RH_RF24_PROPERTY_MODEM_DATA_RATE_0
-	uint8_t   prop_2006;   ///< Value for property RH_RF24_PROPERTY_MODEM_TX_NCO_MODE_3
-	uint8_t   prop_2007;   ///< Value for property RH_RF24_PROPERTY_MODEM_TX_NCO_MODE_2
-	uint8_t   prop_2008;   ///< Value for property RH_RF24_PROPERTY_MODEM_TX_NCO_MODE_1
-	uint8_t   prop_2009;   ///< Value for property RH_RF24_PROPERTY_MODEM_TX_NCO_MODE_0
-	uint8_t   prop_200a;   ///< Value for property RH_RF24_PROPERTY_MODEM_FREQ_DEV_2
-	uint8_t   prop_200b;   ///< Value for property RH_RF24_PROPERTY_MODEM_FREQ_DEV_1
-	uint8_t   prop_200c;   ///< Value for property RH_RF24_PROPERTY_MODEM_FREQ_DEV_0
-	uint8_t   prop_2018;   ///< Value for property RH_RF24_PROPERTY_MODEM_TX_RAMP_DELAY
-	uint8_t   prop_201e;   ///< Value for property RH_RF24_PROPERTY_MODEM_DECIMATION_CFG1
-	uint8_t   prop_201f;   ///< Value for property RH_RF24_PROPERTY_MODEM_DECIMATION_CFG0
-	uint8_t   prop_2022;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_OSR_1
-	uint8_t   prop_2023;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_OSR_0
-	uint8_t   prop_2024;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_NCO_OFFSET_2
-	uint8_t   prop_2025;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_NCO_OFFSET_1
-	uint8_t   prop_2026;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_NCO_OFFSET_0
-	uint8_t   prop_2027;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_GAIN_1
-	uint8_t   prop_2028;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_GAIN_0
-	uint8_t   prop_2029;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_GEAR
-	uint8_t   prop_202d;   ///< Value for property RH_RF24_PROPERTY_MODEM_AFC_WAIT
-	uint8_t   prop_202e;   ///< Value for property RH_RF24_PROPERTY_MODEM_AFC_GAIN_1
-	uint8_t   prop_202f;   ///< Value for property RH_RF24_PROPERTY_MODEM_AFC_GAIN_0
-	uint8_t   prop_2030;   ///< Value for property RH_RF24_PROPERTY_MODEM_AFC_LIMITER_1
-	uint8_t   prop_2031;   ///< Value for property RH_RF24_PROPERTY_MODEM_AFC_LIMITER_0
-	uint8_t   prop_2035;   ///< Value for property RH_RF24_PROPERTY_MODEM_AGC_CONTROL
-	uint8_t   prop_2038;   ///< Value for property RH_RF24_PROPERTY_MODEM_AGC_WINDOW_SIZE
-	uint8_t   prop_2039;   ///< Value for property RH_RF24_PROPERTY_MODEM_AGC_RFPD_DECAY
-	uint8_t   prop_203a;   ///< Value for property RH_RF24_PROPERTY_MODEM_AGC_IFPD_DECAY
-	uint8_t   prop_203b;   ///< Value for property RH_RF24_PROPERTY_MODEM_FSK4_GAIN1
-	uint8_t   prop_203c;   ///< Value for property RH_RF24_PROPERTY_MODEM_FSK4_GAIN0
-	uint8_t   prop_203d;   ///< Value for property RH_RF24_PROPERTY_MODEM_FSK4_TH1
-	uint8_t   prop_203e;   ///< Value for property RH_RF24_PROPERTY_MODEM_FSK4_TH0
-	uint8_t   prop_203f;   ///< Value for property RH_RF24_PROPERTY_MODEM_FSK4_MAP
-	uint8_t   prop_2040;   ///< Value for property RH_RF24_PROPERTY_MODEM_OOK_PDTC
-	uint8_t   prop_2043;   ///< Value for property RH_RF24_PROPERTY_MODEM_OOK_MISC
-	uint8_t   prop_2045;   ///< Value for property RH_RF24_PROPERTY_MODEM_RAW_CONTROL
-	uint8_t   prop_2046;   ///< Value for property RH_RF24_PROPERTY_MODEM_RAW_EYE_1
-	uint8_t   prop_2047;   ///< Value for property RH_RF24_PROPERTY_MODEM_RAW_EYE_0
-	uint8_t   prop_204e;   ///< Value for property RH_RF24_PROPERTY_MODEM_RSSI_COMP
-	uint8_t   prop_2100;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE13_7_0
-	uint8_t   prop_2101;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE12_7_0
-	uint8_t   prop_2102;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE11_7_0
-	uint8_t   prop_2103;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE10_7_0
-	uint8_t   prop_2104;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE9_7_0
-	uint8_t   prop_2105;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE8_7_0
-	uint8_t   prop_2106;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE7_7_0
-	uint8_t   prop_2107;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE6_7_0
-	uint8_t   prop_2108;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE5_7_0
-	uint8_t   prop_2109;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE4_7_0
-	uint8_t   prop_210a;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE3_7_0
-	uint8_t   prop_210b;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE2_7_0
-	uint8_t   prop_210c;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE1_7_0
-	uint8_t   prop_210d;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE0_7_0
-	uint8_t   prop_210e;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COEM0
-	uint8_t   prop_210f;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COEM1
-	uint8_t   prop_2110;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COEM2
-	uint8_t   prop_2111;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COEM3
-	uint8_t   prop_2112;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE13_7_0
-	uint8_t   prop_2113;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE12_7_0
-	uint8_t   prop_2114;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE11_7_0
-	uint8_t   prop_2115;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE10_7_0
-	uint8_t   prop_2116;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE9_7_0
-	uint8_t   prop_2117;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE8_7_0
-	uint8_t   prop_2118;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE7_7_0
-	uint8_t   prop_2119;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE6_7_0
-	uint8_t   prop_211a;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE5_7_0
-	uint8_t   prop_211b;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE4_7_0
-	uint8_t   prop_211c;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE3_7_0
-	uint8_t   prop_211d;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE2_7_0
-	uint8_t   prop_211e;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE1_7_0
-	uint8_t   prop_211f;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE0_7_0
-	uint8_t   prop_2120;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COEM0
-	uint8_t   prop_2121;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COEM1
-	uint8_t   prop_2122;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COEM2
-	uint8_t   prop_2123;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COEM3
-	uint8_t   prop_2203;   ///< Value for property RH_RF24_PROPERTY_PA_TC
-	uint8_t   prop_2300;   ///< Value for property RH_RF24_PROPERTY_SYNTH_PFDCP_CPFF
-	uint8_t   prop_2301;   ///< Value for property RH_RF24_PROPERTY_SYNTH_PFDCP_CPINT
-	uint8_t   prop_2303;   ///< Value for property RH_RF24_PROPERTY_SYNTH_LPFILT3
-	uint8_t   prop_2304;   ///< Value for property RH_RF24_PROPERTY_SYNTH_LPFILT2
-	uint8_t   prop_2305;   ///< Value for property RH_RF24_PROPERTY_SYNTH_LPFILT1
-    } ModemConfig;
-  
-    /// Choices for setModemConfig() for a selected subset of common
-    /// modulation types, and data rates. If you need another configuration,
-    /// use the register calculator.  and call setModemRegisters() with your
-    /// desired settings.  
-    /// These are indexes into MODEM_CONFIG_TABLE. We strongly recommend you use these symbolic
-    /// definitions and not their integer equivalents: its possible that values will be
-    /// changed in later versions (though we will try to avoid it).
-    /// Contributions of new complete and tested ModemConfigs ready to add to this list will be readily accepted.
-    /// OBSOLETE: no need ever to use this now
-    typedef enum
-    {
-	FSK_Rb0_5Fd1 = 0,         ///< FSK  Rb = 0.5kbs, Fd = 1kHz
-	FSK_Rb5Fd10,              ///< FSK  Rb = 5kbs,   Fd = 10kHz
-	FSK_Rb50Fd100,            ///< FSK  Rb = 50kbs,  Fd = 100kHz
-	FSK_Rb150Fd300,           ///< FSK  Rb = 50kbs,  Fd = 100kHz
+	/// \brief Defines property values for a set of modem configuration registers
+	///
+	/// Defines property values for a set of modem configuration registers
+	/// that can be passed to setModemRegisters() if none of the choices in
+	/// ModemConfigChoice suit your need setModemRegisters() writes the
+	/// property values from this structure to the appropriate RF24 properties
+	/// to set the desired modulation type, data rate and deviation/bandwidth.
+	/// OBSOLETE: no need ever to use this now
+	typedef struct
+	{
+		uint8_t   prop_2000;   ///< Value for property RH_RF24_PROPERTY_MODEM_MOD_TYPE
+		uint8_t   prop_2003;   ///< Value for property RH_RF24_PROPERTY_MODEM_DATA_RATE_2
+		uint8_t   prop_2004;   ///< Value for property RH_RF24_PROPERTY_MODEM_DATA_RATE_1
+		uint8_t   prop_2005;   ///< Value for property RH_RF24_PROPERTY_MODEM_DATA_RATE_0
+		uint8_t   prop_2006;   ///< Value for property RH_RF24_PROPERTY_MODEM_TX_NCO_MODE_3
+		uint8_t   prop_2007;   ///< Value for property RH_RF24_PROPERTY_MODEM_TX_NCO_MODE_2
+		uint8_t   prop_2008;   ///< Value for property RH_RF24_PROPERTY_MODEM_TX_NCO_MODE_1
+		uint8_t   prop_2009;   ///< Value for property RH_RF24_PROPERTY_MODEM_TX_NCO_MODE_0
+		uint8_t   prop_200a;   ///< Value for property RH_RF24_PROPERTY_MODEM_FREQ_DEV_2
+		uint8_t   prop_200b;   ///< Value for property RH_RF24_PROPERTY_MODEM_FREQ_DEV_1
+		uint8_t   prop_200c;   ///< Value for property RH_RF24_PROPERTY_MODEM_FREQ_DEV_0
+		uint8_t   prop_2018;   ///< Value for property RH_RF24_PROPERTY_MODEM_TX_RAMP_DELAY
+		uint8_t   prop_201e;   ///< Value for property RH_RF24_PROPERTY_MODEM_DECIMATION_CFG1
+		uint8_t   prop_201f;   ///< Value for property RH_RF24_PROPERTY_MODEM_DECIMATION_CFG0
+		uint8_t   prop_2022;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_OSR_1
+		uint8_t   prop_2023;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_OSR_0
+		uint8_t   prop_2024;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_NCO_OFFSET_2
+		uint8_t   prop_2025;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_NCO_OFFSET_1
+		uint8_t   prop_2026;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_NCO_OFFSET_0
+		uint8_t   prop_2027;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_GAIN_1
+		uint8_t   prop_2028;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_GAIN_0
+		uint8_t   prop_2029;   ///< Value for property RH_RF24_PROPERTY_MODEM_BCR_GEAR
+		uint8_t   prop_202d;   ///< Value for property RH_RF24_PROPERTY_MODEM_AFC_WAIT
+		uint8_t   prop_202e;   ///< Value for property RH_RF24_PROPERTY_MODEM_AFC_GAIN_1
+		uint8_t   prop_202f;   ///< Value for property RH_RF24_PROPERTY_MODEM_AFC_GAIN_0
+		uint8_t   prop_2030;   ///< Value for property RH_RF24_PROPERTY_MODEM_AFC_LIMITER_1
+		uint8_t   prop_2031;   ///< Value for property RH_RF24_PROPERTY_MODEM_AFC_LIMITER_0
+		uint8_t   prop_2035;   ///< Value for property RH_RF24_PROPERTY_MODEM_AGC_CONTROL
+		uint8_t   prop_2038;   ///< Value for property RH_RF24_PROPERTY_MODEM_AGC_WINDOW_SIZE
+		uint8_t   prop_2039;   ///< Value for property RH_RF24_PROPERTY_MODEM_AGC_RFPD_DECAY
+		uint8_t   prop_203a;   ///< Value for property RH_RF24_PROPERTY_MODEM_AGC_IFPD_DECAY
+		uint8_t   prop_203b;   ///< Value for property RH_RF24_PROPERTY_MODEM_FSK4_GAIN1
+		uint8_t   prop_203c;   ///< Value for property RH_RF24_PROPERTY_MODEM_FSK4_GAIN0
+		uint8_t   prop_203d;   ///< Value for property RH_RF24_PROPERTY_MODEM_FSK4_TH1
+		uint8_t   prop_203e;   ///< Value for property RH_RF24_PROPERTY_MODEM_FSK4_TH0
+		uint8_t   prop_203f;   ///< Value for property RH_RF24_PROPERTY_MODEM_FSK4_MAP
+		uint8_t   prop_2040;   ///< Value for property RH_RF24_PROPERTY_MODEM_OOK_PDTC
+		uint8_t   prop_2043;   ///< Value for property RH_RF24_PROPERTY_MODEM_OOK_MISC
+		uint8_t   prop_2045;   ///< Value for property RH_RF24_PROPERTY_MODEM_RAW_CONTROL
+		uint8_t   prop_2046;   ///< Value for property RH_RF24_PROPERTY_MODEM_RAW_EYE_1
+		uint8_t   prop_2047;   ///< Value for property RH_RF24_PROPERTY_MODEM_RAW_EYE_0
+		uint8_t   prop_204e;   ///< Value for property RH_RF24_PROPERTY_MODEM_RSSI_COMP
+		uint8_t   prop_2100;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE13_7_0
+		uint8_t   prop_2101;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE12_7_0
+		uint8_t   prop_2102;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE11_7_0
+		uint8_t   prop_2103;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE10_7_0
+		uint8_t   prop_2104;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE9_7_0
+		uint8_t   prop_2105;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE8_7_0
+		uint8_t   prop_2106;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE7_7_0
+		uint8_t   prop_2107;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE6_7_0
+		uint8_t   prop_2108;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE5_7_0
+		uint8_t   prop_2109;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE4_7_0
+		uint8_t   prop_210a;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE3_7_0
+		uint8_t   prop_210b;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE2_7_0
+		uint8_t   prop_210c;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE1_7_0
+		uint8_t   prop_210d;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COE0_7_0
+		uint8_t   prop_210e;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COEM0
+		uint8_t   prop_210f;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COEM1
+		uint8_t   prop_2110;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COEM2
+		uint8_t   prop_2111;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX1_CHFLT_COEM3
+		uint8_t   prop_2112;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE13_7_0
+		uint8_t   prop_2113;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE12_7_0
+		uint8_t   prop_2114;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE11_7_0
+		uint8_t   prop_2115;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE10_7_0
+		uint8_t   prop_2116;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE9_7_0
+		uint8_t   prop_2117;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE8_7_0
+		uint8_t   prop_2118;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE7_7_0
+		uint8_t   prop_2119;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE6_7_0
+		uint8_t   prop_211a;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE5_7_0
+		uint8_t   prop_211b;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE4_7_0
+		uint8_t   prop_211c;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE3_7_0
+		uint8_t   prop_211d;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE2_7_0
+		uint8_t   prop_211e;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE1_7_0
+		uint8_t   prop_211f;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COE0_7_0
+		uint8_t   prop_2120;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COEM0
+		uint8_t   prop_2121;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COEM1
+		uint8_t   prop_2122;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COEM2
+		uint8_t   prop_2123;   ///< Value for property RH_RF24_PROPERTY_MODEM_CHFLT_RX2_CHFLT_COEM3
+		uint8_t   prop_2203;   ///< Value for property RH_RF24_PROPERTY_PA_TC
+		uint8_t   prop_2300;   ///< Value for property RH_RF24_PROPERTY_SYNTH_PFDCP_CPFF
+		uint8_t   prop_2301;   ///< Value for property RH_RF24_PROPERTY_SYNTH_PFDCP_CPINT
+		uint8_t   prop_2303;   ///< Value for property RH_RF24_PROPERTY_SYNTH_LPFILT3
+		uint8_t   prop_2304;   ///< Value for property RH_RF24_PROPERTY_SYNTH_LPFILT2
+		uint8_t   prop_2305;   ///< Value for property RH_RF24_PROPERTY_SYNTH_LPFILT1
+	} ModemConfig;
 
-	GFSK_Rb0_5Fd1,            ///< GFSK Rb = 0.5kbs, Fd = 1kHz
-	GFSK_Rb5Fd10,             ///< GFSK Rb = 5kbs,   Fd = 10kHz
-	GFSK_Rb50Fd100,           ///< GFSK Rb = 50kbs,  Fd = 100kHz
-	GFSK_Rb150Fd300,          ///< GFSK Rb = 150kbs, Fd = 300kHz
-	
-	// We were unable to get any other OOKs to work
-	OOK_Rb5Bw30,              ///< OOK  Rb = 5kbs,   Bw = 30kHz
-	OOK_Rb10Bw40,             ///< OOK  Rb = 10kbs,  Bw = 40kHz
+	/// Choices for setModemConfig() for a selected subset of common
+	/// modulation types, and data rates. If you need another configuration,
+	/// use the register calculator.  and call setModemRegisters() with your
+	/// desired settings.
+	/// These are indexes into MODEM_CONFIG_TABLE. We strongly recommend you use these symbolic
+	/// definitions and not their integer equivalents: its possible that values will be
+	/// changed in later versions (though we will try to avoid it).
+	/// Contributions of new complete and tested ModemConfigs ready to add to this list will be readily accepted.
+	/// OBSOLETE: no need ever to use this now
+	typedef enum
+	{
+		FSK_Rb0_5Fd1 = 0,         ///< FSK  Rb = 0.5kbs, Fd = 1kHz
+		FSK_Rb5Fd10,              ///< FSK  Rb = 5kbs,   Fd = 10kHz
+		FSK_Rb50Fd100,            ///< FSK  Rb = 50kbs,  Fd = 100kHz
+		FSK_Rb150Fd300,           ///< FSK  Rb = 50kbs,  Fd = 100kHz
 
-	// We were unable to get any 4FSK or 4GFSK schemes to work
+		GFSK_Rb0_5Fd1,            ///< GFSK Rb = 0.5kbs, Fd = 1kHz
+		GFSK_Rb5Fd10,             ///< GFSK Rb = 5kbs,   Fd = 10kHz
+		GFSK_Rb50Fd100,           ///< GFSK Rb = 50kbs,  Fd = 100kHz
+		GFSK_Rb150Fd300,          ///< GFSK Rb = 150kbs, Fd = 300kHz
 
-    } ModemConfigChoice;
+		// We were unable to get any other OOKs to work
+		OOK_Rb5Bw30,              ///< OOK  Rb = 5kbs,   Bw = 30kHz
+		OOK_Rb10Bw40,             ///< OOK  Rb = 10kbs,  Bw = 40kHz
 
-    /// \brief Defines the available choices for CRC
-    /// Types of permitted CRC polynomials, to be passed to setCRCPolynomial()
-    /// They deliberately have the same numeric values as the CRC_POLYNOMIAL field of PKT_CRC_CONFIG
-    typedef enum
-    {
-	CRC_NONE = 0,
-	CRC_ITU_T,
-	CRC_IEC_16,
-	CRC_Biacheva,
-	CRC_16_IBM,
-	CRC_CCITT,
-	CRC_Koopman,
-	CRC_IEEE_802_3,
-	CRC_Castagnoli,
-    } CRCPolynomial;
+		// We were unable to get any 4FSK or 4GFSK schemes to work
 
-    /// \brief Defines the commands we can interrogate in printRegisters
-    typedef struct
-    {
-	uint8_t      cmd;       ///< The command number
-	uint8_t      replyLen;  ///< Number of bytes in the reply stream (after the CTS)
-    }   CommandInfo;
+	} ModemConfigChoice;
 
-    /// Constructor. You can have multiple instances, but each instance must have its own
-    /// interrupt and slave select pin. After constructing, you must call init() to initialise the interface
-    /// and the radio module. A maximum of 3 instances can co-exist on one processor, provided there are sufficient
-    /// distinct interrupt lines, one for each instance.
-    /// \param[in] slaveSelectPin the Arduino pin number of the output to use to select the RF24 before
-    /// accessing it. Defaults to the normal SS pin for your Arduino (D10 for Diecimila, Uno etc, D53 for Mega, D10 for Maple)
-    /// \param[in] interruptPin The interrupt Pin number that is connected to the RF24 DIO0 interrupt line. 
-    /// Defaults to pin 2.
-    /// Caution: You must specify an interrupt capable pin.
-    /// On many Arduino boards, there are limitations as to which pins may be used as interrupts.
-    /// On Leonardo pins 0, 1, 2 or 3. On Mega2560 pins 2, 3, 18, 19, 20, 21. On Due and Teensy, any digital pin.
-    /// On other Arduinos pins 2 or 3. 
-    /// See http://arduino.cc/en/Reference/attachInterrupt for more details.
-    /// On Chipkit Uno32, pins 38, 2, 7, 8, 35.
-    /// On other boards, any digital pin may be used.
-    /// \param [in] sdnPin The pin number connected to SDN on the radio. Defaults to pin 9. 
-    ///                     Connecting SDN directly to ground does not aloways provide reliable radio startup.
-    /// \param[in] spi Pointer to the SPI interface object to use. 
-    ///                Defaults to the standard Arduino hardware SPI interface
-    RH_RF24(uint8_t slaveSelectPin = SS, uint8_t interruptPin = 2, uint8_t sdnPin = 9, RHGenericSPI& spi = hardware_spi);
-  
-    /// Initialises this instance and the radio module connected to it.
-    /// The following steps are taken:
-    /// - Initialise the slave select and shutdown pins and the SPI interface library
-    /// - Checks the connected RF24 module can be communicated
-    /// - Attaches an interrupt handler
-    /// - Configures the RF24 module
-    /// - Sets the frequency to 434.0 MHz
-    /// - Sets the modem data rate to GFSK_Rb5Fd10
-    /// - Sets the tranmitter power level to 16 (about 2.4dBm on RFM4)
-    /// \return  true if everything was successful
-    bool        init();
-    
-    /// Sets the chip mode that will be used when the RH_RF24 driver is idle (ie not transmitting or receiving)
-    /// You can use this to control the power level consumed while idle, at the cost of slower
-    /// transition to tranmit or receive states
-    /// \param[in] idleMode The chip state to use when idle. Sensible choices might be RH_RF24_DEVICE_STATE_SLEEP or RH_RF24_DEVICE_STATE_READY
-    void        setIdleMode(uint8_t idleMode);
+	/// \brief Defines the available choices for CRC
+	/// Types of permitted CRC polynomials, to be passed to setCRCPolynomial()
+	/// They deliberately have the same numeric values as the CRC_POLYNOMIAL field of PKT_CRC_CONFIG
+	typedef enum
+	{
+		CRC_NONE = 0,
+		CRC_ITU_T,
+		CRC_IEC_16,
+		CRC_Biacheva,
+		CRC_16_IBM,
+		CRC_CCITT,
+		CRC_Koopman,
+		CRC_IEEE_802_3,
+		CRC_Castagnoli,
+	} CRCPolynomial;
 
-    /// Sets the transmitter and receiver 
-    /// centre frequency.
-    /// Valid frequency ranges for RFM24/Si4460, Si4461, RFM25/Si4463 are:
-    /// 142MHz to 175Mhz, 284MHz to 350MHz, 425MHz to 525MHz, 850MHz to 1050MHz.
-    /// Valid frequency ranges for RFM26/Si4464 are:
-    /// 119MHz to 960MHz.
-    /// Caution: RFM modules are designed with antenna coupling components to suit a limited band
-    /// of frequencies (marked underneath the module). It is possible to set frequencies in other bands,
-    /// but you may only get little or no power radiated.
-    /// Caution, you can only use this function to change frequency within the frequency band configured by
-    /// the radio configuration header file. To use a frequency in a different band, you must recompile with
-    /// the appropriate radio configuration header file. Setting a frequency in anotehr band will
-    /// have unpredicatble results.
-    /// \param[in] centre Frequency in MHz. 
-    /// \param[in] afcPullInRange Not used
-    /// \return true if the selected frequency is within a valid range for the connected radio and if
-    ///         setting the new frequency succeeded.
-    bool        setFrequency(float centre, float afcPullInRange = 0.05);
+	/// \brief Defines the commands we can interrogate in printRegisters
+	typedef struct
+	{
+		uint8_t      cmd;       ///< The command number
+		uint8_t      replyLen;  ///< Number of bytes in the reply stream (after the CTS)
+	}   CommandInfo;
 
-    /// OBSOLETE, do not use.
-    /// To get different modulation schemes, you must generate a new radio config file
-    /// as described in this documentation.
-    /// Sets all the properties required to configure the data modem in the RF24, including the data rate, 
-    /// bandwidths etc. You can use this to configure the modem with custom configurations if none of the 
-    /// canned configurations in ModemConfigChoice suit you.
-    /// \param[in] config A ModemConfig structure containing values for the modem configuration registers.
-    void           setModemRegisters(const ModemConfig* config);
+	/// Constructor. You can have multiple instances, but each instance must have its own
+	/// interrupt and slave select pin. After constructing, you must call init() to initialise the interface
+	/// and the radio module. A maximum of 3 instances can co-exist on one processor, provided there are sufficient
+	/// distinct interrupt lines, one for each instance.
+	/// \param[in] slaveSelectPin the Arduino pin number of the output to use to select the RF24 before
+	/// accessing it. Defaults to the normal SS pin for your Arduino (D10 for Diecimila, Uno etc, D53 for Mega, D10 for Maple)
+	/// \param[in] interruptPin The interrupt Pin number that is connected to the RF24 DIO0 interrupt line.
+	/// Defaults to pin 2.
+	/// Caution: You must specify an interrupt capable pin.
+	/// On many Arduino boards, there are limitations as to which pins may be used as interrupts.
+	/// On Leonardo pins 0, 1, 2 or 3. On Mega2560 pins 2, 3, 18, 19, 20, 21. On Due and Teensy, any digital pin.
+	/// On other Arduinos pins 2 or 3.
+	/// See http://arduino.cc/en/Reference/attachInterrupt for more details.
+	/// On Chipkit Uno32, pins 38, 2, 7, 8, 35.
+	/// On other boards, any digital pin may be used.
+	/// \param [in] sdnPin The pin number connected to SDN on the radio. Defaults to pin 9.
+	///                     Connecting SDN directly to ground does not aloways provide reliable radio startup.
+	/// \param[in] spi Pointer to the SPI interface object to use.
+	///                Defaults to the standard Arduino hardware SPI interface
+	RH_RF24 (uint8_t slaveSelectPin = SS, uint8_t interruptPin = 2, uint8_t sdnPin = 9, RHGenericSPI& spi = hardware_spi);
 
-    /// OBSOLETE, do not use. 
-    /// To get different modulation schemes, you must generate a new radio config file
-    /// as described in this documentation.
-    /// Select one of the predefined modem configurations. If you need a modem configuration not provided 
-    /// here, use setModemRegisters() with your own ModemConfig. The default after init() is RH_RF24::GFSK_Rb5Fd10.
-    /// \param[in] index The configuration choice.
-    /// \return true if index is a valid choice.
-    bool        setModemConfig(ModemConfigChoice index);
+	/// Initialises this instance and the radio module connected to it.
+	/// The following steps are taken:
+	/// - Initialise the slave select and shutdown pins and the SPI interface library
+	/// - Checks the connected RF24 module can be communicated
+	/// - Attaches an interrupt handler
+	/// - Configures the RF24 module
+	/// - Sets the frequency to 434.0 MHz
+	/// - Sets the modem data rate to GFSK_Rb5Fd10
+	/// - Sets the tranmitter power level to 16 (about 2.4dBm on RFM4)
+	/// \return  true if everything was successful
+	bool        init();
 
-    /// Starts the receiver and checks whether a received message is available.
-    /// This can be called multiple times in a timeout loop
-    /// \return true if a complete, valid message has been received and is able to be retrieved by
-    /// recv()
-    bool        available();
+	/// Sets the chip mode that will be used when the RH_RF24 driver is idle (ie not transmitting or receiving)
+	/// You can use this to control the power level consumed while idle, at the cost of slower
+	/// transition to tranmit or receive states
+	/// \param[in] idleMode The chip state to use when idle. Sensible choices might be RH_RF24_DEVICE_STATE_SLEEP or RH_RF24_DEVICE_STATE_READY
+	void        setIdleMode (uint8_t idleMode);
 
-    /// Turns the receiver on if it not already on.
-    /// If there is a valid message available, copy it to buf and return true
-    /// else return false.
-    /// If a message is copied, *len is set to the length (Caution, 0 length messages are permitted).
-    /// You should be sure to call this function frequently enough to not miss any messages
-    /// It is recommended that you call it in your main loop.
-    /// \param[in] buf Location to copy the received message
-    /// \param[in,out] len Pointer to available space in buf. Set to the actual number of octets copied.
-    /// \return true if a valid message was copied to buf
-    bool        recv(uint8_t* buf, uint8_t* len);
+	/// Sets the transmitter and receiver
+	/// centre frequency.
+	/// Valid frequency ranges for RFM24/Si4460, Si4461, RFM25/Si4463 are:
+	/// 142MHz to 175Mhz, 284MHz to 350MHz, 425MHz to 525MHz, 850MHz to 1050MHz.
+	/// Valid frequency ranges for RFM26/Si4464 are:
+	/// 119MHz to 960MHz.
+	/// Caution: RFM modules are designed with antenna coupling components to suit a limited band
+	/// of frequencies (marked underneath the module). It is possible to set frequencies in other bands,
+	/// but you may only get little or no power radiated.
+	/// Caution, you can only use this function to change frequency within the frequency band configured by
+	/// the radio configuration header file. To use a frequency in a different band, you must recompile with
+	/// the appropriate radio configuration header file. Setting a frequency in anotehr band will
+	/// have unpredicatble results.
+	/// \param[in] centre Frequency in MHz.
+	/// \param[in] afcPullInRange Not used
+	/// \return true if the selected frequency is within a valid range for the connected radio and if
+	///         setting the new frequency succeeded.
+	bool        setFrequency (float centre, float afcPullInRange = 0.05);
 
-    /// Waits until any previous transmit packet is finished being transmitted with waitPacketSent().
-    /// Then loads a message into the transmitter and starts the transmitter. Note that a message length
-    /// of 0 is NOT permitted. 
-    /// \param[in] data Array of data to be sent
-    /// \param[in] len Number of bytes of data to send (> 0)
-    /// \return true if the message length was valid and it was correctly queued for transmit
-    bool        send(const uint8_t* data, uint8_t len);
+	/// OBSOLETE, do not use.
+	/// To get different modulation schemes, you must generate a new radio config file
+	/// as described in this documentation.
+	/// Sets all the properties required to configure the data modem in the RF24, including the data rate,
+	/// bandwidths etc. You can use this to configure the modem with custom configurations if none of the
+	/// canned configurations in ModemConfigChoice suit you.
+	/// \param[in] config A ModemConfig structure containing values for the modem configuration registers.
+	void           setModemRegisters (const ModemConfig* config);
 
-    /// The maximum message length supported by this driver
-    /// \return The maximum message length supported by this driver
-    uint8_t maxMessageLength();
+	/// OBSOLETE, do not use.
+	/// To get different modulation schemes, you must generate a new radio config file
+	/// as described in this documentation.
+	/// Select one of the predefined modem configurations. If you need a modem configuration not provided
+	/// here, use setModemRegisters() with your own ModemConfig. The default after init() is RH_RF24::GFSK_Rb5Fd10.
+	/// \param[in] index The configuration choice.
+	/// \return true if index is a valid choice.
+	bool        setModemConfig (ModemConfigChoice index);
 
-    /// Sets the length of the preamble
-    /// in bytes. 
-    /// Caution: this should be set to the same 
-    /// value on all nodes in your network. Default is 4.
-    /// \param[in] bytes Preamble length in bytes.  
-    void           setPreambleLength(uint16_t bytes);
+	/// Starts the receiver and checks whether a received message is available.
+	/// This can be called multiple times in a timeout loop
+	/// \return true if a complete, valid message has been received and is able to be retrieved by
+	/// recv()
+	bool        available();
 
-    /// Sets the sync words for transmit and receive 
-    /// Caution: SyncWords should be set to the same 
-    /// value on all nodes in your network. Nodes with different SyncWords set will never receive
-    /// each others messages, so different SyncWords can be used to isolate different
-    /// networks from each other. Default is { 0x2d, 0xd4 }.
-    /// \param[in] syncWords Array of sync words, 1 to 4 octets long. NULL if no sync words to be used.
-    /// \param[in] len Number of sync words to set, 1 to 4. 0 if no sync words to be used.
-    void           setSyncWords(const uint8_t* syncWords = NULL, uint8_t len = 0);
+	/// Turns the receiver on if it not already on.
+	/// If there is a valid message available, copy it to buf and return true
+	/// else return false.
+	/// If a message is copied, *len is set to the length (Caution, 0 length messages are permitted).
+	/// You should be sure to call this function frequently enough to not miss any messages
+	/// It is recommended that you call it in your main loop.
+	/// \param[in] buf Location to copy the received message
+	/// \param[in,out] len Pointer to available space in buf. Set to the actual number of octets copied.
+	/// \return true if a valid message was copied to buf
+	bool        recv (uint8_t* buf, uint8_t* len);
 
-    /// Sets the CRC polynomial to be used to generate the CRC for both receive and transmit
-    /// otherwise the default of CRC_16_IBM will be used.
-    /// \param[in] polynomial One of RH_RF24::CRCPolynomial choices CRC_*
-    /// \return true if polynomial is a valid option for this radio.
-    bool setCRCPolynomial(CRCPolynomial polynomial);
+	/// Waits until any previous transmit packet is finished being transmitted with waitPacketSent().
+	/// Then loads a message into the transmitter and starts the transmitter. Note that a message length
+	/// of 0 is NOT permitted.
+	/// \param[in] data Array of data to be sent
+	/// \param[in] len Number of bytes of data to send (> 0)
+	/// \return true if the message length was valid and it was correctly queued for transmit
+	bool        send (const uint8_t* data, uint8_t len);
 
-    /// If current mode is Rx or Tx changes it to Idle. If the transmitter or receiver is running, 
-    /// disables them.
-    void           setModeIdle();
+	/// The maximum message length supported by this driver
+	/// \return The maximum message length supported by this driver
+	uint8_t maxMessageLength();
 
-    /// If current mode is Tx or Idle, changes it to Rx. 
-    /// Starts the receiver in the RF24.
-    void           setModeRx();
+	/// Sets the length of the preamble
+	/// in bytes.
+	/// Caution: this should be set to the same
+	/// value on all nodes in your network. Default is 4.
+	/// \param[in] bytes Preamble length in bytes.
+	void           setPreambleLength (uint16_t bytes);
 
-    /// If current mode is Rx or Idle, changes it to Rx. F
-    /// Starts the transmitter in the RF24.
-    void           setModeTx();
+	/// Sets the sync words for transmit and receive
+	/// Caution: SyncWords should be set to the same
+	/// value on all nodes in your network. Nodes with different SyncWords set will never receive
+	/// each others messages, so different SyncWords can be used to isolate different
+	/// networks from each other. Default is { 0x2d, 0xd4 }.
+	/// \param[in] syncWords Array of sync words, 1 to 4 octets long. NULL if no sync words to be used.
+	/// \param[in] len Number of sync words to set, 1 to 4. 0 if no sync words to be used.
+	void           setSyncWords (const uint8_t* syncWords = NULL, uint8_t len = 0);
 
-    /// Sets the transmitter power output level register PA_PWR_LVL
-    /// The power argument to this function has a non-linear correlation with the actual RF power output.
-    /// See the transmitter power table above for some examples.
-    /// Also the Si446x Data Sheet section 5.4.2 may be helpful.
-    /// Be a good neighbour and set the lowest power level you need.
-    /// Caution: legal power limits may apply in certain countries.
-    /// After init(), the power will be set to 0x10.
-    /// \param[in] power Transmitter power level. For RFM24/Si4460, valid values are 0x00 to 0x4f. For others, 0x00 to 0x7f
-    void           setTxPower(uint8_t power);
+	/// Sets the CRC polynomial to be used to generate the CRC for both receive and transmit
+	/// otherwise the default of CRC_16_IBM will be used.
+	/// \param[in] polynomial One of RH_RF24::CRCPolynomial choices CRC_*
+	/// \return true if polynomial is a valid option for this radio.
+	bool setCRCPolynomial (CRCPolynomial polynomial);
 
-    /// Dump the values of available command replies and properties
-    /// to the Serial device if RH_HAVE_SERIAL is defined for the current platform
-    /// Not all commands have valid replies, therefore they are not all printed.
-    /// Caution: the list is very long
-    bool           printRegisters();
+	/// If current mode is Rx or Tx changes it to Idle. If the transmitter or receiver is running,
+	/// disables them.
+	void           setModeIdle();
 
-    /// Send a string of command bytes to the chip and get a string of reply bytes
-    /// Different RFM24 commands take different numbers of command bytes and send back different numbers
-    /// of reply bytes. See the Si446x documentaiton for more details.
-    /// Both command bytes and reply bytes are optional
-    /// \param[in] cmd The command number. One of RH_RF24_CMD_*
-    /// \param[in] write_buf Pointer to write_len bytes of command input bytes to send. If there are none, set to NULL.
-    /// \param[in] write_len The number of bytes to send from write_buf. If there are none, set to 0
-    /// \param[out] read_buf Pointer to read_len bytes of storage where the reply stream from the comand will be written.
-    ///            If none are required, set to NULL
-    /// \param[in] read_len The number of bytes to read from the reply stream. If none required, set to 0.
-    /// \return true if the command succeeeded.
-    bool           command(uint8_t cmd, const uint8_t* write_buf = 0, uint8_t write_len = 0, uint8_t* read_buf = 0, uint8_t read_len = 0);
+	/// If current mode is Tx or Idle, changes it to Rx.
+	/// Starts the receiver in the RF24.
+	void           setModeRx();
 
-    /// Set one or more chip properties using the RH_RF24_CMD_SET_PROPERTY
-    /// command. See the Si446x API Description AN625 for details on what properties are available.
-    /// param[in] firstProperty The property number of the first property to set. The first value in the values array
-    ///           will be used to set this property, and any subsequent values will be used to set the following properties.
-    ///           One of RH_RF24_PROPERTY_*
-    /// param[in] values Array of 0 or more values to write the firstProperty and subsequent proerties
-    /// param[in] count The number of values in the values array
-    /// \return true if the command succeeeded.
-    bool           set_properties(uint16_t firstProperty, const uint8_t* values, uint8_t count);
+	/// If current mode is Rx or Idle, changes it to Rx. F
+	/// Starts the transmitter in the RF24.
+	void           setModeTx();
 
-    /// Get one or more chip properties using the RH_RF24_CMD_GET_PROPERTY
-    /// command. See the Si446x API Description AN625 for details on what properties are available.
-    /// param[in] firstProperty The property number of the first property to get. The first value in the values array
-    ///           will be set with this property, and any subsequent values will be set from the following properties.
-    ///           One of RH_RF24_PROPERTY_*
-    /// param[out] values Array of 0 or more values to receive the firstProperty and subsequent proerties
-    /// param[in] count The number of values in the values array
-    /// \return true if the command succeeeded.
-    bool           get_properties(uint16_t firstProperty, uint8_t* values, uint8_t count);
+	/// Sets the transmitter power output level register PA_PWR_LVL
+	/// The power argument to this function has a non-linear correlation with the actual RF power output.
+	/// See the transmitter power table above for some examples.
+	/// Also the Si446x Data Sheet section 5.4.2 may be helpful.
+	/// Be a good neighbour and set the lowest power level you need.
+	/// Caution: legal power limits may apply in certain countries.
+	/// After init(), the power will be set to 0x10.
+	/// \param[in] power Transmitter power level. For RFM24/Si4460, valid values are 0x00 to 0x4f. For others, 0x00 to 0x7f
+	void           setTxPower (uint8_t power);
 
-    /// Measures and returns the current
-    /// Chip temperature.
-    /// \return The current chip temperature in degrees Centigrade
-    float          get_temperature();
+	/// Dump the values of available command replies and properties
+	/// to the Serial device if RH_HAVE_SERIAL is defined for the current platform
+	/// Not all commands have valid replies, therefore they are not all printed.
+	/// Caution: the list is very long
+	bool           printRegisters();
 
-    /// Measures and returns the current
-    /// Chip Vcc supply voltage.
-    /// \return The current chip Vcc supply voltage in Volts.
-    float          get_battery_voltage();
+	/// Send a string of command bytes to the chip and get a string of reply bytes
+	/// Different RFM24 commands take different numbers of command bytes and send back different numbers
+	/// of reply bytes. See the Si446x documentaiton for more details.
+	/// Both command bytes and reply bytes are optional
+	/// \param[in] cmd The command number. One of RH_RF24_CMD_*
+	/// \param[in] write_buf Pointer to write_len bytes of command input bytes to send. If there are none, set to NULL.
+	/// \param[in] write_len The number of bytes to send from write_buf. If there are none, set to 0
+	/// \param[out] read_buf Pointer to read_len bytes of storage where the reply stream from the comand will be written.
+	///            If none are required, set to NULL
+	/// \param[in] read_len The number of bytes to read from the reply stream. If none required, set to 0.
+	/// \return true if the command succeeeded.
+	bool           command (uint8_t cmd, const uint8_t* write_buf = 0, uint8_t write_len = 0, uint8_t* read_buf = 0, uint8_t read_len = 0);
 
-    /// Measures and returns the current
-    /// voltage applied to a GPIO pin (which has previously been configured as a voltage input)
-    /// \param[in] gpio The GPIO pin to read. 0 to 3.
-    /// \return The current pin voltage in Volts.
-    float          get_gpio_voltage(uint8_t gpio);
+	/// Set one or more chip properties using the RH_RF24_CMD_SET_PROPERTY
+	/// command. See the Si446x API Description AN625 for details on what properties are available.
+	/// param[in] firstProperty The property number of the first property to set. The first value in the values array
+	///           will be used to set this property, and any subsequent values will be used to set the following properties.
+	///           One of RH_RF24_PROPERTY_*
+	/// param[in] values Array of 0 or more values to write the firstProperty and subsequent proerties
+	/// param[in] count The number of values in the values array
+	/// \return true if the command succeeeded.
+	bool           set_properties (uint16_t firstProperty, const uint8_t* values, uint8_t count);
 
-    /// Read one of the Fast Read Response registers.
-    /// The Fast Read Response register must be previously configured with the matching
-    /// RH_RF24_PROPERTY_FRR_CTL_?_MODE property to select what chip property will be available in that register.
-    /// \param[in] reg The index of the FRR register to read. 0 means FRR A, 1 means B etc.
-    /// \return the value read from the specified Fast Read Response register.
-    uint8_t        frr_read(uint8_t reg);
+	/// Get one or more chip properties using the RH_RF24_CMD_GET_PROPERTY
+	/// command. See the Si446x API Description AN625 for details on what properties are available.
+	/// param[in] firstProperty The property number of the first property to get. The first value in the values array
+	///           will be set with this property, and any subsequent values will be set from the following properties.
+	///           One of RH_RF24_PROPERTY_*
+	/// param[out] values Array of 0 or more values to receive the firstProperty and subsequent proerties
+	/// param[in] count The number of values in the values array
+	/// \return true if the command succeeeded.
+	bool           get_properties (uint16_t firstProperty, uint8_t* values, uint8_t count);
 
-    /// Sets the radio into low-power sleep mode.
-    /// If successful, the transport will stay in sleep mode until woken by 
-    /// changing mode it idle, transmit or receive (eg by calling send(), recv(), available() etc)
-    /// Caution: there is a time penalty as the radio takes a finte time to wake from sleep mode.
-    /// \return true if sleep mode was successfully entered.
-    virtual bool    sleep();
+	/// Measures and returns the current
+	/// Chip temperature.
+	/// \return The current chip temperature in degrees Centigrade
+	float          get_temperature();
 
-    /// Return the integer value of the device type
-    /// as read from the device in from RH_RF24_CMD_PART_INFO.
-    /// One of 0x4460, 0x4461, 0x4462 or 0x4463, depending on the type of device actually
-    /// connected.
-    /// \return The integer device type
-    uint16_t deviceType() {return _deviceType;};
+	/// Measures and returns the current
+	/// Chip Vcc supply voltage.
+	/// \return The current chip Vcc supply voltage in Volts.
+	float          get_battery_voltage();
+
+	/// Measures and returns the current
+	/// voltage applied to a GPIO pin (which has previously been configured as a voltage input)
+	/// \param[in] gpio The GPIO pin to read. 0 to 3.
+	/// \return The current pin voltage in Volts.
+	float          get_gpio_voltage (uint8_t gpio);
+
+	/// Read one of the Fast Read Response registers.
+	/// The Fast Read Response register must be previously configured with the matching
+	/// RH_RF24_PROPERTY_FRR_CTL_?_MODE property to select what chip property will be available in that register.
+	/// \param[in] reg The index of the FRR register to read. 0 means FRR A, 1 means B etc.
+	/// \return the value read from the specified Fast Read Response register.
+	uint8_t        frr_read (uint8_t reg);
+
+	/// Sets the radio into low-power sleep mode.
+	/// If successful, the transport will stay in sleep mode until woken by
+	/// changing mode it idle, transmit or receive (eg by calling send(), recv(), available() etc)
+	/// Caution: there is a time penalty as the radio takes a finte time to wake from sleep mode.
+	/// \return true if sleep mode was successfully entered.
+	virtual bool    sleep();
+
+	/// Return the integer value of the device type
+	/// as read from the device in from RH_RF24_CMD_PART_INFO.
+	/// One of 0x4460, 0x4461, 0x4462 or 0x4463, depending on the type of device actually
+	/// connected.
+	/// \return The integer device type
+	uint16_t deviceType()
+	{
+		return _deviceType;
+	};
 
 protected:
-    /// This is a low level function to handle the interrupts for one instance of RF24.
-    /// Called automatically by isr*()
-    /// Should not need to be called by user code.
-    void           handleInterrupt();
+	/// This is a low level function to handle the interrupts for one instance of RF24.
+	/// Called automatically by isr*()
+	/// Should not need to be called by user code.
+	void           handleInterrupt();
 
-    /// Clears the chips RX FIFO
-    /// \return true if successful
-    bool           clearRxFifo();
+	/// Clears the chips RX FIFO
+	/// \return true if successful
+	bool           clearRxFifo();
 
-    /// Clears RH_RF24's internal TX and RX buffers and counters
-    void           clearBuffer();
+	/// Clears RH_RF24's internal TX and RX buffers and counters
+	void           clearBuffer();
 
-    /// Loads the next part of the currently transmitting message 
-    /// into the chips TX buffer
-    void           sendNextFragment();
+	/// Loads the next part of the currently transmitting message
+	/// into the chips TX buffer
+	void           sendNextFragment();
 
-    /// Copies the next part of the currenrtly received message from the chips RX FIFO to the 
-    /// receive buffer
-    void           readNextFragment();
+	/// Copies the next part of the currenrtly received message from the chips RX FIFO to the
+	/// receive buffer
+	void           readNextFragment();
 
-    /// Loads data into the chips TX FIFO
-    /// \param[in] data Array of data bytes to be loaded
-    /// \param[in] len Number of bytes in data to be loaded
-    /// \return true if successful
-    bool           writeTxFifo(uint8_t *data, uint8_t len);
+	/// Loads data into the chips TX FIFO
+	/// \param[in] data Array of data bytes to be loaded
+	/// \param[in] len Number of bytes in data to be loaded
+	/// \return true if successful
+	bool           writeTxFifo (uint8_t *data, uint8_t len);
 
-    /// Checks the contents of the RX buffer.
-    /// If it contans a valid message adressed to this node
-    /// sets _rxBufValid.
-    void           validateRxBuf();
+	/// Checks the contents of the RX buffer.
+	/// If it contans a valid message adressed to this node
+	/// sets _rxBufValid.
+	void           validateRxBuf();
 
-    /// Cycles the Shutdown pin to force the cradio chip to reset
-    void           power_on_reset();
+	/// Cycles the Shutdown pin to force the cradio chip to reset
+	void           power_on_reset();
 
-    /// Sets registers, commands and properties
-    /// in the ratio according to the data in the commands array
-    /// \param[in] commands Array of data containing radio commands in the format provided by radio_config_Si4460.h
-    /// \return true if successful
-    bool           configure(const uint8_t* commands);
+	/// Sets registers, commands and properties
+	/// in the ratio according to the data in the commands array
+	/// \param[in] commands Array of data containing radio commands in the format provided by radio_config_Si4460.h
+	/// \return true if successful
+	bool           configure (const uint8_t* commands);
 
-    /// Clears all pending interrutps in the radio chip.
-    bool           cmd_clear_all_interrupts();
+	/// Clears all pending interrutps in the radio chip.
+	bool           cmd_clear_all_interrupts();
 
 private:
 
-    /// Low level interrupt service routine for RF24 connected to interrupt 0
-    static void         isr0();
+	/// Low level interrupt service routine for RF24 connected to interrupt 0
+	static void         isr0();
 
-    /// Low level interrupt service routine for RF24 connected to interrupt 1
-    static void         isr1();
+	/// Low level interrupt service routine for RF24 connected to interrupt 1
+	static void         isr1();
 
-    /// Low level interrupt service routine for RF24 connected to interrupt 1
-    static void         isr2();
+	/// Low level interrupt service routine for RF24 connected to interrupt 1
+	static void         isr2();
 
-    /// Array of instances connected to interrupts 0 and 1
-    static RH_RF24*     _deviceForInterrupt[];
+	/// Array of instances connected to interrupts 0 and 1
+	static RH_RF24*     _deviceForInterrupt[];
 
-    /// Index of next interrupt number to use in _deviceForInterrupt
-    static uint8_t      _interruptCount;
+	/// Index of next interrupt number to use in _deviceForInterrupt
+	static uint8_t      _interruptCount;
 
-    /// The configured interrupt pin connected to this instance
-    uint8_t             _interruptPin;
+	/// The configured interrupt pin connected to this instance
+	uint8_t             _interruptPin;
 
-    /// The index into _deviceForInterrupt[] for this device (if an interrupt is already allocated)
-    /// else 0xff
-    uint8_t             _myInterruptIndex;
+	/// The index into _deviceForInterrupt[] for this device (if an interrupt is already allocated)
+	/// else 0xff
+	uint8_t             _myInterruptIndex;
 
-    /// The configured pin connected to the SDN pin of the radio
-    uint8_t             _sdnPin;
+	/// The configured pin connected to the SDN pin of the radio
+	uint8_t             _sdnPin;
 
-    /// The radio OP mode to use when mode is RHModeIdle
-    uint8_t             _idleMode; 
+	/// The radio OP mode to use when mode is RHModeIdle
+	uint8_t             _idleMode;
 
-    /// The reported PART device type
-    uint16_t             _deviceType;
+	/// The reported PART device type
+	uint16_t             _deviceType;
 
-    /// The selected output power in dBm
-    int8_t              _power;
+	/// The selected output power in dBm
+	int8_t              _power;
 
-    /// The message length in _buf
-    volatile uint8_t    _bufLen;
+	/// The message length in _buf
+	volatile uint8_t    _bufLen;
 
-    /// Array of octets of the last received message or the next to transmit message
-    uint8_t             _buf[RH_RF24_MAX_PAYLOAD_LEN];
+	/// Array of octets of the last received message or the next to transmit message
+	uint8_t             _buf[RH_RF24_MAX_PAYLOAD_LEN];
 
-    /// True when there is a valid message in the Rx buffer
-    volatile bool       _rxBufValid;
+	/// True when there is a valid message in the Rx buffer
+	volatile bool       _rxBufValid;
 
-    /// Index into TX buffer of the next to send chunk
-    volatile uint8_t    _txBufSentIndex;
-  
-    /// Time in millis since the last preamble was received (and the last time the RSSI was measured)
-    uint32_t            _lastPreambleTime;
+	/// Index into TX buffer of the next to send chunk
+	volatile uint8_t    _txBufSentIndex;
+
+	/// Time in millis since the last preamble was received (and the last time the RSSI was measured)
+	uint32_t            _lastPreambleTime;
 
 };
 

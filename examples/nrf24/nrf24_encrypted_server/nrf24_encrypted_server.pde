@@ -22,48 +22,48 @@ Speck myCipher;   // Instantiate a Speck block ciphering
 // The RHEncryptedDriver acts as a wrapper for the actual radio driver
 RHEncryptedDriver driver(nrf24, myCipher); // Instantiate the driver with those two
 // The key MUST be the same as the one in the client
-unsigned char encryptkey[16] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}; 
+unsigned char encryptkey[16] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
 
-void setup() 
+void setup()
 {
-  Serial.begin(9600);
-  while (!Serial) 
-    ; // wait for serial port to connect. Needed for Leonardo only
-  if (!nrf24.init())
-    Serial.println("init failed");
-  // Defaults after init are 2.402 GHz (channel 2), 2Mbps, 0dBm
-  if (!nrf24.setChannel(1))
-    Serial.println("setChannel failed");
-  if (!nrf24.setRF(RH_NRF24::DataRate2Mbps, RH_NRF24::TransmitPower0dBm))
-    Serial.println("setRF failed"); 
-    
-  // Now set up the encryption key in our cipher
-  myCipher.setKey(encryptkey, sizeof(encryptkey));   
+	Serial.begin(9600);
+	while (!Serial)
+		; // wait for serial port to connect. Needed for Leonardo only
+	if (!nrf24.init())
+		Serial.println("init failed");
+	// Defaults after init are 2.402 GHz (channel 2), 2Mbps, 0dBm
+	if (!nrf24.setChannel(1))
+		Serial.println("setChannel failed");
+	if (!nrf24.setRF(RH_NRF24::DataRate2Mbps, RH_NRF24::TransmitPower0dBm))
+		Serial.println("setRF failed");
+
+	// Now set up the encryption key in our cipher
+	myCipher.setKey(encryptkey, sizeof(encryptkey));
 }
 
 void loop()
 {
-  if (driver.available())
-  {
-    // Should be a message for us now   
-    uint8_t buf[RH_NRF24_MAX_MESSAGE_LEN];
-    uint8_t len = sizeof(buf);
-    if (driver.recv(buf, &len))
-    {
+	if (driver.available())
+	{
+		// Should be a message for us now
+		uint8_t buf[RH_NRF24_MAX_MESSAGE_LEN];
+		uint8_t len = sizeof(buf);
+		if (driver.recv(buf, &len))
+		{
 //      RH_NRF24::printBuffer("request: ", buf, len);
-      Serial.print("got request: ");
-      Serial.println((char*)buf);
-      
-      // Send a reply
-      uint8_t data[] = "And hello back"; // Dont make this too long
-      driver.send(data, sizeof(data));
-      driver.waitPacketSent();
-      Serial.println("Sent a reply");
-    }
-    else
-    {
-      Serial.println("recv failed");
-    }
-  }
+			Serial.print("got request: ");
+			Serial.println((char*)buf);
+
+			// Send a reply
+			uint8_t data[] = "And hello back"; // Dont make this too long
+			driver.send(data, sizeof(data));
+			driver.waitPacketSent();
+			Serial.println("Sent a reply");
+		}
+		else
+		{
+			Serial.println("recv failed");
+		}
+	}
 }
 

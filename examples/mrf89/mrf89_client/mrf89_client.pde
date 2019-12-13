@@ -13,16 +13,16 @@
 // Singleton instance of the radio driver
 RH_MRF89 mrf89;
 
-void setup() 
+void setup()
 {
-  Serial.begin(9600);
-  while (!Serial)
-    ; // wait for serial port to connect. Needed for native USB
+	Serial.begin(9600);
+	while (!Serial)
+		; // wait for serial port to connect. Needed for native USB
 
-  if (!mrf89.init())
-    Serial.println("init failed");
-  // Default after init is 1dBm, 915.4MHz, FSK_Rb20Fd40  
-  // But you can change that if you want:
+	if (!mrf89.init())
+		Serial.println("init failed");
+	// Default after init is 1dBm, 915.4MHz, FSK_Rb20Fd40
+	// But you can change that if you want:
 //  mrf89.setTxPower(RH_MRF89_TXOPVAL_M8DBM); // Min power -8dBm
 //  mrf89.setTxPower(RH_MRF89_TXOPVAL_13DBM); // Max power 13dBm
 //  if (!mrf89.setFrequency(920.0))
@@ -33,36 +33,36 @@ void setup()
 
 void loop()
 {
-  Serial.println("Sending to mrf89_server");
-  // Send a message to mrf89_server
-  uint8_t data[] = "Hello World!";
-  mrf89.send(data, sizeof(data));
-  
-  mrf89.waitPacketSent();
-  // Now wait for a reply
-  uint8_t buf[RH_MRF89_MAX_MESSAGE_LEN];
-  uint8_t len = sizeof(buf);
+	Serial.println("Sending to mrf89_server");
+	// Send a message to mrf89_server
+	uint8_t data[] = "Hello World!";
+	mrf89.send(data, sizeof(data));
 
-  if (mrf89.waitAvailableTimeout(3000))
-  { 
-    // Should be a reply message for us now   
-    if (mrf89.recv(buf, &len))
-   {
-      Serial.print("got reply: ");
-      Serial.println((char*)buf);
+	mrf89.waitPacketSent();
+	// Now wait for a reply
+	uint8_t buf[RH_MRF89_MAX_MESSAGE_LEN];
+	uint8_t len = sizeof(buf);
+
+	if (mrf89.waitAvailableTimeout(3000))
+	{
+		// Should be a reply message for us now
+		if (mrf89.recv(buf, &len))
+		{
+			Serial.print("got reply: ");
+			Serial.println((char*)buf);
 //      Serial.print("RSSI: ");
-//      Serial.println(mrf89.lastRssi(), DEC);    
-    }
-    else
-    {
-      Serial.println("recv failed");
-    }
-  }
-  else
-  {
-    Serial.println("No reply, is mrf89_server running?");
-  }
-  delay(400);
+//      Serial.println(mrf89.lastRssi(), DEC);
+		}
+		else
+		{
+			Serial.println("recv failed");
+		}
+	}
+	else
+	{
+		Serial.println("No reply, is mrf89_server running?");
+	}
+	delay(400);
 }
 
 

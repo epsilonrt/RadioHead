@@ -21,7 +21,7 @@
 #define RH_TCP_HEADER_LEN 4
 
 
-// This is the maximum message length that can be supported by this protocol. 
+// This is the maximum message length that can be supported by this protocol.
 #define RH_TCP_MAX_MESSAGE_LEN (RH_TCP_MAX_PAYLOAD_LEN - RH_TCP_HEADER_LEN)
 
 #pragma pack(push, 1) // No padding
@@ -29,36 +29,36 @@
 /// \brief Generic RH_TCP simulator message structure
 typedef struct
 {
-    uint32_t        length; ///< Number of octets following, in network byte order
-    uint8_t         payload[RH_TCP_MAX_PAYLOAD_LEN + 1]; ///< Payload
+	uint32_t        length; ///< Number of octets following, in network byte order
+	uint8_t         payload[RH_TCP_MAX_PAYLOAD_LEN + 1]; ///< Payload
 }   RHTcpMessage;
 
 /// \brief Generic RH_TCP  message structure with message type
 typedef struct
 {
-    uint32_t        length; ///< Number of octets following, in network byte order
-    uint8_t         type;  ///< One of RH_TCP_MESSAGE_TYPE_*
-    uint8_t         payload[RH_TCP_MAX_PAYLOAD_LEN]; ///< Payload
+	uint32_t        length; ///< Number of octets following, in network byte order
+	uint8_t         type;  ///< One of RH_TCP_MESSAGE_TYPE_*
+	uint8_t         payload[RH_TCP_MAX_PAYLOAD_LEN]; ///< Payload
 }   RHTcpTypeMessage;
 
 /// \brief RH_TCP message Notifies the server of thisAddress of this client
 typedef struct
 {
-    uint32_t        length; ///< Number of octets following, in network byte order
-    uint8_t         type;   ///< == RH_TCP_MESSAGE_TYPE_THISADDRESS
-    uint8_t         thisAddress; ///< Node address
+	uint32_t        length; ///< Number of octets following, in network byte order
+	uint8_t         type;   ///< == RH_TCP_MESSAGE_TYPE_THISADDRESS
+	uint8_t         thisAddress; ///< Node address
 }   RHTcpThisAddress;
 
 /// \brief RH_TCP radio message passed to or from the simulator
 typedef struct
 {
-    uint32_t        length; ///< Number of octets following, in network byte order
-    uint8_t         type;   ///< == RH_TCP_MESSAGE_TYPE_PACKET
-    uint8_t         to;     ///< Node address of the recipient
-    uint8_t         from;   ///< Node address of the sender
-    uint8_t         id;     ///< Message sequence number
-    uint8_t         flags;  ///< Message flags
-    uint8_t         payload[RH_TCP_MAX_MESSAGE_LEN]; ///< 0 or more, length deduced from length above
+	uint32_t        length; ///< Number of octets following, in network byte order
+	uint8_t         type;   ///< == RH_TCP_MESSAGE_TYPE_PACKET
+	uint8_t         to;     ///< Node address of the recipient
+	uint8_t         from;   ///< Node address of the sender
+	uint8_t         id;     ///< Message sequence number
+	uint8_t         flags;  ///< Message flags
+	uint8_t         payload[RH_TCP_MAX_MESSAGE_LEN]; ///< 0 or more, length deduced from length above
 }   RHTcpPacket;
 
 #pragma pack(pop)

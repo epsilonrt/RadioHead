@@ -199,6 +199,11 @@
     <File Name="../RHCRC.cpp"/>
     <File Name="../RH_CC110.cpp"/>
     <File Name="../RH_ASK.cpp"/>
+    <VirtualDirectory Name="RHutil">
+      <File Name="../RHutil/GpioLed.cpp"/>
+      <File Name="../RHutil/HardwareSerial.cpp"/>
+      <File Name="../RHutil/RasPi.cpp"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
     <File Name="CMakeLists.txt"/>
@@ -231,20 +236,23 @@
     <File Name="../RH_CC110.h"/>
     <File Name="../RH_ASK.h"/>
     <File Name="../RadioHead.h"/>
-  </VirtualDirectory>
-  <VirtualDirectory Name="RHutil">
-    <File Name="../RHutil/HardwareSerial.cpp"/>
-    <File Name="../RHutil/simulator.h"/>
-    <File Name="../RHutil/RasPi.h"/>
-    <File Name="../RHutil/atomic.h"/>
-    <File Name="../RHutil/Led.h"/>
-    <File Name="../RHutil/HardwareSerial.h"/>
-    <File Name="../RHutil/GpioLed.cpp"/>
-    <File Name="../RHutil/GpioLed.h"/>
-    <File Name="../RHutil/RasPi.cpp"/>
+    <VirtualDirectory Name="RHutil">
+      <File Name="../RHutil/GpioLed.h"/>
+      <File Name="../RHutil/HardwareSerial.h"/>
+      <File Name="../RHutil/Led.h"/>
+      <File Name="../RHutil/RasPi.h"/>
+      <File Name="../RHutil/atomic.h"/>
+      <File Name="../RHutil/simulator.h"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <Dependencies Name="Debug_Linux"/>
   <Dependencies Name="Debug_Windows"/>
   <Dependencies Name="Release_Linux"/>
   <Dependencies Name="Release_Windows"/>
+  <VirtualDirectory Name="doc">
+    <File Name="../LICENSE"/>
+    <File Name="../MANIFEST"/>
+    <File Name="../README.md"/>
+    <File Name="../project.cfg"/>
+  </VirtualDirectory>
 </CodeLite_Project>

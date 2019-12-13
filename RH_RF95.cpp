@@ -172,6 +172,7 @@ void RH_RF95::handleInterrupt()
     }
     else if (_mode == RHModeTx && irq_flags & RH_RF95_TX_DONE)
     {
+	setTxLedState(false);
 	_txGood++;
 	setModeIdle();
     }
@@ -219,6 +220,7 @@ void RH_RF95::validateRxBuf()
 	_rxHeaderTo == _thisAddress ||
 	_rxHeaderTo == RH_BROADCAST_ADDRESS)
     {
+	setRxLedState(true);
 	_rxGood++;
 	_rxBufValid = true;
     }
@@ -237,6 +239,7 @@ void RH_RF95::clearRxBuf()
     ATOMIC_BLOCK_START;
     _rxBufValid = false;
     _bufLen = 0;
+    setRxLedState(false);
     ATOMIC_BLOCK_END;
 }
 
@@ -356,6 +359,7 @@ void RH_RF95::setModeTx()
 {
     if (_mode != RHModeTx)
     {
+	setTxLedState(true);
 	spiWrite(RH_RF95_REG_01_OP_MODE, RH_RF95_MODE_TX);
 	spiWrite(RH_RF95_REG_40_DIO_MAPPING1, 0x40); // Interrupt on TxDone
 	_mode = RHModeTx;

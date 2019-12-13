@@ -1399,6 +1399,9 @@ these examples and explanations and extend them to suit your needs.
  #endif
  #define ATOMIC_BLOCK_START     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
  #define ATOMIC_BLOCK_END }
+#elif (RH_PLATFORM == RH_PLATFORM_PIDUINO)
+ #define ATOMIC_BLOCK_START
+ #define ATOMIC_BLOCK_END
 #elif (RH_PLATFORM == RH_PLATFORM_CHIPKIT_CORE)
  // UsingChipKIT Core on Arduino IDE
  #define ATOMIC_BLOCK_START unsigned int __status = disableInterrupts(); {
@@ -1429,6 +1432,8 @@ these examples and explanations and extend them to suit your needs.
  #define YIELD yield();
 #elif (RH_PLATFORM == RH_PLATFORM_ESP8266)
 // ESP8266 also has it
+ #define YIELD yield();
+#elif (RH_PLATFORM == RH_PLATFORM_PIDUINO)
  #define YIELD yield();
 #else
  #define YIELD

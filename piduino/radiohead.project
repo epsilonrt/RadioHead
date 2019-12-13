@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="radiohead" Version="10.0.0" InternalType="Console">
+  <Description/>
+  <Dependencies/>
+  <Settings Type="Executable">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="" Assembler="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug_Linux" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O0;-Wall" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./build-debug/HelloWorld" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="yes">
+        <Target Name="cmake">cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1</Target>
+        <RebuildCommand>make clean &amp;&amp; mingw32-make -j4</RebuildCommand>
+        <CleanCommand>make clean</CleanCommand>
+        <BuildCommand>make -j4</BuildCommand>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory>$(WorkspacePath)/build-debug</WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Debug_Windows" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O0;-Wall" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./build-debug/HelloWorld" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="yes">
+        <Target Name="cmake">cmake .. -G "MinGW Makefiles"  -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1</Target>
+        <RebuildCommand>mingw32-make clean &amp;&amp; mingw32-make -j4</RebuildCommand>
+        <CleanCommand>mingw32-make clean</CleanCommand>
+        <BuildCommand>mingw32-make -j4</BuildCommand>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory>$(WorkspacePath)/build-debug</WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release_Linux" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O0;-Wall" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Release" Command="./build-release/HelloWorld" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="yes">
+        <Target Name="cmake">cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=1</Target>
+        <RebuildCommand>make clean &amp;&amp; make -j4</RebuildCommand>
+        <CleanCommand>make clean</CleanCommand>
+        <BuildCommand>make -j4</BuildCommand>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory>$(WorkspacePath)/build-release</WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release_Windows" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O0;-Wall" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Release" Command="./build-release/HelloWorld" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="yes">
+        <Target Name="cmake">cmake .. -G "MinGW Makefiles" -DCMAKE_EXPORT_COMPILE_COMMANDS=1</Target>
+        <RebuildCommand>mingw32-make clean &amp;&amp; mingw32-make -j4</RebuildCommand>
+        <CleanCommand>mingw32-make clean</CleanCommand>
+        <BuildCommand>mingw32-make -j4</BuildCommand>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory>$(WorkspacePath)/build-release</WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+  <VirtualDirectory Name="src">
+    <File Name="../RH_TCP.cpp"/>
+    <File Name="../RHSPIDriver.cpp"/>
+    <File Name="../RHSoftwareSPI.cpp"/>
+    <File Name="../RH_Serial.cpp"/>
+    <File Name="../RHRouter.cpp"/>
+    <File Name="../RH_RF95.cpp"/>
+    <File Name="../RH_RF69.cpp"/>
+    <File Name="../RH_RF24.cpp"/>
+    <File Name="../RH_RF22.cpp"/>
+    <File Name="../RHReliableDatagram.cpp"/>
+    <File Name="../RHNRFSPIDriver.cpp"/>
+    <File Name="../RH_NRF905.cpp"/>
+    <File Name="../RH_NRF51.cpp"/>
+    <File Name="../RH_NRF24.cpp"/>
+    <File Name="../RH_MRF89.cpp"/>
+    <File Name="../RHMesh.cpp"/>
+    <File Name="../RHHardwareSPI.cpp"/>
+    <File Name="../RHGenericSPI.cpp"/>
+    <File Name="../RHGenericDriver.cpp"/>
+    <File Name="../RHEncryptedDriver.cpp"/>
+    <File Name="../RH_E32.cpp"/>
+    <File Name="../RHDatagram.cpp"/>
+    <File Name="../RHCRC.cpp"/>
+    <File Name="../RH_CC110.cpp"/>
+    <File Name="../RH_ASK.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="resources">
+    <File Name="CMakeLists.txt"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="include">
+    <File Name="../RHTcpProtocol.h"/>
+    <File Name="../RH_TCP.h"/>
+    <File Name="../RHSPIDriver.h"/>
+    <File Name="../RHSoftwareSPI.h"/>
+    <File Name="../RH_Serial.h"/>
+    <File Name="../RHRouter.h"/>
+    <File Name="../RH_RF95.h"/>
+    <File Name="../RH_RF69.h"/>
+    <File Name="../RH_RF24.h"/>
+    <File Name="../RH_RF22.h"/>
+    <File Name="../RHReliableDatagram.h"/>
+    <File Name="../RHNRFSPIDriver.h"/>
+    <File Name="../RH_NRF905.h"/>
+    <File Name="../RH_NRF51.h"/>
+    <File Name="../RH_NRF24.h"/>
+    <File Name="../RH_MRF89.h"/>
+    <File Name="../RHMesh.h"/>
+    <File Name="../RHHardwareSPI.h"/>
+    <File Name="../RHGenericSPI.h"/>
+    <File Name="../RHGenericDriver.h"/>
+    <File Name="../RHEncryptedDriver.h"/>
+    <File Name="../RH_E32.h"/>
+    <File Name="../RHDatagram.h"/>
+    <File Name="../RHCRC.h"/>
+    <File Name="../RH_CC110.h"/>
+    <File Name="../RH_ASK.h"/>
+    <File Name="../RadioHead.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="RHutil">
+    <File Name="../RHutil/HardwareSerial.cpp"/>
+    <File Name="../RHutil/simulator.h"/>
+    <File Name="../RHutil/RasPi.h"/>
+    <File Name="../RHutil/atomic.h"/>
+    <File Name="../RHutil/Led.h"/>
+    <File Name="../RHutil/HardwareSerial.h"/>
+    <File Name="../RHutil/GpioLed.cpp"/>
+    <File Name="../RHutil/GpioLed.h"/>
+    <File Name="../RHutil/RasPi.cpp"/>
+  </VirtualDirectory>
+  <Dependencies Name="Debug_Linux"/>
+  <Dependencies Name="Debug_Windows"/>
+  <Dependencies Name="Release_Linux"/>
+  <Dependencies Name="Release_Windows"/>
+</CodeLite_Project>

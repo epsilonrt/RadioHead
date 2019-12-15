@@ -91,9 +91,16 @@
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="doc">
-    <File Name="../LICENSE"/>
-    <File Name="../README.md"/>
-    <File Name="../project.cfg"/>
+    <VirtualDirectory Name="resources">
+      <File Name="doc/CMakeLists.txt"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="radiohead">
+      <File Name="../LICENSE"/>
+      <File Name="../project.cfg"/>
+      <File Name="../README.md"/>
+    </VirtualDirectory>
+    <File Name="doc/Doxyfile.in"/>
+    <File Name="doc/DoxygenLayout.xml"/>
   </VirtualDirectory>
   <VirtualDirectory Name="piduino">
     <File Name="cmake_uninstall.cmake.in"/>
@@ -175,8 +182,6 @@
   <VirtualDirectory Name="resources">
     <File Name="CMakeLists.txt"/>
   </VirtualDirectory>
-  <Dependencies Name="Debug"/>
-  <Dependencies Name="Release"/>
   <VirtualDirectory Name="3rdparty">
     <File Name="3rdparty/LICENSE.txt"/>
     <File Name="3rdparty/README.md"/>
@@ -238,7 +243,7 @@
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="" IntermediateDirectory="./Release" Command="$(WorkspacePath)/cmake-build-$(WorkspaceConfiguration)/bin/$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
-      <BuildSystem Name="CMake">-DRADIOHEAD_WITH_DOXYGEN_DOC=1</BuildSystem>
+      <BuildSystem Name="CMake">-DRADIOHEAD_WITH_DOXYGEN_DOC=1 -DCMAKE_INSTALL_PREFIX=/usr</BuildSystem>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
@@ -271,4 +276,6 @@
       </Completion>
     </Configuration>
   </Settings>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
 </CodeLite_Project>

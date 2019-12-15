@@ -58,7 +58,11 @@ if (RADIOHEAD_WITH_DOXYGEN_DOC)
     ${RADIOHEAD_INC_DIR}/RHMesh.h
     ${RADIOHEAD_INC_DIR}/RHTcpProtocol.h
     ${RADIOHEAD_INC_DIR}/RH_TCP.h
-    )
+  )
+  
+  if (RADIOHEAD_WITH_ENCRYPTION)
+    list(APPEND DOXYGEN_INPUT_LIST ${RADIOHEAD_INC_DIR}/RHEncryptedDriver.h)
+  endif()
 
   unset(DOXYGEN_INPUT)
   foreach(item ${DOXYGEN_INPUT_LIST})

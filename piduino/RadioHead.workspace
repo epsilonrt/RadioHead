@@ -3,7 +3,7 @@
   <Project Name="radiohead" Path="radiohead.project" Active="Yes"/>
   <Project Name="radiohead-doc" Path="doc/radiohead-doc.project" Active="No"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="no">
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
       <Project Name="radiohead" ConfigName="Debug"/>
       <Project Name="radiohead-doc" ConfigName="Debug"/>

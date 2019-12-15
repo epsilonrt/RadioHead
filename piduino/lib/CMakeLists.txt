@@ -20,7 +20,11 @@ cmake_minimum_required(VERSION 2.8.11)
 if(NOT CPACK_PACKAGE_DIRECTORY)
   set(CPACK_PACKAGE_DIRECTORY ${CMAKE_BINARY_DIR}/packages)
 endif()
+
 add_definitions (-DRH_PLATFORM=RH_PLATFORM_PIDUINO) 
+if (RADIOHEAD_WITH_ENCRYPTION)
+  add_definitions(-DRH_ENABLE_ENCRYPTION_MODULE)
+endif()
 
 WriteGitVersionFile(${CMAKE_CURRENT_BINARY_DIR}/version.h)
   
@@ -80,9 +84,13 @@ set (hdr_radiohead_util
   ${RADIOHEAD_INC_DIR}/RHutil/RHGpioLed.h
 )
 
-file(GLOB src_crypto  ${CRYPTO_SRC_DIR}/*.cpp)
-file(GLOB hdr_crypto  ${CRYPTO_INC_DIR}/*.h)
-file(GLOB hdr_crypto_utility  ${CRYPTO_INC_DIR}/utility/*.h)
+if (RADIOHEAD_WITH_ENCRYPTION)
+  list(APPEND src_radiohead ${RADIOHEAD_SRC_DIR}/RHEncryptedDriver.cpp)
+  list(APPEND hdr_radiohead ${RADIOHEAD_INC_DIR}/RHEncryptedDriver.h)
+  file(GLOB src_crypto  ${CRYPTO_SRC_DIR}/*.cpp)
+  file(GLOB hdr_crypto  ${CRYPTO_INC_DIR}/*.h)
+  file(GLOB hdr_crypto_utility  ${CRYPTO_INC_DIR}/utility/*.h)
+endif()
 
 configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
                 ${CMAKE_CURRENT_BINARY_DIR}/config.h @ONLY)
@@ -94,6 +102,7 @@ set (libsrc ${src_radiohead} ${src_crypto})
 include_directories(BEFORE
   ${PIDUINO_INCLUDE_DIRS} 
   ${RADIOHEAD_INC_DIR} 
+  ${CRYPTO_INC_DIR} 
   ${CMAKE_CURRENT_BINARY_DIR}
   )
 
@@ -177,6 +186,15 @@ install(FILES
   "${RADIOHEAD_TOP_DIR}/README.md"
   DESTINATION "${RADIOHEAD_INSTALL_DOC_DIR}" COMPONENT lib)
 
+if (RADIOHEAD_WITH_ENCRYPTION)
+  install(FILES
+    "${PROJECT_SOURCE_DIR}/3rdparty/LICENSE.txt"
+    DESTINATION "${RADIOHEAD_INSTALL_DATA_DIR}/crypto" COMPONENT lib)
+  install(FILES
+    "${PROJECT_SOURCE_DIR}/3rdparty/README.md"
+    DESTINATION "${RADIOHEAD_INSTALL_DOC_DIR}/crypto" COMPONENT lib)
+endif()
+
 install (TARGETS radiohead-shared
   # IMPORTANT: Add the radiohead library to the "export-set"
   EXPORT radiohead
@@ -190,11 +208,13 @@ install (TARGETS radiohead-shared
   LIBRARY DESTINATION "${INSTALL_LIB_DIR}" COMPONENT lib
   PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}/RHutil" COMPONENT dev)
 
-set_target_properties(radiohead-shared PROPERTIES 
-  PUBLIC_HEADER "${hdr_crypto_utility}")
-install (TARGETS radiohead-shared
-  LIBRARY DESTINATION "${INSTALL_LIB_DIR}" COMPONENT lib
-  PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}/utility" COMPONENT dev)
+if (RADIOHEAD_WITH_ENCRYPTION)
+  set_target_properties(radiohead-shared PROPERTIES 
+    PUBLIC_HEADER "${hdr_crypto_utility}")
+  install (TARGETS radiohead-shared
+    LIBRARY DESTINATION "${INSTALL_LIB_DIR}" COMPONENT lib
+    PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}/utility" COMPONENT dev)
+endif()
 
 if(RADIOHEAD_WITH_STATIC)
   install (TARGETS radiohead-static 

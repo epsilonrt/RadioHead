@@ -2,11 +2,11 @@
 #define RH_LED_H
 
 
-class Led
+class RHLed
 {
 public:
 
-	Led (bool polarity = true) :
+	RHLed (bool polarity = true) :
 		m_polarity (polarity)
 	{
 	}

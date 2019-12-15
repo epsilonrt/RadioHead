@@ -33,10 +33,11 @@ uint8_t RHSPIDriver::spiRead (uint8_t reg)
 	buf[0] = reg & ~RH_SPI_WRITE_MASK;
 	buf[1] = 0;
 	ATOMIC_BLOCK_START;
+	_spi.beginTransaction();
 	digitalWrite (_slaveSelectPin, LOW);
 	_spi.transfer (buf, 2); // Send the address with the write mask on read the value
 	digitalWrite (_slaveSelectPin, HIGH);
-
+	_spi.endTransaction();
 	ATOMIC_BLOCK_END;
 	return buf[1];
 }
@@ -51,7 +52,6 @@ uint8_t RHSPIDriver::spiWrite (uint8_t reg, uint8_t val)
 	digitalWrite (_slaveSelectPin, LOW);
 	_spi.transfer (buf, 2); // Send the address with the write mask on and value
 	digitalWrite (_slaveSelectPin, HIGH);
-
 	_spi.endTransaction();
 	ATOMIC_BLOCK_END;
 	return buf[0];

@@ -7,6 +7,7 @@
 #define RHGenericDriver_h
 
 #include <RadioHead.h>
+#include <RHutil/RHLed.h>
 
 // Defines bits of the FLAGS header reserved for use by the RadioHead library and
 // the flags available for use by applications
@@ -248,14 +249,14 @@ public:
 	virtual uint16_t       txGood();
 
 
-	inline void setRxLed (Led & led)
+	inline void setRxLed (RHLed & led)
 	{
 		_rxLed = &led;
 		if (_rxLed)
 			_rxLed->begin();
 	}
 
-	inline void setTxLed (Led & led)
+	inline void setTxLed (RHLed & led)
 	{
 		_txLed = &led;
 		if (_txLed)
@@ -353,8 +354,8 @@ protected:
 	/// Channel activity timeout in ms
 	unsigned int        _cad_timeout;
 
-	Led * _txLed;
-	Led * _rxLed;
+	RHLed * _txLed;
+	RHLed * _rxLed;
 
 private:
 

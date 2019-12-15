@@ -6,7 +6,7 @@
 #include <RadioHead.h>
 
 // This can only build on Linux and compatible systems
-#if (RH_PLATFORM == RH_PLATFORM_UNIX)
+#if (RH_PLATFORM == RH_PLATFORM_UNIX) || (RH_PLATFORM == RH_PLATFORM_PIDUINO)
 
 #include <RH_TCP.h>
 #include <sys/types.h>

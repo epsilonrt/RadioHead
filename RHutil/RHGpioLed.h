@@ -2,12 +2,12 @@
 #define RH_GPIOLED_H
 
 
-#include "Led.h"
+#include "RHLed.h"
 
-class GpioLed : public Led
+class RHGpioLed : public RHLed
 {
 public:
-	GpioLed (int pin, bool polarity = true);
+	RHGpioLed (int pin, bool polarity = true);
 
 
 private:

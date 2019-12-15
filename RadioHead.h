@@ -1181,8 +1181,6 @@ these examples and explanations and extend them to suit your needs.
 #ifndef RadioHead_h
 #define RadioHead_h
 
-#include <RHutil/Led.h>
-
 // Official version numbers are maintained automatically by Makefile:
 #define RH_VERSION_MAJOR 1
 #define RH_VERSION_MINOR 96

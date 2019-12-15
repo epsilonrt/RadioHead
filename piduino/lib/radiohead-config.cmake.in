@@ -1,0 +1,70 @@
+# Copyright © 2018-2019 Pascal JEAN, All rights reserved.
+# This file is part of the radiohead Project.
+#
+# The radiohead Library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 3 of the License, or (at your option) any later version.
+#
+# The radiohead Library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with the radiohead Library; if not, see <http://www.gnu.org/licenses/>.
+# - Config file for the radiohead package
+# It defines the following variables
+#  RADIOHEAD_INCLUDE_DIRS - include directories for radiohead
+#  RADIOHEAD_LIBRARY_DIRS - where to find libraries
+#  RADIOHEAD_LIBRARIES    - libraries to link against
+#  RADIOHEAD_CFLAGS       - all required cflags
+#  RADIOHEAD_LDFLAGS      - all required ldflags
+#  RADIOHEAD_DATA_DIR     - where to find radiohead data
+
+set(CMAKE_MODULE_PATH @RADIOHEAD_INSTALL_CMAKE_DIR@ ${CMAKE_MODULE_PATH})
+
+# Compute paths
+get_filename_component(RADIOHEAD_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+find_package(Piduino 0.5 REQUIRED)
+
+unset(RADIOHEAD_INCLUDE_DIRS)
+foreach(RELATIVE_PATH @CONF_INCLUDE_DIRS@)
+  set(ABSOLUTE_PATH)
+  get_filename_component(ABSOLUTE_PATH "${RELATIVE_PATH}" ABSOLUTE)
+  list(APPEND RADIOHEAD_INCLUDE_DIRS "${ABSOLUTE_PATH}")
+endforeach()
+
+set(RADIOHEAD_LDFLAGS -lradiohead ${PIDUINO_LDFLAGS})
+
+unset(RADIOHEAD_LIBRARY_DIRS)
+foreach(RELATIVE_PATH @CONF_LIB_DIRS@)
+  set(ABSOLUTE_PATH)
+  get_filename_component(ABSOLUTE_PATH "${RELATIVE_PATH}" ABSOLUTE)
+  list(APPEND RADIOHEAD_LIBRARY_DIRS "${ABSOLUTE_PATH}")
+  list(APPEND RADIOHEAD_LDFLAGS "-L${ABSOLUTE_PATH}")
+endforeach()
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+include("${RADIOHEAD_CMAKE_DIR}/radiohead.cmake")
+
+# These are IMPORTED targets created by radiohead.cmake
+set(RADIOHEAD_LIBRARIES radiohead ${PIDUINO_LIBRARIES})
+
+set(CMAKE_MODULE_PATH "${RADIOHEAD_CMAKE_DIR}")
+
+set(RADIOHEAD_CFLAGS ${PIDUINO_CFLAGS} -DRH_PLATFORM=RH_PLATFORM_PIDUINO)
+foreach(item ${RADIOHEAD_INCLUDE_DIRS})
+  list(APPEND RADIOHEAD_CFLAGS "-I${item}")
+endforeach()
+
+set(RADIOHEAD_DATA_DIR @RADIOHEAD_INSTALL_DATA_DIR@)
+
+#message(STATUS "RADIOHEAD_CMAKE_DIR=${RADIOHEAD_CMAKE_DIR}")
+#message(STATUS "RADIOHEAD_INCLUDE_DIRS=${RADIOHEAD_INCLUDE_DIRS}")
+#message(STATUS "RADIOHEAD_LIBRARY_DIRS=${RADIOHEAD_LIBRARY_DIRS}")
+#message(STATUS "RADIOHEAD_LIBRARIES=${RADIOHEAD_LIBRARIES}")
+#message(STATUS "RADIOHEAD_DATA_DIR=${RADIOHEAD_DATA_DIR}")
+#message(STATUS "RADIOHEAD_CFLAGS=${RADIOHEAD_CFLAGS}")
+#message(STATUS "RADIOHEAD_LDFLAGS=${RADIOHEAD_LDFLAGS}")

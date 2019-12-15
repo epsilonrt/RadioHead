@@ -1,0 +1,32 @@
+/* Copyright © 2018-2019 Pascal JEAN, All rights reserved.
+ * This file is part of the radiohead Library.
+ *
+ * The radiohead Library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * The radiohead Library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with the radiohead Library; if not, see <http://www.gnu.org/licenses/>.
+ */
+
+#ifndef RADIOHEAD_CONFIG_H_
+#define RADIOHEAD_CONFIG_H_
+/* ========================================================================== */
+//#cmakedefine01 RADIOHEAD_WITH_ARDUINO
+
+#define RADIOHEAD_VERSION       "@RADIOHEAD_VERSION_STRING@"
+#define RADIOHEAD_VERSION_SHORT "@RADIOHEAD_VERSION_SHORT@"
+#define RADIOHEAD_VERSION_TINY  "@RADIOHEAD_VERSION_TINY@"
+#define RADIOHEAD_VERSION_MAJOR @RADIOHEAD_VERSION_MAJOR@
+#define RADIOHEAD_VERSION_MINOR @RADIOHEAD_VERSION_MINOR@
+#define RADIOHEAD_VERSION_PATCH @RADIOHEAD_VERSION_PATCH@
+#define RADIOHEAD_VERSION_SHA1  @RADIOHEAD_VERSION_SHA1@
+
+/* ========================================================================== */
+#endif /*RADIOHEAD_CONFIG_H_ defined */

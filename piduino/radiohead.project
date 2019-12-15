@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="radiohead" Version="10.0.0" InternalType="Console">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
+    </Plugin>
+  </Plugins>
   <VirtualDirectory Name="dev">
     <VirtualDirectory Name="codelite">
       <VirtualDirectory Name="executable-radiohead">
@@ -15,11 +20,6 @@
       <File Name="dev/cmake/GitVersion.cmake"/>
     </VirtualDirectory>
   </VirtualDirectory>
-  <Plugins>
-    <Plugin Name="qmake">
-      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
-    </Plugin>
-  </Plugins>
   <VirtualDirectory Name="include">
     <File Name="../RHTcpProtocol.h"/>
     <File Name="../RH_TCP.h"/>
@@ -267,4 +267,8 @@
   </Settings>
   <Dependencies Name="Debug"/>
   <Dependencies Name="Release"/>
+  <VirtualDirectory Name="3rdparty">
+    <File Name="3rdparty/LICENSE.txt"/>
+    <File Name="3rdparty/README.md"/>
+  </VirtualDirectory>
 </CodeLite_Project>

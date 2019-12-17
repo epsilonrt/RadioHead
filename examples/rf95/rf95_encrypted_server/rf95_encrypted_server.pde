@@ -7,28 +7,30 @@
 // Tested with NanoPi Core/Core2 with mini shield and LoRasPi breakout
 // and Raspberry Pi 3 with LoRasPi breakout
 //
-// This example code is in the public domain.
+// In order for this to compile on Arduino, you MUST uncomment the
+// #define RH_ENABLE_ENCRYPTION_MODULE
+// at the bottom of RadioHead.h, AND you MUST have installed the Crypto
+// directory from arduinolibs: http://rweather.github.io/arduinolibs/index.html
 #ifdef __unix__
 #include <Piduino.h>  // All the magic is here ;-)
+// LoRasPi breakout TX/RX D3 led (https://github.com/hallard/LoRasPI)
+const int LedPin = 4;
 #else
 // Defines the serial port as the console on the Arduino platform
 #define Console Serial
+const int LedPin = LED_BUILTIN;
 #endif
 
 #include <SPI.h>
 #include <RH_RF95.h>
 #include <RHEncryptedDriver.h>
 #include <AES.h>
-#include <RHutil/RHGpioLed.h>
+#include <RHGpioPin.h>
 
 // Uncomment or complete the configuration below depending on what you are using
 // ---------------------------
 const float frequency = 868.0;
 const uint8_t encryptkey[16]= {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}; // The very secret key !
-
-// LoRasPi breakout leds (https://github.com/hallard/LoRasPI)
-// if you do not have leds, you will also have to modify setup() accordingly
-//RHGpioLed txLed (4); // TX/RX D3
 
 // Singleton instance of the radio driver
 
@@ -55,13 +57,14 @@ RH_RF95 rf95;
 
 AES256 cipher;   // Instanciate a AES256 block ciphering
 RHEncryptedDriver driver(rf95, cipher); // Instantiate the driver with those two
+RHGpioPin txLed (LedPin);
 
 void setup()
 {
 	Console.begin (115200);
 	Console.println("rf95_encrypted_server");
 
-	//rf95.setTxLed (txLed);
+	rf95.setTxLed (txLed);
 
 	// Defaults after init are 434.0MHz, 13dBm,
 	// Bw = 125 kHz, Cr = 5 (4/5), Sf = 7 (128chips/symbol), CRC on

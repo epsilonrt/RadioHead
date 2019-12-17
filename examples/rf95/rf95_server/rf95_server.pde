@@ -11,22 +11,21 @@
 // This example code is in the public domain.
 #ifdef __unix__
 #include <Piduino.h>  // All the magic is here ;-)
+// LoRasPi breakout TX/RX D3 led (https://github.com/hallard/LoRasPI)
+const int LedPin = 4;
 #else
 // Defines the serial port as the console on the Arduino platform
 #define Console Serial
+const int LedPin = LED_BUILTIN;
 #endif
 
 #include <SPI.h>
 #include <RH_RF95.h>
-#include <RHutil/RHGpioLed.h>
+#include <RHGpioPin.h>
 
 // Uncomment or complete the configuration below depending on what you are using
 // ---------------------------
 const float frequency = 868.0;
-
-// LoRasPi breakout leds (https://github.com/hallard/LoRasPI)
-// if you do not have leds, you will also have to modify setup() accordingly
-//RHGpioLed txLed (4); // TX/RX D3
 
 // Singleton instance of the radio driver
 
@@ -51,12 +50,12 @@ RH_RF95 rf95;
 // ---------------------------
 // End of configuration
 
+RHGpioPin txLed (LedPin);
+
 void setup()
 {
 	Console.begin (115200);
 	Console.println("rf95_server");
-
-	//rf95.setTxLed (txLed);
 
 	// Defaults after init are 434.0MHz, 13dBm,
 	// Bw = 125 kHz, Cr = 5 (4/5), Sf = 7 (128chips/symbol), CRC on

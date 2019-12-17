@@ -1,4 +1,4 @@
-// rf95_reliable_datagram_server.pde
+// rf95_reliable_datagram_server
 // -*- mode: C++ -*-
 // Example sketch showing how to create a simple addressed, reliable messaging server
 // with the RHReliableDatagram class, using the RH_RF95 driver to control a RF95 radio.
@@ -7,26 +7,24 @@
 // and Raspberry Pi 3 with LoRasPi breakout
 #ifdef __unix__
 #include <Piduino.h>  // All the magic is here ;-)
+// LoRasPi breakout TX/RX D3 led (https://github.com/hallard/LoRasPI)
+const int LedPin = 4;
 #else
 // Defines the serial port as the console on the Arduino platform
 #define Console Serial
+const int LedPin = LED_BUILTIN;
 #endif
 
 #include <SPI.h>
 #include <RH_RF95.h>
 #include <RHReliableDatagram.h>
-#include <RHutil/RHGpioLed.h>
+#include <RHGpioPin.h>
 
 // Uncomment or complete the configuration below depending on what you are using
 // ---------------------------
 const uint8_t ClientAddress = 1;
 const uint8_t ServerAddress = 2;
 const float Frequency = 868.0;
-
-// LoRasPi breakout leds (https://github.com/hallard/LoRasPI)
-// if you do not have leds, you will also have to modify setup() accordingly
-//RHGpioLed txLed (4); // TX/RX D3
-RHGpioLed rxLed (5); // LED D4
 
 // Singleton instance of the radio driver
 
@@ -53,13 +51,14 @@ RH_RF95 driver (27, 6);
 
 // Class to manage message delivery and receipt, using the driver declared above
 RHReliableDatagram manager(driver, ServerAddress);
+RHGpioPin txLed (LedPin);
 
 void setup()
 {
 	Console.begin (115200);
+	Console.println("rf95_reliable_datagram_server");
 
 	driver.setTxLed (txLed);
-	driver.setRxLed (rxLed);
 
 	// Defaults after init are 434.0MHz, 13dBm,
 	// Bw = 125 kHz, Cr = 5 (4/5), Sf = 7 (128chips/symbol), CRC on
@@ -76,26 +75,37 @@ void setup()
 	Console.println ("Waiting for incoming messages....");
 }
 
-uint8_t data[] = "And hello back to you";
 // Dont put this on the stack:
-uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+char buf[RH_RF95_MAX_MESSAGE_LEN];
 
 void loop()
 {
-	if (manager.available())
+	if (manager.waitAvailableTimeout (3000))
 	{
 		// Wait for a message addressed to us from the client
 		uint8_t len = sizeof(buf);
 		uint8_t from;
-		if (manager.recvfromAck(buf, &len, &from))
+		if (manager.recvfromAck((uint8_t *)buf, &len, &from))
 		{
-			Console.print("got request from : 0x");
-			Console.print(from, HEX);
-			Console.print(": ");
-			Console.println((char*)buf);
+			Console.print ("@(");
+			Console.print (from, DEC);
+			Console.print (")>R[");
+			Console.print (len);
+			Console.print ("]<");
+			Console.print (buf);
+			Console.print ("> RSSI: ");
+			Console.print (driver.lastRssi(), DEC);
+
+			Console.print ("dBm > send reply > @(");
+			Console.print (from, DEC);
+			Console.print (")>S[");
+			Console.print (len);
+			Console.print ("]<");
+			Console.print (buf);
+			Console.println (">");
 
 			// Send a reply back to the originator client
-			if (!manager.sendtoWait(data, sizeof(data), from))
+			if (!manager.sendtoWait((uint8_t *)buf, len, from))
 				Console.println("sendtoWait failed");
 		}
 	}

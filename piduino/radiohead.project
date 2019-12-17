@@ -5,7 +5,7 @@
       <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
     </Plugin>
   </Plugins>
-  <VirtualDirectory Name="radiohead-examples">
+  <VirtualDirectory Name="arduino-examples">
     <VirtualDirectory Name="simulator">
       <VirtualDirectory Name="simulator_reliable_datagram_client">
         <File Name="../examples/simulator/simulator_reliable_datagram_client/simulator_reliable_datagram_client.pde"/>

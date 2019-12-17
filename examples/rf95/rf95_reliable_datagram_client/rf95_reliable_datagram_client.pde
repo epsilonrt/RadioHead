@@ -1,4 +1,4 @@
-// rf95_reliable_datagram_client.pde
+// rf95_reliable_datagram_client
 // -*- mode: C++ -*-
 // Example sketch showing how to create a simple addressed, reliable messaging client
 // with the RHReliableDatagram class, using the RH_RF95 driver to control a RF95 radio.
@@ -7,26 +7,24 @@
 // and Raspberry Pi 3 with LoRasPi breakout
 #ifdef __unix__
 #include <Piduino.h>  // All the magic is here ;-)
+// LoRasPi breakout TX/RX D3 led (https://github.com/hallard/LoRasPI)
+const int LedPin = 4;
 #else
 // Defines the serial port as the console on the Arduino platform
 #define Console Serial
+const int LedPin = LED_BUILTIN;
 #endif
 
 #include <SPI.h>
 #include <RH_RF95.h>
 #include <RHReliableDatagram.h>
-#include <RHutil/RHGpioLed.h>
+#include <RHGpioPin.h>
 
 // Uncomment or complete the configuration below depending on what you are using
 // ---------------------------
 const uint8_t ClientAddress = 1;
 const uint8_t ServerAddress = 2;
 const float Frequency = 868.0;
-
-// LoRasPi breakout leds (https://github.com/hallard/LoRasPI)
-// if you do not have leds, you will also have to modify setup() accordingly
-//RHGpioLed txLed (4); // TX/RX D3
-RHGpioLed rxLed (5); // LED D4
 
 // Singleton instance of the radio driver
 
@@ -53,13 +51,14 @@ RH_RF95 driver (27, 6);
 
 // Class to manage message delivery and receipt, using the driver declared above
 RHReliableDatagram manager(driver, ClientAddress);
+RHGpioPin txLed (LedPin);
 
 void setup()
 {
 	Console.begin (115200);
+	Console.println("rf95_reliable_datagram_client");
 
 	driver.setTxLed (txLed);
-	driver.setRxLed (rxLed);
 
 	// Defaults after init are 434.0MHz, 13dBm,
 	// Bw = 125 kHz, Cr = 5 (4/5), Sf = 7 (128chips/symbol), CRC on
@@ -73,36 +72,50 @@ void setup()
 	driver.setFrequency (Frequency);
 
 	// driver.printRegisters (Console);
-	Console.println ("Waiting for incoming messages....");
+	Console.println("Press any key to send 'Hello World !' message....");
 }
 
-uint8_t data[] = "Hello World!";
+unsigned int counter;
 // Dont put this on the stack:
-uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+char buf[RH_RF95_MAX_MESSAGE_LEN];
 
 void loop()
 {
-	Console.println("Sending to rf95_reliable_datagram_server");
+	// waits until a key is pressed....
+	while (!Console.available())
+		delay(10);
+	Console.read(); // flush the key
+
+	uint8_t len = sprintf (buf, "Hello World ! #%d", ++counter) + 1;
+
+	Console.print ("S[");
+	Console.print (len);
+	Console.print ("]<");
+	Console.print (buf);
+	Console.print (">@(");
+	Console.print (ServerAddress, DEC);
+	Console.print (") > waiting...> ");
 
 	// Send a message to manager_server
-	if (manager.sendtoWait(data, sizeof(data), ServerAddress))
+	if (manager.sendtoWait((uint8_t *)buf, len, ServerAddress))
 	{
 		// Now wait for a reply from the server
-		uint8_t len = sizeof(buf);
+		len = sizeof(buf);
 		uint8_t from;
-		if (manager.recvfromAckTimeout(buf, &len, 2000, &from))
+		if (manager.recvfromAckTimeout((uint8_t *)buf, &len, 2000, &from))
 		{
-			Console.print("got reply from : 0x");
-			Console.print(from, HEX);
-			Console.print(": ");
-			Console.println((char*)buf);
+			Console.print ("@(");
+			Console.print (from, DEC);
+			Console.print (")>R[");
+			Console.print (len);
+			Console.print ("]<");
+			Console.print (buf);
+			Console.print ("> RSSI: ");
+			Console.println (driver.lastRssi(), DEC);
 		}
 		else
 		{
-			Console.println("No reply, is rf95_reliable_datagram_server running?");
+			Console.println ("no reply !");
 		}
 	}
-	else
-		Console.println("sendtoWait failed");
-	delay(500);
 }

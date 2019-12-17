@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="RadioHead" Database="" Version="10.0.0">
-  <Project Name="radiohead" Path="radiohead.project" Active="Yes"/>
+  <Project Name="radiohead" Path="radiohead.project" Active="No"/>
   <Project Name="radiohead-doc" Path="doc/radiohead-doc.project" Active="No"/>
+  <Project Name="rf95_server" Path="examples/rf95/rf95_server/rf95_server.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>
       <Project Name="radiohead" ConfigName="Debug"/>
       <Project Name="radiohead-doc" ConfigName="Debug"/>
+      <Project Name="rf95_server" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
       <Project Name="radiohead" ConfigName="Release"/>
       <Project Name="radiohead-doc" ConfigName="Release"/>
+      <Project Name="rf95_server" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

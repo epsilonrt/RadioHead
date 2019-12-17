@@ -28,11 +28,11 @@ const uint8_t encryptkey[16]= {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}; // The v
 
 // LoRasPi breakout leds (https://github.com/hallard/LoRasPI)
 // if you do not have leds, you will also have to modify setup() accordingly
-RHGpioLed txLed (4); // TX/RX D3
+//RHGpioLed txLed (4); // TX/RX D3
 
 // Singleton instance of the radio driver
 
-//RH_RF95 rf95;
+RH_RF95 rf95;
 //RH_RF95 rf95(5, 2); // Rocket Scream Mini Ultra Pro with the RFM95W
 //RH_RF95 rf95(8, 3); // Adafruit Feather M0 with RFM95
 
@@ -41,7 +41,7 @@ RHGpioLed txLed (4); // TX/RX D3
 // CS  : GPIOA13, Ino pin 27,  CON1 pin 24
 // RST : GPIOA3, Ino pin 3,  CON1 pin 15
 
-RH_RF95 rf95 (27, 6);
+//RH_RF95 rf95 (27, 6);
 
 // Raspberry Pi, /dev/spidev0.0
 // DIO0: GPIO25, Ino pin 6,  J8 pin 22
@@ -61,7 +61,7 @@ void setup()
 	Console.begin (115200);
 	Console.println("rf95_encrypted_server");
 
-	rf95.setTxLed (txLed);
+	//rf95.setTxLed (txLed);
 
 	// Defaults after init are 434.0MHz, 13dBm,
 	// Bw = 125 kHz, Cr = 5 (4/5), Sf = 7 (128chips/symbol), CRC on

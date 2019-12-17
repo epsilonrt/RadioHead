@@ -1,5 +1,256 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="radiohead" Version="10.0.0" InternalType="Console">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
+    </Plugin>
+  </Plugins>
+  <VirtualDirectory Name="radiohead-examples">
+    <VirtualDirectory Name="simulator">
+      <VirtualDirectory Name="simulator_reliable_datagram_client">
+        <File Name="../examples/simulator/simulator_reliable_datagram_client/simulator_reliable_datagram_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="simulator_reliable_datagram_server">
+        <File Name="../examples/simulator/simulator_reliable_datagram_server/simulator_reliable_datagram_server.pde"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="serial">
+      <VirtualDirectory Name="serial_reliable_datagram_server">
+        <File Name="../examples/serial/serial_reliable_datagram_server/serial_reliable_datagram_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="serial_reliable_datagram_client">
+        <File Name="../examples/serial/serial_reliable_datagram_client/serial_reliable_datagram_client.pde"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="rf95">
+      <VirtualDirectory Name="rf95_encrypted_server">
+        <File Name="../examples/rf95/rf95_encrypted_server/rf95_encrypted_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_server">
+        <File Name="../examples/rf95/rf95_server/rf95_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_reliable_datagram_client">
+        <File Name="../examples/rf95/rf95_reliable_datagram_client/rf95_reliable_datagram_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_client">
+        <File Name="../examples/rf95/rf95_client/rf95_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_reliable_datagram_server">
+        <File Name="../examples/rf95/rf95_reliable_datagram_server/rf95_reliable_datagram_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_encrypted_client">
+        <File Name="../examples/rf95/rf95_encrypted_client/rf95_encrypted_client.pde"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="rf69">
+      <VirtualDirectory Name="rf69_client">
+        <File Name="../examples/rf69/rf69_client/rf69_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf69_reliable_datagram_server">
+        <File Name="../examples/rf69/rf69_reliable_datagram_server/rf69_reliable_datagram_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf69_server">
+        <File Name="../examples/rf69/rf69_server/rf69_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf69_reliable_datagram_client">
+        <File Name="../examples/rf69/rf69_reliable_datagram_client/rf69_reliable_datagram_client.pde"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="rf24">
+      <VirtualDirectory Name="rf24_reliable_datagram_server">
+        <File Name="../examples/rf24/rf24_reliable_datagram_server/rf24_reliable_datagram_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf24_client">
+        <File Name="../examples/rf24/rf24_client/rf24_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf24_lowpower_client">
+        <File Name="../examples/rf24/rf24_lowpower_client/rf24_lowpower_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf24_reliable_datagram_client">
+        <File Name="../examples/rf24/rf24_reliable_datagram_client/rf24_reliable_datagram_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf24_server">
+        <File Name="../examples/rf24/rf24_server/rf24_server.pde"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="rf22">
+      <VirtualDirectory Name="rf22_mesh_server1">
+        <File Name="../examples/rf22/rf22_mesh_server1/rf22_mesh_server1.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf22_router_client">
+        <File Name="../examples/rf22/rf22_router_client/rf22_router_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf22_server">
+        <File Name="../examples/rf22/rf22_server/rf22_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf22_mesh_client">
+        <File Name="../examples/rf22/rf22_mesh_client/rf22_mesh_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf22_router_test">
+        <File Name="../examples/rf22/rf22_router_test/rf22_router_test.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf22_router_server1">
+        <File Name="../examples/rf22/rf22_router_server1/rf22_router_server1.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf22_mesh_server2">
+        <File Name="../examples/rf22/rf22_mesh_server2/rf22_mesh_server2.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf22_reliable_datagram_client">
+        <File Name="../examples/rf22/rf22_reliable_datagram_client/rf22_reliable_datagram_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf22_mesh_server3">
+        <File Name="../examples/rf22/rf22_mesh_server3/rf22_mesh_server3.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf22_router_server3">
+        <File Name="../examples/rf22/rf22_router_server3/rf22_router_server3.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf22_reliable_datagram_server">
+        <File Name="../examples/rf22/rf22_reliable_datagram_server/rf22_reliable_datagram_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf22_client">
+        <File Name="../examples/rf22/rf22_client/rf22_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf22_router_server2">
+        <File Name="../examples/rf22/rf22_router_server2/rf22_router_server2.pde"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="raspi">
+      <VirtualDirectory Name="rf95">
+        <VirtualDirectory Name="rf95_router_server1">
+          <File Name="../examples/raspi/rf95/rf95_router_server1/rf95_router_server1.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="rf95_mesh_client">
+          <File Name="../examples/raspi/rf95/rf95_mesh_client/rf95_mesh_client.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="rf95_router_test">
+          <File Name="../examples/raspi/rf95/rf95_router_test/rf95_router_test.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="rf95_server">
+          <File Name="../examples/raspi/rf95/rf95_server/rf95_server.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="rf95_mesh_server3">
+          <File Name="../examples/raspi/rf95/rf95_mesh_server3/rf95_mesh_server3.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="rf95_mesh_server2">
+          <File Name="../examples/raspi/rf95/rf95_mesh_server2/rf95_mesh_server2.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="rf95_router_server3">
+          <File Name="../examples/raspi/rf95/rf95_router_server3/rf95_router_server3.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="rf95_reliable_datagram_client">
+          <File Name="../examples/raspi/rf95/rf95_reliable_datagram_client/rf95_reliable_datagram_client.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="rf95_router_server2">
+          <File Name="../examples/raspi/rf95/rf95_router_server2/rf95_router_server2.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="rf95_client">
+          <File Name="../examples/raspi/rf95/rf95_client/rf95_client.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="rf95_router_client">
+          <File Name="../examples/raspi/rf95/rf95_router_client/rf95_router_client.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="rf95_reliable_datagram_server">
+          <File Name="../examples/raspi/rf95/rf95_reliable_datagram_server/rf95_reliable_datagram_server.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="rf95_mesh_server1">
+          <File Name="../examples/raspi/rf95/rf95_mesh_server1/rf95_mesh_server1.cpp"/>
+        </VirtualDirectory>
+      </VirtualDirectory>
+      <File Name="../examples/raspi/RasPiRH.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="nrf905">
+      <VirtualDirectory Name="nrf905_server">
+        <File Name="../examples/nrf905/nrf905_server/nrf905_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="nrf905_reliable_datagram_client">
+        <File Name="../examples/nrf905/nrf905_reliable_datagram_client/nrf905_reliable_datagram_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="nrf905_client">
+        <File Name="../examples/nrf905/nrf905_client/nrf905_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="nrf905_reliable_datagram_server">
+        <File Name="../examples/nrf905/nrf905_reliable_datagram_server/nrf905_reliable_datagram_server.pde"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="nrf51">
+      <VirtualDirectory Name="nrf51_audio_rx">
+        <File Name="../examples/nrf51/nrf51_audio_rx/nrf51_audio_rx.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="nrf51_audio_tx">
+        <File Name="../examples/nrf51/nrf51_audio_tx/nrf51_audio_tx.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="nrf51_client">
+        <File Name="../examples/nrf51/nrf51_client/nrf51_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="nrf51_reliable_datagram_client">
+        <File Name="../examples/nrf51/nrf51_reliable_datagram_client/nrf51_reliable_datagram_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="nrf51_server">
+        <File Name="../examples/nrf51/nrf51_server/nrf51_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="nrf51_reliable_datagram_server">
+        <File Name="../examples/nrf51/nrf51_reliable_datagram_server/nrf51_reliable_datagram_server.pde"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="nrf24">
+      <VirtualDirectory Name="nrf24_encrypted_client">
+        <File Name="../examples/nrf24/nrf24_encrypted_client/nrf24_encrypted_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="nrf24_server">
+        <File Name="../examples/nrf24/nrf24_server/nrf24_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="nrf24_encrypted_server">
+        <File Name="../examples/nrf24/nrf24_encrypted_server/nrf24_encrypted_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="nrf24_client">
+        <File Name="../examples/nrf24/nrf24_client/nrf24_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="nrf24_reliable_datagram_server">
+        <File Name="../examples/nrf24/nrf24_reliable_datagram_server/nrf24_reliable_datagram_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="nrf24_reliable_datagram_client">
+        <File Name="../examples/nrf24/nrf24_reliable_datagram_client/nrf24_reliable_datagram_client.pde"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="mrf89">
+      <VirtualDirectory Name="mrf89_client">
+        <File Name="../examples/mrf89/mrf89_client/mrf89_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="mrf89_server">
+        <File Name="../examples/mrf89/mrf89_server/mrf89_server.pde"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="e32">
+      <VirtualDirectory Name="e32_client">
+        <File Name="../examples/e32/e32_client/e32_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="e32_server">
+        <File Name="../examples/e32/e32_server/e32_server.pde"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="cc110">
+      <VirtualDirectory Name="cc110_client">
+        <File Name="../examples/cc110/cc110_client/cc110_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="cc110_server">
+        <File Name="../examples/cc110/cc110_server/cc110_server.pde"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="ask">
+      <VirtualDirectory Name="ask_receiver">
+        <File Name="../examples/ask/ask_receiver/ask_receiver.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="ask_transmitter">
+        <File Name="../examples/ask/ask_transmitter/ask_transmitter.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="ask_reliable_datagram_server">
+        <File Name="../examples/ask/ask_reliable_datagram_server/ask_reliable_datagram_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="ask_reliable_datagram_client">
+        <File Name="../examples/ask/ask_reliable_datagram_client/ask_reliable_datagram_client.pde"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+  </VirtualDirectory>
   <VirtualDirectory Name="examples">
     <VirtualDirectory Name="rf95">
       <VirtualDirectory Name="rf95_encrypted_server">
@@ -22,11 +273,6 @@
       </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
-  <Plugins>
-    <Plugin Name="qmake">
-      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
-    </Plugin>
-  </Plugins>
   <VirtualDirectory Name="dev">
     <VirtualDirectory Name="codelite">
       <VirtualDirectory Name="executable-radiohead">

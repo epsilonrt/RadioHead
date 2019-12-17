@@ -57,6 +57,12 @@ void setup()
 	Console.println("rf95_server");
 
 	rf95.setTxLed (txLed);
+	pinMode (3, OUTPUT);
+	digitalWrite (3, HIGH);
+	delay (1);
+	digitalWrite (3, LOW);
+	delay (10);
+	pinMode (3, INPUT);
 
 	// Defaults after init are 434.0MHz, 13dBm,
 	// Bw = 125 kHz, Cr = 5 (4/5), Sf = 7 (128chips/symbol), CRC on

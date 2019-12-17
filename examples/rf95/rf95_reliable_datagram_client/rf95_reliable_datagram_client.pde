@@ -25,7 +25,7 @@ const float Frequency = 868.0;
 
 // LoRasPi breakout leds (https://github.com/hallard/LoRasPI)
 // if you do not have leds, you will also have to modify setup() accordingly
-RHGpioLed txLed (4); // TX/RX D3
+//RHGpioLed txLed (4); // TX/RX D3
 RHGpioLed rxLed (5); // LED D4
 
 // Singleton instance of the radio driver

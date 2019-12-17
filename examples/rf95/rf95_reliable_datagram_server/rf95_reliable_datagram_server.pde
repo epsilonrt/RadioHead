@@ -28,7 +28,7 @@ const float Frequency = 868.0;
 
 // Singleton instance of the radio driver
 
-//RH_RF95 driver;
+RH_RF95 driver;
 //RH_RF95 rf95(5, 2); // Rocket Scream Mini Ultra Pro with the RFM95W
 //RH_RF95 rf95(8, 3); // Adafruit Feather M0 with RFM95
 
@@ -37,7 +37,7 @@ const float Frequency = 868.0;
 // CS  : GPIOA13, Ino pin 27,  CON1 pin 24
 // RST : GPIOA3, Ino pin 3,  CON1 pin 15
 
-RH_RF95 driver (27, 6);
+//RH_RF95 driver (27, 6);
 
 // Raspberry Pi, /dev/spidev0.0
 // DIO0: GPIO25, Ino pin 6,  J8 pin 22

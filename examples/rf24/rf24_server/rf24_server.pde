@@ -1,6 +1,6 @@
 // rf24_server.pde
 // -*- mode: C++ -*-
-// Example sketch showing how to create a simple messageing server
+// Example sketch showing how to create a simple messaging server
 // with the RH_RF24 class. RH_RF24 class does not provide for addressing or
 // reliability, so you should only use RH_RF24  if you do not need the higher
 // level messaging abilities.

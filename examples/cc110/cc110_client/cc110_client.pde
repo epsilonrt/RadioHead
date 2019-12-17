@@ -1,6 +1,6 @@
 // cc110_client.pde
 // -*- mode: C++ -*-
-// Example sketch showing how to create a simple messageing client
+// Example sketch showing how to create a simple messaging client
 // with the RH_CC110 class. RH_CC110 class does not provide for addressing or
 // reliability, so you should only use RH_CC110 if you do not need the higher
 // level messaging abilities.

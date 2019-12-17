@@ -1,6 +1,6 @@
 // nrf24_server.pde
 // -*- mode: C++ -*-
-// Example sketch showing how to create a simple encrypted messageing server
+// Example sketch showing how to create a simple encrypted messaging server
 // with the RH_NRF24 class. RH_NRF24 class does not provide for addressing or
 // reliability, so you should only use RH_NRF24  if you do not need the higher
 // level messaging abilities.

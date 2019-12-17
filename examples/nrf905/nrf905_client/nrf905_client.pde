@@ -1,6 +1,6 @@
 // nrf905_client.pde
 // -*- mode: C++ -*-
-// Example sketch showing how to create a simple messageing client
+// Example sketch showing how to create a simple messaging client
 // with the RH_NRF905 class. RH_NRF905 class does not provide for addressing or
 // reliability, so you should only use RH_NRF905 if you do not need the higher
 // level messaging abilities.

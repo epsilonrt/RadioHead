@@ -1,6 +1,6 @@
 // mrf89_server.pde
 // -*- mode: C++ -*-
-// Example sketch showing how to create a simple messageing server
+// Example sketch showing how to create a simple messaging server
 // with the RH_MRF89 class. RH_MRF89 class does not provide for addressing or
 // reliability, so you should only use RH_MRF89 if you do not need the higher
 // level messaging abilities.

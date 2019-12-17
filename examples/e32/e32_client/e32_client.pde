@@ -1,6 +1,6 @@
 // e32_client.pde
 // -*- mode: C++ -*-
-// Example sketch showing how to create a simple messageing client
+// Example sketch showing how to create a simple messaging client
 // with the RH_E32 class. RH_E32 class does not provide for addressing or
 // reliability, so you should only use RH_E32 if you do not need the higher
 // level messaging abilities.

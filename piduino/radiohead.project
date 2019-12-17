@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="radiohead" Version="10.0.0" InternalType="Console">
+  <VirtualDirectory Name="examples">
+    <VirtualDirectory Name="rf95">
+      <VirtualDirectory Name="rf95_encrypted_server">
+        <File Name="examples/rf95/rf95_encrypted_server/main.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_server">
+        <File Name="examples/rf95/rf95_server/main.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_reliable_datagram_client">
+        <File Name="examples/rf95/rf95_reliable_datagram_client/main.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_client">
+        <File Name="examples/rf95/rf95_client/main.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_reliable_datagram_server">
+        <File Name="examples/rf95/rf95_reliable_datagram_server/main.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_encrypted_client">
+        <File Name="examples/rf95/rf95_encrypted_client/main.cpp"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+  </VirtualDirectory>
   <Plugins>
     <Plugin Name="qmake">
       <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>

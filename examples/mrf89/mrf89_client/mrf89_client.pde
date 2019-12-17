@@ -1,6 +1,6 @@
 // mrf89_client.pde
 // -*- mode: C++ -*-
-// Example sketch showing how to create a simple messageing client
+// Example sketch showing how to create a simple messaging client
 // with the RH_MRF89 class. RH_MRF89 class does not provide for addressing or
 // reliability, so you should only use RH_RF95 if you do not need the higher
 // level messaging abilities.

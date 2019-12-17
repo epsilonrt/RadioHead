@@ -1,5 +1,6 @@
-// rf95_client.
-// Example sketch showing how to create a simple messageing server
+// rf95_server
+// -*- mode: C++ -*-
+// Example sketch showing how to create a simple messaging server
 // with the RH_RF95 class. RH_RF95 class does not provide for addressing or
 // reliability, so you should only use RH_RF95  if you do not need the higher
 // level messaging abilities.
@@ -16,7 +17,7 @@
 #endif
 
 #include <RH_RF95.h>
-#include <RHutil/GpioLed.h>
+#include <RHutil/RHGpioLed.h>
 
 // Uncomment or complete the configuration below depending on what you are using
 // ---------------------------
@@ -24,8 +25,7 @@ const float frequency = 868.0;
 
 // LoRasPi breakout leds (https://github.com/hallard/LoRasPI)
 // if you do not have leds, you will also have to modify setup() accordingly
-GpioLed txLed (4); // TX/RX D3
-GpioLed rxLed (5); // LED D4
+RHGpioLed txLed (4); // TX/RX D3
 
 // Singleton instance of the radio driver
 
@@ -53,10 +53,9 @@ void setup()
 	Console.begin (115200);
 
 	rf95.setTxLed (txLed);
-	rf95.setRxLed (rxLed);
 
 	// Defaults after init are 434.0MHz, 13dBm, 
-  // Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on
+  // Bw = 125 kHz, Cr = 5 (4/5), Sf = 7 (128chips/symbol), CRC on
 	if (!rf95.init())
 	{
 		Console.println ("init failed");
@@ -65,30 +64,20 @@ void setup()
 
 	// Setup ISM frequency
 	rf95.setFrequency (frequency);
-	// Setup Power,dBm
-	rf95.setTxPower (13);
-	// Setup Spreading Factor (6 ~ 12)
-	rf95.setSpreadingFactor (7);
-	// Setup BandWidth, option: 7800,10400,15600,20800,31200,41700,62500,
-  //                          125000,250000,500000
-	// Lower BandWidth for longer distance.
-	rf95.setSignalBandwidth (125000);
-	// Setup Coding Rate:5(4/5),6(4/6),7(4/7),8(4/8)
-	rf95.setCodingRate4 (5);
 
 	// rf95.printRegisters (Console);
-	Console.println ("Waiting incoming messages....");
+	Console.println ("Waiting for incoming messages....");
 }
 
+// Dont put this on the stack:
 char buf[RH_RF95_MAX_MESSAGE_LEN];
-uint8_t len = sizeof (buf);
 
 void loop()
 {
 	// Wait for a packet
 	if (rf95.waitAvailableTimeout (3000))
 	{
-		len = sizeof (buf);
+		uint8_t len = sizeof (buf);
 		// Should be a message for us now
 		if (rf95.recv ( (uint8_t *) buf, &len))
 		{

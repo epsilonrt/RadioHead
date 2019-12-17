@@ -1,14 +1,14 @@
 #include <Arduino.h>
 
-#include "RHGpioLed.h"
+#include "RHGpioPin.h"
 
-RHGpioLed::RHGpioLed (int pinNumber, bool polarity) :
-	RHLed (polarity), m_pinNumber (pinNumber)
+RHGpioPin::RHGpioPin (int pinNumber, bool polarity) :
+	RHPin (polarity), m_pinNumber (pinNumber)
 {
 }
 
 //Effectue les opérations d'initialisation des ressources matérielles.
-void RHGpioLed::begin()
+void RHGpioPin::begin()
 {
 	pinMode (m_pinNumber, OUTPUT);
 	setState (false);
@@ -16,14 +16,14 @@ void RHGpioLed::begin()
 
 //Lecture de l'état binaire de la led.
 //true si allumée.
-bool RHGpioLed::state() const
+bool RHGpioPin::state() const
 {
 	return digitalRead (m_pinNumber) == polarity();
 }
 
 //Modifie l'état allumée / éteinte
 //true pour allumée.
-void RHGpioLed::setState (bool on)
+void RHGpioPin::setState (bool on)
 {
 	digitalWrite (m_pinNumber, on ^ ! polarity());
 }
@@ -32,7 +32,7 @@ void RHGpioLed::setState (bool on)
 //Si elle était éteinte, elle s'allume.
 //Si elle était allumée, elle s'éteint.
 
-void RHGpioLed::toggleState()
+void RHGpioPin::toggleState()
 {
 	setState (!state());
 }

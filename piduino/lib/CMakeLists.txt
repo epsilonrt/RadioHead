@@ -50,7 +50,7 @@ set (src_radiohead
   ${RADIOHEAD_SRC_DIR}/RHRouter.cpp
   ${RADIOHEAD_SRC_DIR}/RHMesh.cpp
 #  ${RADIOHEAD_SRC_DIR}/RH_TCP.cpp
-  ${RADIOHEAD_SRC_DIR}/RHutil/RHGpioLed.cpp
+  ${RADIOHEAD_SRC_DIR}/RHGpioPin.cpp
 )
 
 set (hdr_radiohead 
@@ -77,11 +77,8 @@ set (hdr_radiohead
   ${RADIOHEAD_INC_DIR}/RHMesh.h
   ${RADIOHEAD_INC_DIR}/RHTcpProtocol.h
   ${RADIOHEAD_INC_DIR}/RH_TCP.h
-)
-
-set (hdr_radiohead_util 
-  ${RADIOHEAD_INC_DIR}/RHutil/RHLed.h
-  ${RADIOHEAD_INC_DIR}/RHutil/RHGpioLed.h
+  ${RADIOHEAD_INC_DIR}/RHPin.h
+  ${RADIOHEAD_INC_DIR}/RHGpioPin.h
 )
 
 if (RADIOHEAD_WITH_ENCRYPTION)
@@ -201,12 +198,6 @@ install (TARGETS radiohead-shared
   LIBRARY DESTINATION "${INSTALL_LIB_DIR}" COMPONENT lib
   PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}" COMPONENT dev
   )
-
-set_target_properties(radiohead-shared PROPERTIES 
-  PUBLIC_HEADER "${hdr_radiohead_util}")
-install (TARGETS radiohead-shared
-  LIBRARY DESTINATION "${INSTALL_LIB_DIR}" COMPONENT lib
-  PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}/RHutil" COMPONENT dev)
 
 if (RADIOHEAD_WITH_ENCRYPTION)
   set_target_properties(radiohead-shared PROPERTIES 

@@ -11,22 +11,21 @@
 // the RFM95W, Adafruit Feather M0 with RFM95
 #ifdef __unix__
 #include <Piduino.h>  // All the magic is here ;-)
+// LoRasPi breakout TX/RX D3 led (https://github.com/hallard/LoRasPI)
+const int LedPin = 4;
 #else
 // Defines the serial port as the console on the Arduino platform
 #define Console Serial
+const int LedPin = LED_BUILTIN;
 #endif
 
 #include <SPI.h>
 #include <RH_RF95.h>
-#include <RHutil/RHGpioLed.h>
+#include <RHGpioPin.h>
 
 // Uncomment or complete the configuration below depending on what you are using
 // ---------------------------
 const float Frequency = 868.0;
-
-// LoRasPi breakout leds (https://github.com/hallard/LoRasPI)
-// if you do not have leds, you will also have to modify setup() accordingly
-RHGpioLed txLed (4); // TX/RX D3
 
 // Singleton instance of the radio driver
 
@@ -50,6 +49,8 @@ RH_RF95 rf95 (27, 6);
 
 // ---------------------------
 // End of configuration
+
+RHGpioPin txLed (LedPin);
 
 void setup()
 {
@@ -79,7 +80,7 @@ char buf[RH_RF95_MAX_MESSAGE_LEN];
 
 void loop()
 {
-  // waits until a key is pressed....
+	// waits until a key is pressed....
 	while (!Console.available())
 		delay(10);
 	Console.read(); // flush the key

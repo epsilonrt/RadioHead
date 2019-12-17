@@ -321,8 +321,6 @@
       <File Name="../RHutil/RasPi.h"/>
       <File Name="../RHutil/atomic.h"/>
       <File Name="../RHutil/simulator.h"/>
-      <File Name="../RHutil/RHGpioLed.h"/>
-      <File Name="../RHutil/RHLed.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="crypto">
       <File Name="3rdparty/crypto/BigNumberUtil.h"/>
@@ -357,6 +355,8 @@
         <File Name="3rdparty/crypto/utility/RotateUtil.h"/>
       </VirtualDirectory>
     </VirtualDirectory>
+    <File Name="../RHGpioPin.h"/>
+    <File Name="../RHPin.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="doc">
     <VirtualDirectory Name="resources">
@@ -404,7 +404,6 @@
     <VirtualDirectory Name="RHutil">
       <File Name="../RHutil/HardwareSerial.cpp"/>
       <File Name="../RHutil/RasPi.cpp"/>
-      <File Name="../RHutil/RHGpioLed.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="crypto">
       <File Name="3rdparty/crypto/EAX.cpp"/>
@@ -437,6 +436,7 @@
       <File Name="3rdparty/crypto/Poly1305.cpp"/>
       <File Name="3rdparty/crypto/BLAKE2s.cpp"/>
     </VirtualDirectory>
+    <File Name="../RHGpioPin.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="lib">
     <VirtualDirectory Name="resources">

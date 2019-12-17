@@ -1,19 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="RadioHead" Database="" Version="10.0.0">
-  <Project Name="radiohead" Path="radiohead.project" Active="No"/>
+  <Project Name="radiohead" Path="radiohead.project" Active="Yes"/>
   <Project Name="radiohead-doc" Path="doc/radiohead-doc.project" Active="No"/>
-  <Project Name="rf95_server" Path="examples/rf95/rf95_server/rf95_server.project" Active="Yes"/>
+  <VirtualDirectory Name="examples">
+    <VirtualDirectory Name="rf95">
+      <Project Name="rf95_client" Path="examples/rf95/rf95_client/rf95_client.project" Active="No"/>
+      <Project Name="rf95_encrypted_client" Path="examples/rf95/rf95_encrypted_client/rf95_encrypted_client.project" Active="No"/>
+      <Project Name="rf95_encrypted_server" Path="examples/rf95/rf95_encrypted_server/rf95_encrypted_server.project" Active="No"/>
+      <Project Name="rf95_reliable_datagram_client" Path="examples/rf95/rf95_reliable_datagram_client/rf95_reliable_datagram_client.project" Active="No"/>
+      <Project Name="rf95_reliable_datagram_server" Path="examples/rf95/rf95_reliable_datagram_server/rf95_reliable_datagram_server.project" Active="No"/>
+      <Project Name="rf95_server" Path="examples/rf95/rf95_server/rf95_server.project" Active="No"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>
       <Project Name="radiohead" ConfigName="Debug"/>
       <Project Name="radiohead-doc" ConfigName="Debug"/>
+      <Project Name="rf95_client" ConfigName="Debug"/>
+      <Project Name="rf95_encrypted_client" ConfigName="Debug"/>
+      <Project Name="rf95_encrypted_server" ConfigName="Debug"/>
+      <Project Name="rf95_reliable_datagram_client" ConfigName="Debug"/>
+      <Project Name="rf95_reliable_datagram_server" ConfigName="Debug"/>
       <Project Name="rf95_server" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
       <Project Name="radiohead" ConfigName="Release"/>
       <Project Name="radiohead-doc" ConfigName="Release"/>
+      <Project Name="rf95_client" ConfigName="Release"/>
+      <Project Name="rf95_encrypted_client" ConfigName="Release"/>
+      <Project Name="rf95_encrypted_server" ConfigName="Release"/>
+      <Project Name="rf95_reliable_datagram_client" ConfigName="Release"/>
+      <Project Name="rf95_reliable_datagram_server" ConfigName="Release"/>
       <Project Name="rf95_server" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>

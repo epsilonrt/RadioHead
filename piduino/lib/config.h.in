@@ -27,6 +27,7 @@
 #define RADIOHEAD_VERSION_MINOR @RADIOHEAD_VERSION_MINOR@
 #define RADIOHEAD_VERSION_PATCH @RADIOHEAD_VERSION_PATCH@
 #define RADIOHEAD_VERSION_SHA1  @RADIOHEAD_VERSION_SHA1@
+#define RH_PLATFORM RH_PLATFORM_PIDUINO
 
 /* ========================================================================== */
 #endif /*RADIOHEAD_CONFIG_H_ defined */

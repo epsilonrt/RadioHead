@@ -21,11 +21,6 @@ if(NOT CPACK_PACKAGE_DIRECTORY)
   set(CPACK_PACKAGE_DIRECTORY ${CMAKE_BINARY_DIR}/packages)
 endif()
 
-add_definitions (-DRH_PLATFORM=RH_PLATFORM_PIDUINO) 
-if (RADIOHEAD_WITH_ENCRYPTION)
-  add_definitions(-DRH_ENABLE_ENCRYPTION_MODULE)
-endif()
-
 WriteGitVersionFile(${CMAKE_CURRENT_BINARY_DIR}/version.h)
   
 set (src_radiohead
@@ -53,8 +48,13 @@ set (src_radiohead
   ${RADIOHEAD_SRC_DIR}/RHGpioPin.cpp
 )
 
+set (hdr_radiohead_built 
+  ${CMAKE_CURRENT_BINARY_DIR}/config.h
+  ${CMAKE_CURRENT_BINARY_DIR}/RadioHead.h
+  ${CMAKE_CURRENT_BINARY_DIR}/RHRouter.h
+)
+
 set (hdr_radiohead 
-  ${RADIOHEAD_INC_DIR}/RadioHead.h
   ${RADIOHEAD_INC_DIR}/RHGenericDriver.h
   ${RADIOHEAD_INC_DIR}/RHGenericSPI.h
   ${RADIOHEAD_INC_DIR}/RHHardwareSPI.h
@@ -73,7 +73,6 @@ set (hdr_radiohead
   ${RADIOHEAD_INC_DIR}/RH_E32.h
   ${RADIOHEAD_INC_DIR}/RHDatagram.h
   ${RADIOHEAD_INC_DIR}/RHReliableDatagram.h
-  ${RADIOHEAD_INC_DIR}/RHRouter.h
   ${RADIOHEAD_INC_DIR}/RHMesh.h
   ${RADIOHEAD_INC_DIR}/RHTcpProtocol.h
   ${RADIOHEAD_INC_DIR}/RH_TCP.h
@@ -92,20 +91,32 @@ endif()
 configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
                 ${CMAKE_CURRENT_BINARY_DIR}/config.h @ONLY)
 
-set(hdr_public ${hdr_radiohead} ${hdr_crypto} ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/RadioHead.h.in
+                ${CMAKE_CURRENT_BINARY_DIR}/RadioHead.h @ONLY)
+
+configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/RHRouter.h.in
+                ${CMAKE_CURRENT_BINARY_DIR}/RHRouter.h @ONLY)
+
+set(hdr_public ${hdr_radiohead} ${hdr_radiohead_built} ${hdr_crypto} )
 
 set (libsrc ${src_radiohead} ${src_crypto})
 
-include_directories(BEFORE
+# this is the "object library" target: compiles the sources only once
+add_library(objlib OBJECT ${libsrc})
+
+target_include_directories(objlib BEFORE PRIVATE
   ${PIDUINO_INCLUDE_DIRS} 
+  ${CMAKE_CURRENT_BINARY_DIR}
   ${RADIOHEAD_INC_DIR} 
   ${CRYPTO_INC_DIR} 
-  ${CMAKE_CURRENT_BINARY_DIR}
-  )
+)
+target_compile_definitions(objlib PUBLIC RADIOHEAD_WITH_CONFIG_H)
 
-add_library(radiohead-shared SHARED ${libsrc})
-target_compile_definitions(radiohead-shared PUBLIC RADIOHEAD_WITH_CONFIG_H)
+# shared libraries need PIC
+set_property(TARGET objlib PROPERTY POSITION_INDEPENDENT_CODE 1)
 
+# shared and static libraries built from the same object files
+add_library(radiohead-shared SHARED $<TARGET_OBJECTS:objlib>)
 set_target_properties(radiohead-shared PROPERTIES 
   OUTPUT_NAME radiohead 
   CLEAN_DIRECT_OUTPUT 1 
@@ -115,8 +126,7 @@ set_target_properties(radiohead-shared PROPERTIES
   )
 
 if(RADIOHEAD_WITH_STATIC)
-  add_library(radiohead-static STATIC ${libsrc})
-  target_compile_definitions(radiohead-static PUBLIC RADIOHEAD_WITH_CONFIG_H)
+  add_library(radiohead-static STATIC $<TARGET_OBJECTS:objlib>)
   set_target_properties(radiohead-static PROPERTIES
     OUTPUT_NAME radiohead 
     CLEAN_DIRECT_OUTPUT 1 
@@ -210,7 +220,7 @@ endif()
 if(RADIOHEAD_WITH_STATIC)
   install (TARGETS radiohead-static 
     EXPORT radiohead
-    ARCHIVE DESTINATION "${INSTALL_LIB_DIR}" COMPONENT lib
+    ARCHIVE DESTINATION "${INSTALL_LIB_DIR}" COMPONENT dev
   )
 endif(RADIOHEAD_WITH_STATIC)
 

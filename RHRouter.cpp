@@ -104,7 +104,7 @@ void RHRouter::deleteRoute (uint8_t index)
 {
 	// Delete a route by copying following routes on top of it
 	memcpy (&_routes[index], &_routes[index + 1],
-			sizeof (RoutingTableEntry) * (RH_ROUTING_TABLE_SIZE - index - 1));
+	        sizeof (RoutingTableEntry) * (RH_ROUTING_TABLE_SIZE - index - 1));
 	_routes[RH_ROUTING_TABLE_SIZE - 1].state = Invalid;
 }
 
@@ -112,18 +112,24 @@ void RHRouter::deleteRoute (uint8_t index)
 void RHRouter::printRoutingTable()
 {
 #ifdef RH_HAVE_SERIAL
+	printRoutingTable(Serial);
+#endif
+}
+
+////////////////////////////////////////////////////////////////////
+void RHRouter::printRoutingTable(Print &p)
+{
 	uint8_t i;
 	for (i = 0; i < RH_ROUTING_TABLE_SIZE; i++)
 	{
-		Serial.print (i, DEC);
-		Serial.print (" Dest: ");
-		Serial.print (_routes[i].dest, DEC);
-		Serial.print (" Next Hop: ");
-		Serial.print (_routes[i].next_hop, DEC);
-		Serial.print (" State: ");
-		Serial.println (_routes[i].state, DEC);
+		p.print (i, DEC);
+		p.print (" Dest: ");
+		p.print (_routes[i].dest, DEC);
+		p.print (" Next Hop: ");
+		p.print (_routes[i].next_hop, DEC);
+		p.print (" State: ");
+		p.println (_routes[i].state, DEC);
 	}
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -223,38 +229,38 @@ bool RHRouter::recvfromAck (uint8_t* buf, uint8_t* len, uint8_t* source, uint8_t
 #ifdef RH_TEST_NETWORK
 		if (
 #if RH_TEST_NETWORK==1
-			// This network looks like 1-2-3-4
-			(_thisAddress == 1 && _from == 2)
-			|| (_thisAddress == 2 && (_from == 1 || _from == 3))
-			|| (_thisAddress == 3 && (_from == 2 || _from == 4))
-			|| (_thisAddress == 4 && _from == 3)
+		    // This network looks like 1-2-3-4
+		    (_thisAddress == 1 && _from == 2)
+		    || (_thisAddress == 2 && (_from == 1 || _from == 3))
+		    || (_thisAddress == 3 && (_from == 2 || _from == 4))
+		    || (_thisAddress == 4 && _from == 3)
 
 #elif RH_TEST_NETWORK==2
-			// This network looks like 1-2-4
-			//                         | | |
-			//                         --3--
-			(_thisAddress == 1 && (_from == 2 || _from == 3))
-			||  _thisAddress == 2
-			||  _thisAddress == 3
-			|| (_thisAddress == 4 && (_from == 2 || _from == 3))
+		    // This network looks like 1-2-4
+		    //                         | | |
+		    //                         --3--
+		    (_thisAddress == 1 && (_from == 2 || _from == 3))
+		    ||  _thisAddress == 2
+		    ||  _thisAddress == 3
+		    || (_thisAddress == 4 && (_from == 2 || _from == 3))
 
 #elif RH_TEST_NETWORK==3
-			// This network looks like 1-2-4
-			//                         |   |
-			//                         --3--
-			(_thisAddress == 1 && (_from == 2 || _from == 3))
-			|| (_thisAddress == 2 && (_from == 1 || _from == 4))
-			|| (_thisAddress == 3 && (_from == 1 || _from == 4))
-			|| (_thisAddress == 4 && (_from == 2 || _from == 3))
+		    // This network looks like 1-2-4
+		    //                         |   |
+		    //                         --3--
+		    (_thisAddress == 1 && (_from == 2 || _from == 3))
+		    || (_thisAddress == 2 && (_from == 1 || _from == 4))
+		    || (_thisAddress == 3 && (_from == 1 || _from == 4))
+		    || (_thisAddress == 4 && (_from == 2 || _from == 3))
 
 #elif RH_TEST_NETWORK==4
-			// This network looks like 1-2-3
-			//                           |
-			//                           4
-			(_thisAddress == 1 && _from == 2)
-			||  _thisAddress == 2
-			|| (_thisAddress == 3 && _from == 2)
-			|| (_thisAddress == 4 && _from == 2)
+		    // This network looks like 1-2-3
+		    //                           |
+		    //                           4
+		    (_thisAddress == 1 && _from == 2)
+		    ||  _thisAddress == 2
+		    || (_thisAddress == 3 && _from == 2)
+		    || (_thisAddress == 4 && _from == 2)
 
 #endif
 		)
@@ -283,7 +289,7 @@ bool RHRouter::recvfromAck (uint8_t* buf, uint8_t* len, uint8_t* source, uint8_t
 			return true; // Its for you!
 		}
 		else if (_tmpMessage.header.dest != RH_BROADCAST_ADDRESS
-				 && _tmpMessage.header.hops++ < _max_hops)
+		         && _tmpMessage.header.hops++ < _max_hops)
 		{
 			// Maybe it has to be routed to the next hop
 			// REVISIT: if it fails due to no route or unable to deliver to the next hop,

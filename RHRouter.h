@@ -217,6 +217,8 @@ public:
 	/// local routing table
 	void clearRoutingTable();
 
+	void printRoutingTable(Print &p);
+	
 	/// If RH_HAVE_SERIAL is defined, this will print out the contents of the local
 	/// routing table using Serial
 	void printRoutingTable();

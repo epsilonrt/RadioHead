@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="rf95_encrypted_client" Version="10.0.0" InternalType="Console">
+<CodeLite_Project Name="mesh_server" Version="10.0.0" InternalType="Console">
   <Description/>
   <Dependencies/>
   <Settings Type="Executable">
@@ -23,7 +23,7 @@
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
-      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="yes">
         <DebuggerSearchPaths/>
         <PostConnectCommands/>
         <StartupCommands/>

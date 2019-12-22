@@ -1,0 +1,2 @@
+#!/bin/sh
+find .. ! -path "../cmake-build-*" -name "*.h" -o -name "*.cpp" -o -name "*.pde" -o -name "*.h.in" -exec astyle -A1 -n -T {} \;

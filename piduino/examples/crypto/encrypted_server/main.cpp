@@ -1,10 +1,10 @@
-// rf95_encrypted_client
+// encrypted_server
 // Example sketch showing how to create a encrypted messaging server
 // with the RH_RF95 class. RH_RF95 class does not provide for addressing or
 // reliability, so you should only use RH_RF95  if you do not need the higher
 // level messaging abilities.
-// It is designed to work with the other example rf95_encrypted_server
-// Tested with NanoPi Core/Core2 with mini shield and LoRasPi breakout
+// It is designed to work with the other example rf95_encrypted_client
+// Tested with Arduino, NanoPi Core/Core2 with mini shield and LoRasPi breakout
 // and Raspberry Pi 3 with LoRasPi breakout
 //
 // In order for this to compile on Arduino, you MUST uncomment the
@@ -62,8 +62,7 @@ RHGpioPin txLed (LedPin);
 void setup()
 {
 	Console.begin (115200);
-	Console.println("rf95_encrypted_client");
-
+	Console.println("rf95_encrypted_server");
 	rf95.setTxLed (txLed);
 
 	// Defaults after init are 434.0MHz, 13dBm,
@@ -79,49 +78,36 @@ void setup()
 
 	// rf95.printRegisters (Console);
 	cipher.setKey(encryptkey, 16);
-	Console.println("Press any key to send 'Hello World !' message....");
+	Console.println ("Waiting for incoming messages....");
 }
 
-unsigned int counter;
 // Dont put this on the stack:
 char buf[RH_RF95_MAX_MESSAGE_LEN];
 
 void loop()
 {
-	// waits until a key is pressed....
-	while (!Console.available())
-		delay(10);
-	Console.read(); // flush the key
-
-	uint8_t len = sprintf (buf, "Hello World ! #%d", ++counter) + 1;
-
-	Console.print ("S[");
-	Console.print (len);
-	Console.print ("]<");
-	Console.print (buf);
-	Console.print ("> waiting... ");
-
-	// Send a message to rf95_server
-	driver.send((uint8_t *)buf, len);
-	driver.waitPacketSent();
-
-	// Now wait for a reply
-	if (driver.waitAvailableTimeout(3000))
+	// Wait for a packet
+	if (driver.waitAvailableTimeout (3000))
 	{
-		len = sizeof(buf);
-		// Should be a reply message for us now
-		if (driver.recv((uint8_t *)buf, &len))
+		uint8_t len = sizeof (buf);
+		// Should be a message for us now
+		if (driver.recv ( (uint8_t *) buf, &len))
 		{
 			Console.print ("R[");
 			Console.print (len);
 			Console.print ("]<");
 			Console.print (buf);
 			Console.print ("> RSSI: ");
-			Console.println (driver.lastRssi(), DEC);
+			Console.print (driver.lastRssi(), DEC);
+
+			Console.print ("dBm, send reply > S[");
+			Console.print (len);
+			Console.print ("]<");
+			Console.print (buf);
+			Console.println (">");
+			// Send a reply
+			driver.send ( (uint8_t *) buf, len);
+			driver.waitPacketSent();
 		}
-	}
-	else
-	{
-		Console.println ("no reply !");
 	}
 }

@@ -3,10 +3,10 @@
 ## any manual changes will be erased      
 ##
 ## Release
-ProjectName            :=rf95_server
+ProjectName            :=reliable_datagram_client
 ConfigurationName      :=Release
 WorkspacePath          :=/home/pascal/src/RadioHead/piduino
-ProjectPath            :=/home/pascal/src/RadioHead/piduino/examples/rf95/rf95_server
+ProjectPath            :=/home/pascal/src/RadioHead/piduino/examples/reliable_datagram/reliable_datagram_client
 IntermediateDirectory  :=./Release
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
@@ -32,7 +32,7 @@ Preprocessors          :=$(PreprocessorSwitch)NDEBUG
 ObjectSwitch           :=-o 
 ArchiveOutputSwitch    := 
 PreprocessOnlySwitch   :=-E
-ObjectsFileList        :="rf95_server.txt"
+ObjectsFileList        :="reliable_datagram_client.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=mkdir -p
 LinkOptions            := $(shell pkg-config --libs radiohead) 
@@ -92,7 +92,7 @@ PreBuild:
 ## Objects
 ##
 $(IntermediateDirectory)/main.cpp$(ObjectSuffix): main.cpp $(IntermediateDirectory)/main.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/pascal/src/RadioHead/piduino/examples/rf95/rf95_server/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IncludePath)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/pascal/src/RadioHead/piduino/examples/reliable_datagram/reliable_datagram_client/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/main.cpp$(DependSuffix): main.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/main.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/main.cpp$(DependSuffix) -MM main.cpp
 

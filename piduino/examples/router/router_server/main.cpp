@@ -1,9 +1,9 @@
-// rf95_reliable_datagram_server
+// router_server
 // -*- mode: C++ -*-
-// Example sketch showing how to create a simple addressed, reliable messaging server
-// with the RHReliableDatagram class, using the RH_RF95 driver to control a RF95 radio.
-// It is designed to work with the other example rf95_reliable_datagram_client
-// Tested with NanoPi Core/Core2 with mini shield and LoRasPi breakout
+// Example sketch showing how to create a simple addressed, routed reliable messaging server
+// with the RHRouter class.
+// It is designed to work with the other example router_client.
+// Tested with Arduino, NanoPi Core/Core2 with mini shield and LoRasPi breakout
 // and Raspberry Pi 3 with LoRasPi breakout
 #ifdef __unix__
 #include <Piduino.h>  // All the magic is here ;-)
@@ -17,20 +17,29 @@ const int LedPin = LED_BUILTIN;
 
 #include <SPI.h>
 #include <RH_RF95.h>
-#include <RHReliableDatagram.h>
+#include <RHRouter.h>
 #include <RHGpioPin.h>
+
+// In this small artifical network of 3 nodes,
+// messages are routed via intermediate nodes to their destination
+// node. All nodes can act as routers
+// Node1 <-> Node2 <-> Node3
+const uint8_t Node1 = 1;
+const uint8_t Node2 = 2;
+const uint8_t Node3 = 3;
+
 
 // Uncomment or complete the configuration below depending on what you are using
 // ---------------------------
-const uint8_t ClientAddress = 1;
-const uint8_t ServerAddress = 2;
+const uint8_t MyAddress = Node2; // <-- Change that ! perhaps ?
 const float Frequency = 868.0;
+const int8_t TxPower = 14;
 
 // Singleton instance of the radio driver
 
 //RH_RF95 driver;
-//RH_RF95 rf95(5, 2); // Rocket Scream Mini Ultra Pro with the RFM95W
-//RH_RF95 rf95(8, 3); // Adafruit Feather M0 with RFM95
+//RH_RF95 driver(5, 2); // Rocket Scream Mini Ultra Pro with the RFM95W
+//RH_RF95 driver(8, 3); // Adafruit Feather M0 with RFM95
 
 // NanoPi Core with mini shield, /dev/spidev1.0
 // DIO0: GPIOA1, Ino pin 6,  CON1 pin 22
@@ -50,13 +59,15 @@ RH_RF95 driver (27, 6);
 // End of configuration
 
 // Class to manage message delivery and receipt, using the driver declared above
-RHReliableDatagram manager(driver, ServerAddress);
+RHRouter manager (driver, MyAddress);
+
 RHGpioPin txLed (LedPin);
 
 void setup()
 {
 	Console.begin (115200);
-	Console.println("rf95_reliable_datagram_server");
+	Console.print ("router_server @");
+	Console.println (MyAddress, DEC);
 
 	driver.setTxLed (txLed);
 
@@ -70,13 +81,36 @@ void setup()
 
 	// Setup ISM Frequency
 	driver.setFrequency (Frequency);
+	driver.setTxPower (TxPower);
+	//driver.printRegisters (Console);
 
-	// driver.printRegisters (Console);
+	// Node1 <-> Node2 <-> Node3
+	switch (MyAddress)
+	{
+	case Node1:
+		manager.addRouteTo (Node2, Node2);
+		manager.addRouteTo (Node3, Node2);
+		break;
+	case Node2:
+		manager.addRouteTo (Node1, Node1);
+		manager.addRouteTo (Node3, Node3);
+		break;
+	case Node3:
+		manager.addRouteTo (Node2, Node2);
+		manager.addRouteTo (Node1, Node2);
+		break;
+	default:
+		Console.println ("no valid address defined");
+		exit (EXIT_FAILURE);
+		break;
+	}
+	//manager.printRoutingTable(Console);
+
 	Console.println ("Waiting for incoming messages....");
 }
 
 // Dont put this on the stack:
-char buf[RH_RF95_MAX_MESSAGE_LEN];
+char buf[RH_ROUTER_MAX_MESSAGE_LEN];
 
 void loop()
 {
@@ -87,25 +121,29 @@ void loop()
 		uint8_t from;
 		if (manager.recvfromAck((uint8_t *)buf, &len, &from))
 		{
-			Console.print ("@(");
+			Console.print ("from @");
 			Console.print (from, DEC);
-			Console.print (")>R[");
+			Console.print (" R[");
 			Console.print (len);
 			Console.print ("]<");
 			Console.print (buf);
-			Console.print ("> RSSI: ");
+			Console.print (">(");
 			Console.print (driver.lastRssi(), DEC);
-
-			Console.print ("dBm > send reply > @(");
+			Console.print ("dBm) ---> send reply to @");
 			Console.print (from, DEC);
-			Console.print (")>S[");
-			Console.print (len);
-			Console.print ("]<");
-			Console.print (buf);
-			Console.println (">");
+			Console.print (" ---> ");
+			Console.flush();
 
 			// Send a reply back to the originator client
-			if (!manager.sendtoWait((uint8_t *)buf, len, from))
+			if (manager.sendtoWait ( (uint8_t *) buf, len, from) == RH_ROUTER_ERROR_NONE)
+			{
+				Console.print ("S[");
+				Console.print (len);
+				Console.print ("]<");
+				Console.print (buf);
+				Console.println (">");
+			}
+			else
 				Console.println("sendtoWait failed");
 		}
 	}

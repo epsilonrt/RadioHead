@@ -6,6 +6,38 @@
     </Plugin>
   </Plugins>
   <VirtualDirectory Name="arduino-examples">
+    <VirtualDirectory Name="rf95">
+      <VirtualDirectory Name="rf95_encrypted_server">
+        <File Name="../examples/rf95/rf95_encrypted_server/rf95_encrypted_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_mesh_client">
+        <File Name="../examples/rf95/rf95_mesh_client/rf95_mesh_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_server">
+        <File Name="../examples/rf95/rf95_server/rf95_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_reliable_datagram_client">
+        <File Name="../examples/rf95/rf95_reliable_datagram_client/rf95_reliable_datagram_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_mesh_server">
+        <File Name="../examples/rf95/rf95_mesh_server/rf95_mesh_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_client">
+        <File Name="../examples/rf95/rf95_client/rf95_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_router_client">
+        <File Name="../examples/rf95/rf95_router_client/rf95_router_client.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_router_server">
+        <File Name="../examples/rf95/rf95_router_server/rf95_router_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_reliable_datagram_server">
+        <File Name="../examples/rf95/rf95_reliable_datagram_server/rf95_reliable_datagram_server.pde"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="rf95_encrypted_client">
+        <File Name="../examples/rf95/rf95_encrypted_client/rf95_encrypted_client.pde"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
     <VirtualDirectory Name="simulator">
       <VirtualDirectory Name="simulator_reliable_datagram_client">
         <File Name="../examples/simulator/simulator_reliable_datagram_client/simulator_reliable_datagram_client.pde"/>
@@ -20,26 +52,6 @@
       </VirtualDirectory>
       <VirtualDirectory Name="serial_reliable_datagram_client">
         <File Name="../examples/serial/serial_reliable_datagram_client/serial_reliable_datagram_client.pde"/>
-      </VirtualDirectory>
-    </VirtualDirectory>
-    <VirtualDirectory Name="rf95">
-      <VirtualDirectory Name="rf95_encrypted_server">
-        <File Name="../examples/rf95/rf95_encrypted_server/rf95_encrypted_server.pde"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="rf95_server">
-        <File Name="../examples/rf95/rf95_server/rf95_server.pde"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="rf95_reliable_datagram_client">
-        <File Name="../examples/rf95/rf95_reliable_datagram_client/rf95_reliable_datagram_client.pde"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="rf95_client">
-        <File Name="../examples/rf95/rf95_client/rf95_client.pde"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="rf95_reliable_datagram_server">
-        <File Name="../examples/rf95/rf95_reliable_datagram_server/rf95_reliable_datagram_server.pde"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="rf95_encrypted_client">
-        <File Name="../examples/rf95/rf95_encrypted_client/rf95_encrypted_client.pde"/>
       </VirtualDirectory>
     </VirtualDirectory>
     <VirtualDirectory Name="rf69">
@@ -446,6 +458,10 @@
     <File Name="lib/radiohead.pc.in"/>
     <File Name="lib/radiohead-config.cmake.in"/>
     <File Name="lib/radiohead-config-version.cmake.in"/>
+    <VirtualDirectory Name="include">
+      <File Name="lib/RadioHead.h.in"/>
+      <File Name="lib/RHRouter.h.in"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
     <File Name="CMakeLists.txt"/>

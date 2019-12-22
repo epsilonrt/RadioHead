@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="rf95_reliable_datagram_server" Version="10.0.0" InternalType="Console">
+<CodeLite_Project Name="encrypted_client" Version="10.0.0" InternalType="Console">
   <Description/>
   <Dependencies/>
   <Settings Type="Executable">

@@ -5,7 +5,7 @@
 // reliability, so you should only use RH_RF95  if you do not need the higher
 // level messaging abilities.
 // It is designed to work with the other example rf95_client
-// Tested with NanoPi Core/Core2 with mini shield and LoRasPi breakout
+// Tested with Arduino, NanoPi Core/Core2 with mini shield and LoRasPi breakout
 // and Raspberry Pi 3 with LoRasPi breakout
 //
 // This example code is in the public domain.

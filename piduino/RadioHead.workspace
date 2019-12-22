@@ -5,11 +5,23 @@
   <VirtualDirectory Name="examples">
     <VirtualDirectory Name="rf95">
       <Project Name="rf95_client" Path="examples/rf95/rf95_client/rf95_client.project" Active="No"/>
-      <Project Name="rf95_encrypted_client" Path="examples/rf95/rf95_encrypted_client/rf95_encrypted_client.project" Active="No"/>
-      <Project Name="rf95_encrypted_server" Path="examples/rf95/rf95_encrypted_server/rf95_encrypted_server.project" Active="No"/>
-      <Project Name="rf95_reliable_datagram_client" Path="examples/rf95/rf95_reliable_datagram_client/rf95_reliable_datagram_client.project" Active="No"/>
-      <Project Name="rf95_reliable_datagram_server" Path="examples/rf95/rf95_reliable_datagram_server/rf95_reliable_datagram_server.project" Active="No"/>
       <Project Name="rf95_server" Path="examples/rf95/rf95_server/rf95_server.project" Active="No"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="reliable_datagram">
+      <Project Name="reliable_datagram_client" Path="examples/reliable_datagram/reliable_datagram_client/reliable_datagram_client.project" Active="No"/>
+      <Project Name="reliable_datagram_server" Path="examples/reliable_datagram/reliable_datagram_server/reliable_datagram_server.project" Active="No"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="router">
+      <Project Name="router_server" Path="examples/router/router_server/router_server.project" Active="No"/>
+      <Project Name="router_client" Path="examples/router/router_client/router_client.project" Active="No"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="mesh">
+      <Project Name="mesh_client" Path="examples/mesh/mesh_client/mesh_client.project" Active="No"/>
+      <Project Name="mesh_server" Path="examples/mesh/mesh_server/mesh_server.project" Active="No"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="crypto">
+      <Project Name="encrypted_client" Path="examples/crypto/encrypted_client/encrypted_client.project" Active="No"/>
+      <Project Name="encrypted_server" Path="examples/crypto/encrypted_server/encrypted_server.project" Active="No"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <BuildMatrix>
@@ -18,22 +30,32 @@
       <Project Name="radiohead" ConfigName="Debug"/>
       <Project Name="radiohead-doc" ConfigName="Debug"/>
       <Project Name="rf95_client" ConfigName="Debug"/>
-      <Project Name="rf95_encrypted_client" ConfigName="Debug"/>
-      <Project Name="rf95_encrypted_server" ConfigName="Debug"/>
-      <Project Name="rf95_reliable_datagram_client" ConfigName="Debug"/>
-      <Project Name="rf95_reliable_datagram_server" ConfigName="Debug"/>
       <Project Name="rf95_server" ConfigName="Debug"/>
+      <Project Name="reliable_datagram_client" ConfigName="Debug"/>
+      <Project Name="reliable_datagram_server" ConfigName="Debug"/>
+      <Project Name="encrypted_client" ConfigName="Debug"/>
+      <Project Name="encrypted_server" ConfigName="Debug"/>
+      <Project Name="rf95_router_server1" ConfigName="Debug"/>
+      <Project Name="router_server" ConfigName="Debug"/>
+      <Project Name="router_client" ConfigName="Debug"/>
+      <Project Name="mesh_server" ConfigName="Debug"/>
+      <Project Name="mesh_client" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
       <Project Name="radiohead" ConfigName="Release"/>
       <Project Name="radiohead-doc" ConfigName="Release"/>
       <Project Name="rf95_client" ConfigName="Release"/>
-      <Project Name="rf95_encrypted_client" ConfigName="Release"/>
-      <Project Name="rf95_encrypted_server" ConfigName="Release"/>
-      <Project Name="rf95_reliable_datagram_client" ConfigName="Release"/>
-      <Project Name="rf95_reliable_datagram_server" ConfigName="Release"/>
       <Project Name="rf95_server" ConfigName="Release"/>
+      <Project Name="reliable_datagram_client" ConfigName="Release"/>
+      <Project Name="reliable_datagram_server" ConfigName="Release"/>
+      <Project Name="encrypted_client" ConfigName="Release"/>
+      <Project Name="encrypted_server" ConfigName="Release"/>
+      <Project Name="rf95_router_server1" ConfigName="Release"/>
+      <Project Name="router_server" ConfigName="Release"/>
+      <Project Name="router_client" ConfigName="Release"/>
+      <Project Name="mesh_server" ConfigName="Release"/>
+      <Project Name="mesh_client" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

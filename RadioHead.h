@@ -1201,7 +1201,7 @@ these examples and explanations and extend them to suit your needs.
 #define RH_PLATFORM_CHIPKIT_CORE     13
 #define RH_PLATFORM_ESP32            14
 #define RH_PLATFORM_NRF52            15
-#define RH_PLATFORM_PIDUINO          16
+#define RH_PLATFORM_PIDUINO          99 // waiting for mike's acceptance
 
 ////////////////////////////////////////////////////
 // Select platform automatically, if possible

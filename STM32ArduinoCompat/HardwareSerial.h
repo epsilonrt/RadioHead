@@ -17,18 +17,18 @@
 class RingBuffer
 {
 public:
-    RingBuffer();
-    bool    isEmpty();
-    bool    isFull();
-    bool    write(uint8_t ch);
-    uint8_t read();
+	RingBuffer();
+	bool    isEmpty();
+	bool    isFull();
+	bool    write(uint8_t ch);
+	uint8_t read();
 
 private:
-    uint8_t _buffer[ARDUINO_RINGBUFFER_SIZE]; // In fact we can hold up to ARDUINO_RINGBUFFER_SIZE-1 bytes
-    uint16_t _head;      // Index of next write
-    uint16_t _tail;      // Index of next read
-    uint32_t _overruns;  // Write attempted when buffer full
-    uint32_t _underruns; // Read attempted when buffer empty
+	uint8_t _buffer[ARDUINO_RINGBUFFER_SIZE]; // In fact we can hold up to ARDUINO_RINGBUFFER_SIZE-1 bytes
+	uint16_t _head;      // Index of next write
+	uint16_t _tail;      // Index of next read
+	uint32_t _overruns;  // Write attempted when buffer full
+	uint32_t _underruns; // Read attempted when buffer empty
 };
 
 // Mostly compatible wuith Arduino HardwareSerial
@@ -36,23 +36,35 @@ private:
 class HardwareSerial
 {
 public:
-    HardwareSerial(USART_TypeDef* usart);
-    void begin(unsigned long baud);
-    void end();
-    virtual int available(void);
-    virtual int read(void);
-    virtual size_t write(uint8_t);
-    inline size_t write(unsigned long n) { return write((uint8_t)n); }
-    inline size_t write(long n) { return write((uint8_t)n); }
-    inline size_t write(unsigned int n) { return write((uint8_t)n); }
-    inline size_t write(int n) { return write((uint8_t)n); }
+	HardwareSerial(USART_TypeDef* usart);
+	void begin(unsigned long baud);
+	void end();
+	virtual int available(void);
+	virtual int read(void);
+	virtual size_t write(uint8_t);
+	inline size_t write(unsigned long n)
+	{
+		return write((uint8_t)n);
+	}
+	inline size_t write(long n)
+	{
+		return write((uint8_t)n);
+	}
+	inline size_t write(unsigned int n)
+	{
+		return write((uint8_t)n);
+	}
+	inline size_t write(int n)
+	{
+		return write((uint8_t)n);
+	}
 
-    // These need to be public so the IRQ handler can read and write to them:
-    RingBuffer     _rxRingBuffer;
-    RingBuffer     _txRingBuffer;
+	// These need to be public so the IRQ handler can read and write to them:
+	RingBuffer     _rxRingBuffer;
+	RingBuffer     _txRingBuffer;
 
 private:
-    USART_TypeDef* _usart;
+	USART_TypeDef* _usart;
 
 };
 
@@ -60,7 +72,7 @@ private:
 // Serial       STM32 UART   RX pin   Tx Pin   Comments
 // Serial1      USART1       PA10     PA9      TX Conflicts with GREEN LED on Discovery
 // Serial2      USART2       PA3      PA2
-// Serial3      USART3       PD9      PD10     
+// Serial3      USART3       PD9      PD10
 // Serial4      UART4        PA1      PA0      TX conflicts with USER button on Discovery
 // Serial5      UART5        PD2      PC12     TX conflicts with CS43L22 SDIN on Discovery
 // Serial6      USART6       PC7      PC6      RX conflicts with CS43L22 MCLK on Discovery

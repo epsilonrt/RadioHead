@@ -23,7 +23,6 @@
     "type": "git",
     "url": "https://github.com/epsilonrt/modbus-radio.git#mikem"
   },
-  "license": "GPL-3.0-only WITH AirSpayce-NonCommercial-Use-Only-exception",
   "examples":[
     "examples/*/*.ino"
   ],

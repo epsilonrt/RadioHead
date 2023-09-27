@@ -500,9 +500,11 @@ bool RH_RF69::recv (uint8_t* buf, uint8_t* len)
 	if (buf && len)
 	{
 		ATOMIC_BLOCK_START;
-		if (*len > _bufLen)
+		if (*len >= _bufLen)
+		{
 			*len = _bufLen;
-		memcpy (buf, _buf, *len);
+			memcpy (buf, _buf, *len);
+		}
 		ATOMIC_BLOCK_END;
 	}
 	_rxBufValid = false; // Got the most recent message

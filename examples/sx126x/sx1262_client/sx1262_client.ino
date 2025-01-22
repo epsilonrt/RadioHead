@@ -4,22 +4,27 @@
 // with the RH_SX126x class and a basic SX1262 module connected to an Arduino compatible processor
 // It is designed to work with the examples sx1262_server and sx1262_server.
 // Tested with G-Nice LoRa1262-915 and Teensy 3.1
+// also Heltec Cube Cell HTCC-AB01
 
-#include <SPI.h>
 #include <RH_SX126x.h>
 
 RH_SX126x driver(SS, 7, 8, 9); // NSS, DIO1, BUSY, NRESET
 
+// For Heltec Cube Cell,  using CubeCell board 1.0.0 or greater
+// slaveSelectPin is actually ignored, since CubeCell radio is hardwired to RADIO_NSS
+//#include <board-config.h> // For Radio pin definitions
+//RH_SX126x driver(RADIO_NSS, RADIO_DIO_1, RADIO_BUSY, RADIO_RESET);
 
 void setup() 
 {
   Serial.begin(9600);
-  while (!Serial) ; // Wait for serial port to be available
+  // May need this on some platforms but definitely not on CubeCell:
+  //while (!Serial) ; // Wait for serial port to be available
 
   if (!driver.init())
     Serial.println("init failed");
 
-  // Defaults after init are 434.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on (LoRa_Bw125Cr45Sf128)
+  // Defaults after init are 915.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on (LoRa_Bw125Cr45Sf128)
   // You can change the frequency:
   //driver.setFrequency(868.0);
 
@@ -27,6 +32,8 @@ void setup()
   //driver.setModemConfig(RH_SX126x::LoRa_Bw125Cr45Sf2048);
   
   // You can change the power level in dBm
+  // Default is 13dBm
+  //driver.setTxPower(0);
 }
 
 void loop()

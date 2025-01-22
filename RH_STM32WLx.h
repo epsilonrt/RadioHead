@@ -144,6 +144,7 @@ STLink/V2, so leave it connected
 In order to use the Arduino IDE to program the Wio-E5, you must
 install the stm32duino package using these instructions:
    https://community.st.com/t5/stm32-mcus/stm32-arduino-stm32duino-tutorial/ta-p/49649
+We installed and tested with 2.7.1
 
 Leave STLink/V2 connected but close STM32CubeProgrammer
 In Arduino IDE: select the following menu options:
@@ -191,7 +192,7 @@ protected:
     // Override this because waiting is built in to the SUBGhz driver
     virtual bool waitUntilNotBusy() { return true;};
     
-    /// Do whatever is necesary to establish the interrupt handler.
+    /// Do whatever is necessary to establish the interrupt handler.
     /// This device has special requirements for setting up the interupt handler
     /// through the SUBGHZSPI interface so we override
     bool setupInterruptHandler();

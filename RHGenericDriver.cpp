@@ -73,7 +73,7 @@ bool RHGenericDriver::waitPacketSent(uint16_t timeout)
     }
     return false;
 }
-
+    
 // Wait until no channel activity detected or timeout
 bool RHGenericDriver::waitCAD()
 {

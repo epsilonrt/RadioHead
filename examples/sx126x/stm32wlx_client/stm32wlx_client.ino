@@ -28,7 +28,7 @@ void setup()
 
   if (!driver.init())
     Serial.println("init failed");
-  // Defaults after init are 434.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on
+  // Defaults after init are 915.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on
   // You can change the frequency:
   // driver.setFrequency(868.0);
 

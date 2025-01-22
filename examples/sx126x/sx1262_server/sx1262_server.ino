@@ -4,16 +4,22 @@
 // with the RH_SX126x class and a basic SX1262 module connected to an Arduino compatible processor
 // It is designed to work with the examples stm32wlx_client and sx1262_client.
 // Tested with G-Nice LoRa1262-915 and Teensy 3.1
+// also Heltec Cube Cell HTCC-AB01
 
-#include <SPI.h>
 #include <RH_SX126x.h>
 
 RH_SX126x driver(SS, 7, 8, 9); // NSS, DIO1, BUSY, NRESET
 
+// For Heltec Cube Cell,  using CubeCell board 1.0.0 or greater
+// slaveSelectPin is actually ignored, since CubeCell radio is hardwired to RADIO_NSS
+//#include <board-config.h> // For Radio pin definitions
+//RH_SX126x driver(RADIO_NSS, RADIO_DIO_1, RADIO_BUSY, RADIO_RESET);
+
 void setup() 
 {
   Serial.begin(9600);
-  while (!Serial) ; // Wait for serial port to be available
+  // May need this on some platforms but definitely not on CubeCell:
+  //while (!Serial) ; // Wait for serial port to be available
 
   if (!driver.init())
     Serial.println("init failed");  

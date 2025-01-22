@@ -31,6 +31,8 @@
   #include "FspTimer.h"
   FspTimer ask_timer;
 
+#elif (RH_PLATFORM == RH_PLATFORM_ARDUINO) && defined(CubeCell_Board)
+    static TimerEvent_t timer;
 #endif
 
 
@@ -137,7 +139,7 @@ bool RH_ASK::init()
 // returns 0 & nticks = 0 on fault
 uint8_t RH_ASK::timerCalc(uint16_t speed, uint16_t max_ticks, uint16_t *nticks)
 {
-#if (RH_PLATFORM == RH_PLATFORM_ARDUINO && !defined(ARDUINO_ARCH_RP2040)) || (RH_PLATFORM == RH_PLATFORM_GENERIC_AVR8) || (RH_PLATFORM == RH_PLATFORM_ATTINY)
+#if (RH_PLATFORM == RH_PLATFORM_ARDUINO && !defined(ARDUINO_ARCH_RP2040) && !defined(CubeCell_Board)) || (RH_PLATFORM == RH_PLATFORM_GENERIC_AVR8) || (RH_PLATFORM == RH_PLATFORM_ATTINY)
     // Clock divider (prescaler) values - 0/3333: error flag
     uint8_t prescaler;     // index into array & return bit value
     unsigned long ulticks; // calculate by ntick overflow
@@ -353,6 +355,18 @@ void RH_ASK::timerSetup()
     // Enable Timer
     timer->CTRLA |= TCB_ENABLE_bm;
 
+#elif (RH_PLATFORM == RH_PLATFORM_ARDUINO) && defined(CubeCell_Board)
+    // Arduino CubeCell board 1.0.0 has non-standard timer support
+    #warning RH_ASK CubeCell_Board support not complete
+    // Forward declaration of the callback below
+    void timer_callback();
+    TimerInit(&timer, timer_callback);
+    // Sigh: This timer takes the timeout in milliseconds, not microseconds. That means the fastest bit rate
+    // we can support is 1000 / 8 = 125 bits per second.
+    uint32_t period = (1000 / 8) / _speed; // In milliseconds
+    TimerSetValue(&timer, period); // mseconds
+    TimerStart(&timer);
+    
 #elif (RH_PLATFORM == RH_PLATFORM_ARDUINO) // Arduino specific
 
 
@@ -833,6 +847,14 @@ void interrupt()
 // callback method used by timer
 void timer_callback(timer_callback_args_t __attribute((unused)) *p_args)
 {
+    thisASKDriver->handleTimerInterrupt();
+}
+
+#elif (RH_PLATFORM == RH_PLATFORM_ARDUINO) && defined(CubeCell_Board)
+// Cube cell interrupt
+void timer_callback(void)
+{
+    TimerStart(&timer);
     thisASKDriver->handleTimerInterrupt();
 }
 

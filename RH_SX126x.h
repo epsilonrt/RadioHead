@@ -1263,7 +1263,7 @@ private:
     bool                _lorabw500 = false;
 
     /// Support for optional configurable radio control pins for RX and TX modes
-    RadioPinConfig*      _radioPinConfig = nullptr;
+    RadioPinConfig*      _radioPinConfig = NULL;
     
     /// Remember what PA type is required, depending on device type and radio pin configurations
     RadioPinConfigMode  _requiredPAMode = RadioPinConfigMode_IDLE; // One of PinConfigMode_TX_LOW_POWER PinConfigMode_TX_HIGH_POWER

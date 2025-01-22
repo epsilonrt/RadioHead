@@ -881,7 +881,7 @@ public:
     /// the radio mode. This can be used to configure any external RF switches, RF amplifiers etc.
     ///                Defaults to the standard Arduino hardware SPI interface
     RH_SX126x(uint8_t slaveSelectPin = SS, uint8_t interruptPin = 2, uint8_t busyPin = RH_INVALID_PIN, uint8_t resetPin = RH_INVALID_PIN,
-	      RHGenericSPI& spi = hardware_spi, RadioPinConfig* radioPinConfig = nullptr);
+	      RHGenericSPI& spi = hardware_spi, RadioPinConfig* radioPinConfig = NULL);
     
     /// Initialise the Driver transport hardware and software.
     /// Leaves the radio in idle mode,

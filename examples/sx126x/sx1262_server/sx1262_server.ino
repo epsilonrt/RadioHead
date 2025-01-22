@@ -11,7 +11,7 @@
 RH_SX126x driver(SS, 7, 8, 9); // NSS, DIO1, BUSY, NRESET
 
 // For Heltec Cube Cell,  using CubeCell board 1.5.0 or greater
-RH_SX126x driver(RADIO_NSS, RADIO_DIO_1, RADIO_BUSY, RADIO_RESET);
+//RH_SX126x driver(RADIO_NSS, RADIO_DIO_1, RADIO_BUSY, RADIO_RESET);
 
 void setup() 
 {

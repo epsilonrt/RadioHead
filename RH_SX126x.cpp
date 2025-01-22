@@ -551,7 +551,8 @@ bool RH_SX126x::waitUntilNotBusy()
     {
 	delay(1);
 	busy_timeout_cnt++;
-		
+
+	// Need to wait up to 150us when in sleep mode, see table 8-1
 	if (busy_timeout_cnt > 10) // Should be configurable
 	{
 	    Serial.println("ERROR: waitUntilNotBusy TIMEOUT");
@@ -576,7 +577,6 @@ uint8_t RH_SX126x::getStatus()
 
 bool RH_SX126x::sendCommand(uint8_t command, uint8_t data[], uint8_t len)
 {
-    waitUntilNotBusy();
 #if 0
     Serial.print("sendCommand ");
     Serial.print(command, HEX);
@@ -591,6 +591,7 @@ bool RH_SX126x::sendCommand(uint8_t command, uint8_t data[], uint8_t len)
 
     ATOMIC_BLOCK_START;
     beginTransaction();
+    waitUntilNotBusy();
     _spi.transfer(command);
     for (uint8_t i = 0; i < len; i++)
         _spi.transfer(data[i]);
@@ -609,9 +610,9 @@ bool RH_SX126x::sendCommand(uint8_t command, uint8_t value)
 
 bool RH_SX126x::sendCommand(uint8_t command)
 {
-    waitUntilNotBusy();
     ATOMIC_BLOCK_START;
     beginTransaction();
+    waitUntilNotBusy();
     _spi.transfer(command);
     endTransaction();
     ATOMIC_BLOCK_END;
@@ -620,9 +621,9 @@ bool RH_SX126x::sendCommand(uint8_t command)
 
 bool RH_SX126x::getCommand(uint8_t command, uint8_t data[], uint8_t len)
 { 
-    waitUntilNotBusy();
     ATOMIC_BLOCK_START;
     beginTransaction();
+    waitUntilNotBusy();
     _spi.transfer(command);
     _spi.transfer(0); // Wait for data
     for (uint8_t i = 0; i < len; i++)
@@ -634,9 +635,9 @@ bool RH_SX126x::getCommand(uint8_t command, uint8_t data[], uint8_t len)
 
 bool RH_SX126x::readRegisters(uint16_t address, uint8_t data[], uint8_t len)
 {
-    waitUntilNotBusy();
     ATOMIC_BLOCK_START;
     beginTransaction();
+    waitUntilNotBusy();
     _spi.transfer(RH_SX126x_CMD_READ_REGISTER);
     _spi.transfer(static_cast<uint8_t>(address >> 8));
     _spi.transfer(static_cast<uint8_t>(address));
@@ -658,7 +659,6 @@ uint8_t RH_SX126x::readRegister(uint16_t address)
 
 bool RH_SX126x::writeRegisters(uint16_t address, uint8_t data[], uint8_t len)
 {
-    waitUntilNotBusy();
 #if 0
     Serial.print("writeRegisters ");
     Serial.print(address, HEX);
@@ -673,6 +673,7 @@ bool RH_SX126x::writeRegisters(uint16_t address, uint8_t data[], uint8_t len)
     
     ATOMIC_BLOCK_START;
     beginTransaction();
+    waitUntilNotBusy();
     _spi.transfer(RH_SX126x_CMD_WRITE_REGISTER);
     _spi.transfer(static_cast<uint8_t>(address >> 8));
     _spi.transfer(static_cast<uint8_t>(address));
@@ -692,10 +693,10 @@ bool RH_SX126x::writeRegister(uint16_t address, uint8_t data)
 
 bool RH_SX126x::writeBuffer(uint8_t offset, const uint8_t data[], uint8_t len)
 {
-    waitUntilNotBusy();
     // A bit different to sendCommand because of offset
     ATOMIC_BLOCK_START;
     beginTransaction();
+    waitUntilNotBusy();
     _spi.transfer(RH_SX126x_CMD_WRITE_BUFFER);
     _spi.transfer(offset);
     for (uint8_t i = 0; i < len; i++)
@@ -712,10 +713,10 @@ bool RH_SX126x::writeBuffer(uint8_t offset, const char* text)
 
 bool RH_SX126x::readBuffer(uint8_t offset, uint8_t data[], uint8_t len)
 {
-    waitUntilNotBusy();
     // This is a bit different from getCommand, because of offset
     ATOMIC_BLOCK_START;
     beginTransaction();
+    waitUntilNotBusy();
     _spi.transfer(RH_SX126x_CMD_READ_BUFFER);
     _spi.transfer(offset);
     _spi.transfer(RH_SX126x_CMD_NOP); // Wait for data

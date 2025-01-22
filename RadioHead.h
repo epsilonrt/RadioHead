@@ -12,9 +12,9 @@ via a variety of common data radios and other transports on a range of embedded 
 \par Download
 
 The version of the package that this documentation refers to can be downloaded 
-from http://www.airspayce.com/mikem/arduino/RadioHead/RadioHead-1.136.zip
+from http://www.airspayce.com/mikem/arduino/RadioHead/RadioHead-1.137.zip
 
-You can always find the latest version of the documentation at
+You can always find the latest version of this documentation at
 http://www.airspayce.com/mikem/arduino/RadioHead
 
 You can also find online help and discussion at 
@@ -41,7 +41,7 @@ RadioHead consists of 2 main sets of classes: Drivers and Managers.
 - Managers provide high level message sending and receiving facilities for a range of different requirements.
 
 Every RadioHead program will have an instance of a Driver to
-provide access to the data radio or transport, and usually a
+provide access to the data radio or transport, and usually an instance of a
 Manager that uses that driver to send and receive messages for the
 application. The programmer is required to instantiate a Driver
 and a Manager, and to initialise the Manager. Thereafter the
@@ -176,13 +176,13 @@ Or you can use any Driver with any of the Managers described below.
 We welcome contributions of well tested and well documented code to support other transports.
 
 If your radio or transciever is not on the list above, there is a good chance it
-wont work without modifying RadioHead to suit it.  If you wish for
-support for another radio or transciever, and you send 2 of them to
+won't work without modifying RadioHead to suit it.  If you wish for
+support for another radio or transciever, and you send at least 2 of them to
 AirSpayce Pty Ltd, we will consider adding support for it.
 
 \par Managers
 
-The drivers above all provide for unaddressed, unreliable, variable
+The drivers above all provide for unaddressed, unreliable (ie unacknowleged), variable
 length messages, but if you need more than that, the following
 Managers are provided:
 
@@ -432,9 +432,12 @@ that meet the following criteria:
 - Are backwards compatible.
 - Are properly and completely documented.
 - Conform to the coding style of the rest of the library.
-- Clearly transfer the ownership of the intellectual property to Mike McCauley
+- Clearly transfer the ownership of the intellectual property to Mike McCauley.
 - Are posted on the Google group as a patch in unified Diff format, 
-  made against the latest version of the library.
+  made against the latest version of the library, downloaded from airspayce.com, as described above.
+
+There is currently no known fully up-to-date git repository, and at
+present we have no intentions of making one ourselves.
 
 \par Donations
 
@@ -1267,6 +1270,11 @@ k             Fix SPI bus speed errors on 8MHz Arduinos.
 \version 1.136 2024-07-25
 	     Fixed a typo in the comments for the MOSI pin number for the alternative ESP32 HSPI interface.
 	     Examples were not included in idstribution since names changed to .ino
+
+\version 1.137 2025-01-03
+             Fixed a problem where Timer definitions for RP2350 are difcfernet to RP2340
+	     Reported and patched by Conor O'Neill.
+	     
 	     
 \author  Mike McCauley. DO NOT CONTACT THE AUTHOR DIRECTLY. USE THE GOOGLE GROUP GIVEN ABOVE
 */
@@ -1515,7 +1523,7 @@ these examples and explanations and extend them to suit your needs.
 
 // Official version numbers are maintained automatically by Makefile:
 #define RH_VERSION_MAJOR 1
-#define RH_VERSION_MINOR 136
+#define RH_VERSION_MINOR 137
 
 // Symbolic names for currently supported platform types
 #define RH_PLATFORM_ARDUINO          1
@@ -1605,8 +1613,13 @@ these examples and explanations and extend them to suit your needs.
   #undef Serial						   
   #define Serial Serial2
  #elif defined(ARDUINO_ARCH_RP2040)
-  // Raspi Pico
-  #define RH_ASK_PICO_ALARM_IRQ TIMER_IRQ_1
+  #if defined(PICO_RP2350)
+    // Raspi Pico 2350
+    #define RH_ASK_PICO_ALARM_IRQ TIMER0_IRQ_1
+  #else
+    // Raspi Pico 2040
+    #define RH_ASK_PICO_ALARM_IRQ TIMER_IRQ_1
+  #endif
   #define RH_ASK_PICO_ALARM_NUM 1
  #elif defined(ARDUINO_LORA_E5_MINI)
   // WiO-E5 mini, or boards conating Seeed LoRa-E5-LF or LoRa-E5-HF, processor is STM32WLE5JC

@@ -227,11 +227,6 @@ void RHHardwareSPI::begin()
     // Teensy requires it to be set _after_ begin()
     SPI.setClockDivider(divider);
 
-// #elif (RH_PLATFORM == RH_PLATFORM_ARDUINO) && defined (CubeCell_Board )
-    // CubeCell radio is hardwired internally to SPI_NUM_0 and RADIO_NSS
-    // Frequency is fixed
-//    SPI.begin(RADIO_NSS, 6000000, SPI_NUM_0);
-    
  #elif (RH_PLATFORM == RH_PLATFORM_STM32) // Maple etc
     spi_mode dataMode;
     // Hmmm, if we do this as a switch, GCC on maple gets v confused!

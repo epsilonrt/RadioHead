@@ -12,7 +12,7 @@ via a variety of common data radios and other transports on a range of embedded 
 \par Download
 
 The version of the package that this documentation refers to can be downloaded 
-from https://www.airspayce.com/mikem/arduino/RadioHead/RadioHead-1.142.zip
+from https://www.airspayce.com/mikem/arduino/RadioHead/RadioHead-1.143.zip
 
 You can always find the latest version of this documentation at
 https://www.airspayce.com/mikem/arduino/RadioHead
@@ -1306,6 +1306,10 @@ k             Fix SPI bus speed errors on 8MHz Arduinos.
              Improvements to RH_SX126x to support sleep mode better, This requires us to waituntilNotBusy() _after_ NSS has been
 	     asserted, not before.
 
+\version 1.143 2025-01-21
+             Extended Cube Cell Board support to all Cube Cell board variants currently supported by Cube Cell 1.5.0.
+
+
 \author  Mike McCauley. DO NOT CONTACT THE AUTHOR DIRECTLY. USE THE GOOGLE GROUP GIVEN ABOVE
 */
 
@@ -1553,7 +1557,7 @@ these examples and explanations and extend them to suit your needs.
 
 // Official version numbers are maintained automatically by Makefile:
 #define RH_VERSION_MAJOR 1
-#define RH_VERSION_MINOR 142
+#define RH_VERSION_MINOR 143
 
 // Symbolic names for currently supported platform types
 #define RH_PLATFORM_ARDUINO          1
@@ -1657,7 +1661,8 @@ these examples and explanations and extend them to suit your needs.
   // WiO-E5 mini, or boards conating Seeed LoRa-E5-LF or LoRa-E5-HF, processor is STM32WLE5JC
   #include <SubGhz.h>
  
- #elif defined(CubeCell_Board)
+#elif defined(CubeCell_Board) || defined(CubeCell_Board_V2) || defined(CubeCell_Capsule) || defined(CubeCell_Module) || defined(CubeCell_Module_V2) || defined(CubeCell_BoardPlus) || defined(CubeCell_GPS) || defined(CubeCell_ModulePlus) || defined(CubeCell_HalfAA) || defined(CubeCell_BoardP)
+  #define RH_CUBE_CELL_BOARD
   #define RH_MISSING_SPIUSINGINTERRUPT
   #include <board-config.h> // For Radio pin definitions
   
@@ -1852,7 +1857,7 @@ these examples and explanations and extend them to suit your needs.
 ////////////////////////////////////////////////////
 // This is an attempt to make a portable atomic block
 #if (RH_PLATFORM == RH_PLATFORM_ARDUINO)
- #if defined(CubeCell_Board)
+ #if defined(RH_CUBE_CELL_BOARD)
   // No atomic header file available
  #elif defined(__arm__)
   #include <RHutil/atomic.h>
@@ -1860,7 +1865,7 @@ these examples and explanations and extend them to suit your needs.
   #include <util/atomic.h>
  #endif
 
- #if defined(ARDUINO_ARCH_MBED_RP2040) || defined(ARDUINO_UNOR4_MINIMA) || defined(ARDUINO_UNOR4_WIFI) || defined(CubeCell_Board)
+ #if defined(ARDUINO_ARCH_MBED_RP2040) || defined(ARDUINO_UNOR4_MINIMA) || defined(ARDUINO_UNOR4_WIFI) || defined(RH_CUBE_CELL_BOARD)
   // Standard arduino ATOMIC block crashes on MBED version of Pico as at 2021-08-12						   // and ius not available/required for UNO R4
   #define ATOMIC_BLOCK_START {
   #define ATOMIC_BLOCK_END }						   
@@ -1910,7 +1915,7 @@ these examples and explanations and extend them to suit your needs.
 // Try to be compatible with systems that support yield() and multitasking
 // instead of spin-loops
 // Recent Arduino IDE or Teensy 3 has yield()
-#if (RH_PLATFORM == RH_PLATFORM_ARDUINO) && defined(CubeCell_Board) 
+#if (RH_PLATFORM == RH_PLATFORM_ARDUINO) && defined(RH_CUBE_CELL_BOARD) 
  #define YIELD
 #elif (RH_PLATFORM == RH_PLATFORM_ARDUINO && ARDUINO >= 155) || (defined(TEENSYDUINO) && defined(__MK20DX128__))
  #define YIELD yield();

@@ -10,10 +10,8 @@
 
 RH_SX126x driver(SS, 7, 8, 9); // NSS, DIO1, BUSY, NRESET
 
-// For Heltec Cube Cell,  using CubeCell board 1.0.0 or greater
-// slaveSelectPin is actually ignored, since CubeCell radio is hardwired to RADIO_NSS
-//#include <board-config.h> // For Radio pin definitions
-//RH_SX126x driver(RADIO_NSS, RADIO_DIO_1, RADIO_BUSY, RADIO_RESET);
+// For Heltec Cube Cell,  using CubeCell board 1.5.0 or greater
+RH_SX126x driver(RADIO_NSS, RADIO_DIO_1, RADIO_BUSY, RADIO_RESET);
 
 void setup() 
 {

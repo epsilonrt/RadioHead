@@ -32,9 +32,6 @@ HardwareSPI SPI(1);
 #elif defined(RAK4630) // RAKwireless RAK4630
  extern SPIClass SPI_LORA(NRF_SPIM2, 45, 43, 44);
  #define SPI SPI_LORA
-#elif (RH_PLATFORM == RH_PLATFORM_ARDUINO) && defined(CubeCell_Board)
- #include <board-config.h> // For Radio pin definitions
- // platform defines extern SPI
 #endif
 
 // Arduino Due has default SPI pins on central SPI headers, and not on 10, 11, 12, 13
@@ -148,7 +145,7 @@ void RHHardwareSPI::begin()
 #else // SPI_HAS_TRANSACTION
    
     // Sigh: there are no common symbols for some of these SPI options across all platforms
- #if ((RH_PLATFORM == RH_PLATFORM_ARDUINO) && !defined(CubeCell_Board))   || (RH_PLATFORM == RH_PLATFORM_UNO32) || (RH_PLATFORM == RH_PLATFORM_CHIPKIT_CORE || RH_PLATFORM == RH_PLATFORM_NRF52)
+ #if (RH_PLATFORM == RH_PLATFORM_ARDUINO)   || (RH_PLATFORM == RH_PLATFORM_UNO32) || (RH_PLATFORM == RH_PLATFORM_CHIPKIT_CORE || RH_PLATFORM == RH_PLATFORM_NRF52)
     uint8_t dataMode;
     if (_dataMode == DataMode0)
 	dataMode = SPI_MODE0;
@@ -230,10 +227,10 @@ void RHHardwareSPI::begin()
     // Teensy requires it to be set _after_ begin()
     SPI.setClockDivider(divider);
 
- #elif (RH_PLATFORM == RH_PLATFORM_ARDUINO) && defined (CubeCell_Board )
+// #elif (RH_PLATFORM == RH_PLATFORM_ARDUINO) && defined (CubeCell_Board )
     // CubeCell radio is hardwired internally to SPI_NUM_0 and RADIO_NSS
     // Frequency is fixed
-    SPI.begin(RADIO_NSS, 6000000, SPI_NUM_0);
+//    SPI.begin(RADIO_NSS, 6000000, SPI_NUM_0);
     
  #elif (RH_PLATFORM == RH_PLATFORM_STM32) // Maple etc
     spi_mode dataMode;

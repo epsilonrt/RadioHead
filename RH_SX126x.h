@@ -705,6 +705,11 @@ If you are using a ST Microelectronics STM32WLE5xx or STM32WLE4xx
 processors and its built in radio, you can use the RH_STM32WLx and
 ignore most or all of these issues.
 
+If you are using a Heltec CubeCell, such as HTCC-AB01, initialise the driver with:
+\code
+RH_SX126x driver(RADIO_NSS, RADIO_DIO_1, RADIO_BUSY, RADIO_RESET);
+\endcode
+
 \par Range
 
 No range tests have yet been conducted.

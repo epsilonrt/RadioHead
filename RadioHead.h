@@ -12,7 +12,7 @@ via a variety of common data radios and other transports on a range of embedded 
 \par Download
 
 The version of the package that this documentation refers to can be downloaded 
-from https://www.airspayce.com/mikem/arduino/RadioHead/RadioHead-1.138.zip
+from https://www.airspayce.com/mikem/arduino/RadioHead/RadioHead-1.139.zip
 
 You can always find the latest version of this documentation at
 https://www.airspayce.com/mikem/arduino/RadioHead
@@ -315,9 +315,10 @@ Including Diecimila, Uno, Mega, Leonardo, Yun, Due, Zero, Minima and possibly ot
   These modules have an ASR6501 or ASR6502 ARM Cortex M0+ processor https://www.microchip.ua/wireless/ASR6501.pdf
   which includes a built-in LoRa capable SX1262 radio, and which is supported by the RadioHead RH_SX126x driver.
   Demonstrated interoperation with RH_RF95 driver.
-  Build with the CubeCell board support via the Arduino Board Manager
-  per https://github.com/HelTecAutomation/CubeCell-Arduino
-  Tested with 1.0.0. RH_ASK driver works with this board, but since the timer interrupt
+  Build with the CubeCell board support 1.5.0 via the Arduino Board Manager per 
+  https://docs.heltec.org/en/node/asr650x/asr650x_general_docs/quick_start/cubecell-use-arduino-board-manager.html
+  Tested with 1.5.0 in Arduino IDE.
+  RH_ASK driver works with this board, but since the timer interrupt
   takes the timeout in milliseconds, not microseconds, the fastest bit rate
   we can support is 1000 / 8 = 125 bits per second.
   
@@ -1291,6 +1292,10 @@ k             Fix SPI bus speed errors on 8MHz Arduinos.
              Added support for Heltec CubeCell modules, including the builtin SX126x radio.
 	     Updated sx1262_client.ino and sx1262_server.ino to demonstrate usage.
 
+\version 1.139 2025-01-07
+             Updated CubeCell support for Heltec CubeCell board 1.5.0 installed in Arduino IDE
+	     per https://docs.heltec.org/en/node/asr650x/asr650x_general_docs/quick_start/cubecell-use-arduino-board-manager.html
+
 \author  Mike McCauley. DO NOT CONTACT THE AUTHOR DIRECTLY. USE THE GOOGLE GROUP GIVEN ABOVE
 */
 
@@ -1538,7 +1543,7 @@ these examples and explanations and extend them to suit your needs.
 
 // Official version numbers are maintained automatically by Makefile:
 #define RH_VERSION_MAJOR 1
-#define RH_VERSION_MINOR 138
+#define RH_VERSION_MINOR 139
 
 // Symbolic names for currently supported platform types
 #define RH_PLATFORM_ARDUINO          1
@@ -1621,14 +1626,13 @@ these examples and explanations and extend them to suit your needs.
  #include <SPI.h>
  #define RH_HAVE_HARDWARE_SPI
  #define RH_HAVE_SERIAL
-#if !defined(CubeCell_Board)
-  #define RH_HAVE_SPI_ATTACH_INTERRUPT
- #endif
+ 
  #if defined(ARDUINO_ARCH_STM32F4)
   // output to Serial causes hangs on STM32 F4 Discovery board
   // There seems to be no way to output text to the USB connection
   #undef Serial						   
   #define Serial Serial2
+  
  #elif defined(ARDUINO_ARCH_RP2040)
   #if defined(PICO_RP2350)
     // Raspi Pico 2350
@@ -1638,16 +1642,17 @@ these examples and explanations and extend them to suit your needs.
     #define RH_ASK_PICO_ALARM_IRQ TIMER_IRQ_1
   #endif
   #define RH_ASK_PICO_ALARM_NUM 1
+  
  #elif defined(ARDUINO_LORA_E5_MINI)
   // WiO-E5 mini, or boards conating Seeed LoRa-E5-LF or LoRa-E5-HF, processor is STM32WLE5JC
   #include <SubGhz.h>
+ 
+ #elif defined(CubeCell_Board)
+  #define RH_MISSING_SPIUSINGINTERRUPT
+  #include <board-config.h> // For Radio pin definitions
+  
  #endif
 
- // Sigh, CubeCell board package does not have random(long, long) in the Arduino.h header
- #ifdef  CubeCell_Board
- extern long random(long howsmall, long howbig);
- #endif
- 
 #elif (RH_PLATFORM == RH_PLATFORM_ATTINY)
   #include <Arduino.h>
 //  #warning Arduino TinyCore does not support hardware SPI. Use software SPI instead.

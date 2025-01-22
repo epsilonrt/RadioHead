@@ -1,6 +1,6 @@
 {
   "name": "RadioHead",
-  "version": "1.130.1",
+  "version": "1.131.1",
   "keywords": "radio, wireless, lora, rf22, rf24, rf26, rf27, rf69, si4460, si4461, si4463, si4464, nrf24, nrf905, sx1276, sx77, sx78, rfm95, rfm96, rfm97, rfm98",
   "description": "Packet Radio library for embedded microprocessors. Provides a complete object-oriented library for sending and receiving packetized messages via a variety of common data radios and other transports on a range of embedded microprocessors.",
   "homepage": "https://www.airspayce.com/mikem/arduino/RadioHead/",
